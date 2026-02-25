@@ -255,5 +255,8 @@
     "shareFailed": "Failed to share",
     "copiedToClipboard": "Copied to clipboard",
     "copyFailed": "Failed to copy"
+  },
+  "product": {
+    "reviewsCount": "({count})"
   }
 }

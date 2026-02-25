@@ -255,5 +255,8 @@
     "shareFailed": "فشل في المشاركة",
     "copiedToClipboard": "تم النسخ إلى الحافظة",
     "copyFailed": "فشل في النسخ"
+  },
+  "product": {
+    "reviewsCount": "({count})"
   }
 }

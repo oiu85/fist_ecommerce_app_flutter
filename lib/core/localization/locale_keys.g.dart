@@ -245,5 +245,7 @@ abstract class  LocaleKeys {
   static const share_copiedToClipboard = 'share.copiedToClipboard';
   static const share_copyFailed = 'share.copyFailed';
   static const share = 'share';
+  static const product_reviewsCount = 'product.reviewsCount';
+  static const product = 'product';
 
 }
