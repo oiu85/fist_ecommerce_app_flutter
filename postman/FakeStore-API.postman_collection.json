@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "fakestore-api-collection-v1",
+		"name": "FakeStore API (E-Commerce)",
+		"description": "Complete collection for FakeStore API (v2.1.11).\n\nBase URL: https://fakestoreapi.com\nAll request bodies use form-data (no raw JSON).\nUse the included environment for {{baseUrl}} and {{id}}.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://fakestoreapi.com"
+		},
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "categoryName",
+			"value": "electronics"
+		}
+	],
+	"item": [
+		{
+			"name": "Products",
+			"description": "Product CRUD. Endpoints: list all, get by id, create, update, delete.",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["products"]
+						},
+						"description": "Retrieve a list of all available products. Response: 200 array of Product."
+					}
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "categories"]
+						},
+						"description": "List all product categories. Response: 200 array of strings (e.g. electronics, jewelery, men's clothing, women's clothing)."
+					}
+				},
+				{
+					"name": "Get products by category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/category/{{categoryName}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "category", "{{categoryName}}"]
+						},
+						"description": "Products in a specific category. Path: categoryName (e.g. electronics, jewelery, men's clothing, women's clothing). Response: 200 array of Product."
+					}
+				},
+				{
+					"name": "Get single product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "{{id}}"]
+						},
+						"description": "Retrieve details of a specific product by ID. Path: id (integer). Response: 200 Product."
+					}
+				},
+				{
+					"name": "Add a new product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "0", "type": "text", "description": "Product id (integer)" },
+								{ "key": "title", "value": "New Product", "type": "text", "description": "Product title" },
+								{ "key": "price", "value": "29.99", "type": "text", "description": "Price (float)" },
+								{ "key": "description", "value": "Product description", "type": "text", "description": "Description" },
+								{ "key": "category", "value": "electronics", "type": "text", "description": "Category name" },
+								{ "key": "image", "value": "https://example.com/image.jpg", "type": "text", "description": "Image URL" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": ["{{baseUrl}}"],
+							"path": ["products"]
+						},
+						"description": "Create a new product. Body: form-data (id, title, price, description, category, image). Response: 201 Product."
+					}
+				},
+				{
+					"name": "Update a product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "{{id}}", "type": "text", "description": "Product id (integer)" },
+								{ "key": "title", "value": "Updated Product", "type": "text", "description": "Product title" },
+								{ "key": "price", "value": "39.99", "type": "text", "description": "Price (float)" },
+								{ "key": "description", "value": "Updated description", "type": "text", "description": "Description" },
+								{ "key": "category", "value": "electronics", "type": "text", "description": "Category" },
+								{ "key": "image", "value": "https://example.com/image.jpg", "type": "text", "description": "Image URL" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "{{id}}"]
+						},
+						"description": "Update an existing product by ID. Path: id. Body: form-data. Response: 200 Product."
+					}
+				},
+				{
+					"name": "Delete a product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["products", "{{id}}"]
+						},
+						"description": "Delete a specific product by ID. Path: id (integer). Response: 200."
+					}
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"description": "Cart CRUD. Endpoints: list all, get by id, create, update, delete. Cart products: productId + quantity.",
+			"item": [
+				{
+					"name": "Get all carts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts",
+							"host": ["{{baseUrl}}"],
+							"path": ["carts"]
+						},
+						"description": "Retrieve a list of all available carts. Response: 200 array of Cart."
+					}
+				},
+				{
+					"name": "Get single cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["carts", "{{id}}"]
+						},
+						"description": "Retrieve details of a specific cart by ID. Path: id (integer). Response: 200 Cart."
+					}
+				},
+				{
+					"name": "Add a new cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "0", "type": "text", "description": "Cart id (integer)" },
+								{ "key": "userId", "value": "1", "type": "text", "description": "User id (integer)" },
+								{ "key": "products_productId_1", "value": "1", "type": "text", "description": "First product id" },
+								{ "key": "products_quantity_1", "value": "2", "type": "text", "description": "First product quantity" },
+								{ "key": "products_productId_2", "value": "2", "type": "text", "description": "Second product id (optional)" },
+								{ "key": "products_quantity_2", "value": "1", "type": "text", "description": "Second product quantity (optional)" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts",
+							"host": ["{{baseUrl}}"],
+							"path": ["carts"]
+						},
+						"description": "Create a new cart. Body: form-data (id, userId, products as productId/quantity pairs). Response: 201 Cart. Note: If API expects JSON array for products, use x-www-form-urlencoded with key 'products' = JSON array string."
+					}
+				},
+				{
+					"name": "Update a cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "{{id}}", "type": "text", "description": "Cart id (integer)" },
+								{ "key": "userId", "value": "1", "type": "text", "description": "User id (integer)" },
+								{ "key": "products_productId_1", "value": "1", "type": "text", "description": "Product id" },
+								{ "key": "products_quantity_1", "value": "3", "type": "text", "description": "Quantity" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["carts", "{{id}}"]
+						},
+						"description": "Update an existing cart by ID. Path: id. Body: form-data. Response: 200 Cart."
+					}
+				},
+				{
+					"name": "Delete a cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/carts/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["carts", "{{id}}"]
+						},
+						"description": "Delete a specific cart by ID. Path: id (integer). Response: 200."
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"description": "User CRUD. Endpoints: list all, get by id, create, update, delete.",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Retrieve a list of all users. Response: 200 array of User."
+					}
+				},
+				{
+					"name": "Get single user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{id}}"]
+						},
+						"description": "Retrieve details of a specific user by ID. Path: id (integer). Response: 200 User."
+					}
+				},
+				{
+					"name": "Add a new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "0", "type": "text", "description": "User id (integer)" },
+								{ "key": "username", "value": "john_doe", "type": "text", "description": "Username" },
+								{ "key": "email", "value": "john@example.com", "type": "text", "description": "Email" },
+								{ "key": "password", "value": "pass123", "type": "text", "description": "Password" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Create a new user. Body: form-data (id, username, email, password). Response: 201 User."
+					}
+				},
+				{
+					"name": "Update a user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "{{id}}", "type": "text", "description": "User id (integer)" },
+								{ "key": "username", "value": "john_doe_updated", "type": "text", "description": "Username" },
+								{ "key": "email", "value": "john.updated@example.com", "type": "text", "description": "Email" },
+								{ "key": "password", "value": "pass123", "type": "text", "description": "Password" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{id}}"]
+						},
+						"description": "Update an existing user by ID. Path: id. Body: form-data. Response: 200 User."
+					}
+				},
+				{
+					"name": "Delete a user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{id}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{id}}"]
+						},
+						"description": "Delete a specific user by ID. Path: id (integer). Response: 200."
+					}
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"description": "Authentication. Login returns a token.",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"mor_2314\",\n  \"password\": \"83r5^_\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Authenticate a user. FakeStore API requires JSON body (username, password). Response: 200 { token }."
+					}
+				}
+			]
+		}
+	]
+}
