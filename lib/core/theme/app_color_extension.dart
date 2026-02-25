@@ -36,9 +36,10 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     required this.borderColor,
   });
 
+  //* Light: primary (green) accent only — secondary color removed
   static const AppColorExtension light = AppColorExtension(
-    accentHover: AppColors.orangeNormalHover,
-    accentActive: AppColors.orangeNormalActive,
+    accentHover: AppColors.primaryColorHover,
+    accentActive: AppColors.primaryColorActive,
     surfacePanel: AppColors.lightSurface,
     surfacePanelHover: AppColors.greyLightHover,
     strongBorder: AppColors.greyNormal,
@@ -51,9 +52,10 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     borderColor: AppColors.borderColor,
   );
 
+  //* Dark: same primary (green) accent — no secondary color
   static const AppColorExtension dark = AppColorExtension(
-    accentHover: AppColors.orangeDarkHover,
-    accentActive: AppColors.orangeDarkActive,
+    accentHover: AppColors.primaryColorHover,
+    accentActive: AppColors.primaryColorActive,
     surfacePanel: AppColors.darkSurfacePanel,
     surfacePanelHover: AppColors.greyDarkHover,
     strongBorder: AppColors.greyDark,

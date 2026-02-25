@@ -368,6 +368,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/calnder.svg
   SvgGenImage get calnder => const SvgGenImage('assets/images/icons/calnder.svg');
 
+  /// File path: assets/images/icons/cart_transparent.svg
+  SvgGenImage get cartTransparent => const SvgGenImage('assets/images/icons/cart_transparent.svg');
+
   /// File path: assets/images/icons/chat.svg
   SvgGenImage get chat => const SvgGenImage('assets/images/icons/chat.svg');
 
@@ -516,6 +519,7 @@ class $AssetsImagesIconsGen {
     work,
     addNew,
     calnder,
+    cartTransparent,
     chat,
     checkBox,
     circlePlus,

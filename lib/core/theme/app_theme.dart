@@ -16,23 +16,26 @@ ThemeData appTheme(BuildContext context) {
     fontFamily: fontFamily,
     brightness: Brightness.light,
     
-    //* Color Scheme (Light)
+    //* Color Scheme (Light) — primary: dark green 2D5F4C; navy 111827 for text/surfaces; no distinct secondary
     colorScheme: const ColorScheme.light(
-      primary: AppColors.orangeNormal,
-      secondary: AppColors.greyNormal,
-      tertiary: AppColors.orangeDark,
+      primary: AppColors.primaryColor,
+      onPrimary: AppColors.white,
+      primaryContainer: AppColors.primaryColorLight,
+      onPrimaryContainer: AppColors.primaryNavy,
+      //* Secondary slot set to primary (green) — secondary color removed per design
+      secondary: AppColors.primaryColor,
+      onSecondary: AppColors.white,
+      secondaryContainer: AppColors.primaryColorLight,
+      onSecondaryContainer: AppColors.primaryNavy,
+      tertiary: AppColors.primaryColorActive,
       surface: AppColors.lightSurface,
       background: AppColors.lightBackground,
-      onPrimary: AppColors.white,
-      onSecondary: AppColors.white,
-      onSurface: AppColors.greyDark,
-      onBackground: AppColors.greyDark,
+      onSurface: AppColors.primaryNavy,
+      onBackground: AppColors.primaryNavy,
       error: AppColors.lightError,
       onError: AppColors.lightOnError,
       surfaceVariant: AppColors.greyLight,
       outline: AppColors.greyNormal,
-      primaryContainer: AppColors.orangeLightActive,
-      onPrimaryContainer: AppColors.greyDark,
     ),
     scaffoldBackgroundColor: AppColors.lightBackground,
     
@@ -41,27 +44,27 @@ ThemeData appTheme(BuildContext context) {
       AppColorExtension.light,
     ],
     
-    //* Text Theme (Light)
+    //* Text Theme (Light) — navy (primaryNavy) for main text
     textTheme: TextTheme(
-      displayLarge: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, fontFamily: fontFamily, color: AppColors.greyDark),
-      displayMedium: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.greyDark),
-      displaySmall: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500, fontFamily: fontFamily, color: AppColors.greyDark),
-      headlineMedium: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.greyDark),
-      headlineSmall: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500, fontFamily: fontFamily, color: AppColors.greyDark),
-      titleLarge: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.greyDark),
-      titleMedium: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.greyDark),
-      titleSmall: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700, fontFamily: fontFamily, color: AppColors.greyDark),
-      bodyLarge: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, fontFamily: fontFamily, color: AppColors.greyDark),
-      bodyMedium: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, fontFamily: fontFamily, color: AppColors.greyDark),
+      displayLarge: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      displayMedium: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      displaySmall: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      headlineMedium: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      headlineSmall: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      titleLarge: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      titleMedium: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      titleSmall: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      bodyLarge: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, fontFamily: fontFamily, color: AppColors.primaryNavy),
+      bodyMedium: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, fontFamily: fontFamily, color: AppColors.primaryNavy),
       bodySmall: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w300, fontFamily: fontFamily, color: AppColors.greyNormal),
-      labelLarge: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.greyDark),
+      labelLarge: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, fontFamily: fontFamily, color: AppColors.primaryNavy),
       labelSmall: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w400, fontFamily: fontFamily, color: AppColors.greyNormal),
     ).apply(fontSizeFactor: 1),
     
     //* Button Theme (Light)
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.orangeNormal,
+        backgroundColor: AppColors.primaryColor,
         foregroundColor: AppColors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
         padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 20.w),
@@ -70,10 +73,10 @@ ThemeData appTheme(BuildContext context) {
       ),
     ),
     
-    //* AppBar Theme (Light)
+    //* AppBar Theme (Light) — navy for headers
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.lightSurface,
-      foregroundColor: AppColors.greyDark,
+      foregroundColor: AppColors.primaryNavy,
       surfaceTintColor: AppColors.transparent,
       elevation: 0,
       centerTitle: true,
@@ -81,7 +84,7 @@ ThemeData appTheme(BuildContext context) {
         fontFamily: fontFamily,
         fontSize: 20.sp,
         fontWeight: FontWeight.w600,
-        color: AppColors.greyDark,
+        color: AppColors.primaryNavy,
       ),
     ),
     
@@ -109,7 +112,7 @@ ThemeData appTheme(BuildContext context) {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(11.r),
-        borderSide: BorderSide(color: AppColors.orangeNormal, width: 1.w),
+        borderSide: BorderSide(color: AppColors.primaryColor, width: 1.w),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(11.r),
@@ -129,7 +132,7 @@ ThemeData appTheme(BuildContext context) {
         fontSize: 14.sp,
         fontWeight: FontWeight.w400,
         fontFamily: fontFamily,
-        color: AppColors.greyDark,
+        color: AppColors.primaryNavy,
       ),
     ),
   );

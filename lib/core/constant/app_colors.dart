@@ -13,6 +13,21 @@ class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color transparent = Color(0x00000000);
 
+  //* ==================== Primary & Navy (Two-Primary Palette) ====================
+  //* First primary: dark green — main brand, CTAs, accents
+  static const Color primaryColor = Color(0xFF2D5F4C);
+  static const Color primaryColorHover = Color(0xFF264F41);
+  static const Color primaryColorActive = Color(0xFF1E4538);
+  static const Color primaryColorLight = Color(0xFFE8F2EE); //* primary container/background tint
+  //* Second primary: navy — text, headers, surfaces (no separate "secondary" color)
+  static const Color primaryNavy = Color(0xFF111827);
+  static const Color primaryNavyHover = Color(0xFF1F2937);
+  static const Color primaryNavyActive = Color(0xFF0F172A);
+  //* Legacy alias: same as primaryNavy (kept for existing theme/widget usage)
+  static const Color secondaryPrimaryColor = Color(0xFF111827);
+  static const Color secondaryPrimaryColorHover = Color(0xFF1F2937);
+  static const Color secondaryPrimaryColorActive = Color(0xFF0F172A);
+
   //* ==================== Light Theme Colors ====================
   
   // Light Error
@@ -21,7 +36,7 @@ class AppColors {
   
   // Light Surface
   static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightBackground = Color(0xFFFCF1EA); // orangeLight
+  static const Color lightBackground = Color(0xFFF4F9F7); //* subtle green tint (primary-aligned)
   
   // Light Shadow & Scrim
   static const Color lightShadow = Color(0x44000000); // 27% opacity black

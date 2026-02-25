@@ -17,6 +17,9 @@ class FontFamily {
   /// Font family: Baloo 2
   static const String baloo2 = 'Baloo 2';
 
+  /// Font family: Cormorant Garamond
+  static const String cormorantGaramond = 'Cormorant Garamond';
+
   /// Font family: Sora
   static const String sora = 'Sora';
 }
