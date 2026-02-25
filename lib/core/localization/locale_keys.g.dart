@@ -247,5 +247,10 @@ abstract class  LocaleKeys {
   static const share = 'share';
   static const product_reviewsCount = 'product.reviewsCount';
   static const product = 'product';
+  static const home_appBarTitle = 'home.appBarTitle';
+  static const home_navHome = 'home.navHome';
+  static const home_navCart = 'home.navCart';
+  static const home_navAddProduct = 'home.navAddProduct';
+  static const home = 'home';
 
 }

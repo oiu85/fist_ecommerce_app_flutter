@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "FIST Ecommerce",
+    "name": "FIST E-Commerce",
     "title": "تطبيق متجر الكتروني ",
     "welcome": "مرحباً",
     "loading": "جاري التحميل...",
@@ -258,5 +258,11 @@
   },
   "product": {
     "reviewsCount": "({count})"
+  },
+  "home": {
+    "appBarTitle": "فست للتجارة الإلكترونية",
+    "navHome": "الرئيسية",
+    "navCart": "السلة",
+    "navAddProduct": "إضافة منتج"
   }
 }

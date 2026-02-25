@@ -258,5 +258,11 @@
   },
   "product": {
     "reviewsCount": "({count})"
+  },
+  "home": {
+    "appBarTitle": "Fist E-commerce",
+    "navHome": "Home",
+    "navCart": "Cart",
+    "navAddProduct": "Add Product"
   }
 }
