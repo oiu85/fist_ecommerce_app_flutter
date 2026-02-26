@@ -14,6 +14,9 @@ export 'card_expiry_validator.dart';
 export 'card_cvv_validator.dart';
 export 'cardholder_name_validator.dart';
 export 'donation_amount_validator.dart';
+export 'price_validator.dart';
+export 'product_name_validator.dart';
+export 'url_validator.dart';
 
 /// Common validation utilities
 class ValidationUtils {

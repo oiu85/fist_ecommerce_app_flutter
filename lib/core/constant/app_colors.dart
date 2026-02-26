@@ -104,6 +104,18 @@ class AppColors {
   //* Border color — preferred gray for cards, chips, inputs
   static const Color borderColor = Color(0xFFF3F4F6); // rgb(243, 244, 246)
 
+  //* ==================== Screen / Form Backgrounds ====================
+  //* Form background — neutral grey (add product, forms) #F9FAFB
+  static const Color formBackground = Color(0xFFF9FAFB);
+  //* Product details background — warm off-white #FAFAF8
+  static const Color productDetailsBackground = Color(0xFFFAFAF8);
+  //* Form background (dark theme)
+  static const Color formBackgroundDark = Color(0xFF1C1B1F);
+  //* Product details background (dark theme)
+  static const Color productDetailsBackgroundDark = Color(0xFF121212);
+  //* Image overlay scrim — 30% black for hero/gallery overlays
+  static const Color imageOverlayScrim = Color(0x4D000000);
+
   //* ==================== Status Colors ====================
   
   // Success (green) - for completed/success states

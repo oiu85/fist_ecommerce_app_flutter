@@ -24,6 +24,12 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
   final Color starRating;
   /// Second primary (navy) for headers, titles, and small accents.
   final Color primaryNavy;
+  /// Form background — neutral grey for add product, forms.
+  final Color formBackground;
+  /// Product details page background — warm off-white.
+  final Color productDetailsBackground;
+  /// Image overlay scrim for hero/gallery gradients.
+  final Color imageOverlayScrim;
 
   const AppColorExtension({
     required this.accentHover,
@@ -40,6 +46,9 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     required this.borderColor,
     required this.starRating,
     required this.primaryNavy,
+    required this.formBackground,
+    required this.productDetailsBackground,
+    required this.imageOverlayScrim,
   });
 
   //* Light: primary (green) accent only — secondary color removed
@@ -58,9 +67,12 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     borderColor: AppColors.borderColor,
     starRating: AppColors.starRatingYellow,
     primaryNavy: AppColors.primaryNavy,
+    formBackground: AppColors.formBackground,
+    productDetailsBackground: AppColors.productDetailsBackground,
+    imageOverlayScrim: AppColors.imageOverlayScrim,
   );
 
-  //* Dark: same primary (green) accent — no secondary color
+  //* Dark: dark surfaces for form/product screens
   static const AppColorExtension dark = AppColorExtension(
     accentHover: AppColors.primaryColorHover,
     accentActive: AppColors.primaryColorActive,
@@ -76,6 +88,9 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     borderColor: AppColors.borderColor,
     starRating: AppColors.starRatingYellow,
     primaryNavy: AppColors.primaryNavy,
+    formBackground: AppColors.formBackgroundDark,
+    productDetailsBackground: AppColors.productDetailsBackgroundDark,
+    imageOverlayScrim: AppColors.imageOverlayScrim,
   );
 
   @override
@@ -94,6 +109,9 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     Color? borderColor,
     Color? starRating,
     Color? primaryNavy,
+    Color? formBackground,
+    Color? productDetailsBackground,
+    Color? imageOverlayScrim,
   }) {
     return AppColorExtension(
       accentHover: accentHover ?? this.accentHover,
@@ -110,6 +128,10 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
       borderColor: borderColor ?? this.borderColor,
       starRating: starRating ?? this.starRating,
       primaryNavy: primaryNavy ?? this.primaryNavy,
+      formBackground: formBackground ?? this.formBackground,
+      productDetailsBackground:
+          productDetailsBackground ?? this.productDetailsBackground,
+      imageOverlayScrim: imageOverlayScrim ?? this.imageOverlayScrim,
     );
   }
 
@@ -131,6 +153,17 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
       starRating: Color.lerp(starRating, other.starRating, t)!,
       primaryNavy: Color.lerp(primaryNavy, other.primaryNavy, t)!,
+      formBackground: Color.lerp(formBackground, other.formBackground, t)!,
+      productDetailsBackground: Color.lerp(
+        productDetailsBackground,
+        other.productDetailsBackground,
+        t,
+      )!,
+      imageOverlayScrim: Color.lerp(
+        imageOverlayScrim,
+        other.imageOverlayScrim,
+        t,
+      )!,
     );
   }
 }

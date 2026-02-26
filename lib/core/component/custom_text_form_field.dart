@@ -17,6 +17,8 @@ class CustomTextFormField extends StatelessWidget {
     this.helperKey,
     this.helper,
     this.prefixIcon,
+    this.prefixText,
+    this.prefixStyle,
     this.suffixIcon,
     this.keyboardType,
     this.textInputAction,
@@ -53,6 +55,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? helper;
 
   final Widget? prefixIcon;
+  final String? prefixText;
+  final TextStyle? prefixStyle;
   final Widget? suffixIcon;
 
   final TextInputType? keyboardType;
@@ -135,6 +139,14 @@ class CustomTextFormField extends StatelessWidget {
             filled: true,
             fillColor: theme.colorScheme.surfaceVariant,
             prefixIcon: prefixIcon,
+            prefixText: prefixText,
+            prefixStyle: prefixText != null
+                ? (prefixStyle ??
+                    textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                      fontWeight: FontWeight.w500,
+                    ))
+                : null,
             suffixIcon: suffixIcon,
             contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(11.r), borderSide: BorderSide.none),

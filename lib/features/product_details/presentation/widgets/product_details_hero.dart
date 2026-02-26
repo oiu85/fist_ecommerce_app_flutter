@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/theme/app_color_extension.dart';
 import 'back_button.dart';
 import 'favourite_button.dart';
 
@@ -21,6 +22,7 @@ class ProductDetailsHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ClipRRect(
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(24.r),
@@ -61,7 +63,8 @@ class ProductDetailsHero extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withValues(alpha: 0.30),
+                    theme.extension<AppColorExtension>()?.imageOverlayScrim ??
+                        Colors.black.withValues(alpha: 0.30),
                   ],
                 ),
               ),

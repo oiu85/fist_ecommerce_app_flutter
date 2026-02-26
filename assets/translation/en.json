@@ -273,6 +273,24 @@
     "proceedToCheckout": "Proceed to Checkout",
     "secureCheckoutStripe": "Secure checkout powered by Stripe"
   },
+  "addProduct": {
+    "addProduct": "Add Product",
+    "cancel": "Cancel",
+    "productName": "Product Name",
+    "price": "Price",
+    "description": "Description",
+    "category": "Category",
+    "imageUrl": "Image URL",
+    "hintProductName": "Product name",
+    "hintPrice": "0.00",
+    "hintDescription": "Describe your product...",
+    "hintImageUrl": "https://example.com/image.jpg",
+    "validation_productNameRequired": "Product name is required",
+    "validation_priceRequired": "Price is required",
+    "validation_priceInvalid": "Enter a valid price",
+    "validation_imageUrlRequired": "Image URL is required",
+    "validation_urlInvalid": "Please enter a valid URL"
+  },
   "home": {
     "appBarTitle": "Fist E-commerce",
     "navHome": "Home",

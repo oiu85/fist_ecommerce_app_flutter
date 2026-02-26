@@ -273,6 +273,24 @@
     "proceedToCheckout": "متابعة للدفع",
     "secureCheckoutStripe": "دفع آمن مدعوم من Stripe"
   },
+  "addProduct": {
+    "addProduct": "إضافة منتج",
+    "cancel": "إلغاء",
+    "productName": "اسم المنتج",
+    "price": "السعر",
+    "description": "الوصف",
+    "category": "الفئة",
+    "imageUrl": "رابط الصورة",
+    "hintProductName": "اسم المنتج",
+    "hintPrice": "0.00",
+    "hintDescription": "صِف منتجك...",
+    "hintImageUrl": "https://example.com/image.jpg",
+    "validation_productNameRequired": "اسم المنتج مطلوب",
+    "validation_priceRequired": "السعر مطلوب",
+    "validation_priceInvalid": "أدخل سعراً صالحاً",
+    "validation_imageUrlRequired": "رابط الصورة مطلوب",
+    "validation_urlInvalid": "يرجى إدخال رابط صالح"
+  },
   "home": {
     "appBarTitle": "فست للتجارة الإلكترونية",
     "navHome": "الرئيسية",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/theme/app_color_extension.dart';
 import '../bloc/product_details_bloc.dart';
 import '../bloc/product_details_event.dart';
 import '../bloc/product_details_state.dart';
@@ -96,7 +97,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     return BlocProvider<ProductDetailsBloc>.value(
       value: _bloc,
       child: Scaffold(
-        backgroundColor: const Color(0xFFFAFAF8),
+        backgroundColor: theme.extension<AppColorExtension>()?.productDetailsBackground ??
+            theme.colorScheme.surface,
         body: Stack(
           clipBehavior: Clip.none,
           children: [
