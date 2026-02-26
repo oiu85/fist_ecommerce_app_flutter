@@ -24,13 +24,66 @@ class _HomePageState extends State<HomePage> {
   int _selectedCategoryIndex = 0;
   CategoryLayoutStyle _categoryLayout = CategoryLayoutStyle.row;
 
+  //* Search mode state: show search field in app bar, hide logo + title
+  bool _isSearchMode = false;
+  late final TextEditingController _searchController;
+  late final FocusNode _searchFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+    _searchFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _toggleSearchMode() {
+    setState(() {
+      _isSearchMode = !_isSearchMode;
+      if (_isSearchMode) {
+        _searchController.clear();
+        _searchFocusNode.requestFocus();
+      } else {
+        _searchFocusNode.unfocus();
+      }
+    });
+  }
+
+  void _onSearchClosed() {
+    setState(() {
+      _isSearchMode = false;
+      _searchController.clear();
+      _searchFocusNode.unfocus();
+    });
+  }
+
+  //! TODO: implement search results when backend/API is ready
+  void _onSearchQueryChanged(String query) {
+    //* Search results handling - placeholder for future implementation
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return AppScaffold.custom(
       backgroundColor: theme.colorScheme.surface,
-      appBar: HomePageAppBar(cartCount: widget.cartCount, onSearchTap: widget.onSearchTap, onCartTap: widget.onCartTap),
+      appBar: HomePageAppBar(
+        cartCount: widget.cartCount,
+        onSearchTap: widget.onSearchTap ?? _toggleSearchMode,
+        onCartTap: widget.onCartTap,
+        isSearchMode: _isSearchMode,
+        searchController: _searchController,
+        searchFocusNode: _searchFocusNode,
+        onSearchClosed: _onSearchClosed,
+        onSearchQueryChanged: _onSearchQueryChanged,
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           // ——— Category section: chips row or grid, surface background ———

@@ -22,6 +22,7 @@ class SearchBarWithFilter extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.maxLength,
     this.inputFormatters,
+    this.showFilter = true,
   }) : assert(
          hintKey != null || hint != null,
          'Either hintKey or hint must be provided.',
@@ -42,6 +43,9 @@ class SearchBarWithFilter extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
+
+  //* When false, hides the filter button (e.g. for app bar inline search)
+  final bool showFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +96,9 @@ class SearchBarWithFilter extends StatelessWidget {
                   filled: true,
                   fillColor: colorScheme.surface,
                   hintText: hintKey != null ? hintKey!.tr() : hint,
-                  //* Hint Style
+                  //* Hint Style — onSurfaceVariant ensures visible hint in light and dark mode
                   hintStyle: textTheme.titleMedium?.copyWith(
-                    color: colorScheme.outline.withValues(alpha: 0.3),
+                    color: colorScheme.onSurfaceVariant,
                   ),
                   //* Search Icon
                   prefixIcon: Padding(
@@ -129,14 +133,15 @@ class SearchBarWithFilter extends StatelessWidget {
               ),
             ),
           ),
-          //* Filter Button Section
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: EdgeInsets.only(right: 5.5.w, top: 5.h, bottom: 4.h),
-              child: GestureDetector(
-                onTap: onFilterTap,
-                child: Container(
+          //* Filter Button Section (hidden when showFilter is false)
+          if (showFilter)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.only(right: 5.5.w, top: 5.h, bottom: 4.h),
+                child: GestureDetector(
+                  onTap: onFilterTap,
+                  child: Container(
                   width: 40.w,
                   height: 40.h,
                   //* Filter Button Decoration
@@ -162,10 +167,10 @@ class SearchBarWithFilter extends StatelessWidget {
                       height: 40.h,
                     ),
                   ),
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
