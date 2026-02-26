@@ -50,6 +50,8 @@ class ProductListCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         child: Material(
           color: colorScheme.surfaceContainerHighest,
+          elevation: 1,
+          shadowColor: colorScheme.shadow.withValues(alpha: 0.12),
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 0.5,

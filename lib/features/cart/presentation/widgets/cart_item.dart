@@ -51,13 +51,13 @@ class CartItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         child: Material(
           color: surfaceColor,
+          elevation: 1,
+          shadowColor: colorScheme.shadow.withValues(alpha: 0.12),
           shape: RoundedRectangleBorder(
             side: BorderSide(color: borderColor),
             borderRadius: BorderRadius.circular(16.r),
           ),
           clipBehavior: Clip.antiAlias,
-          elevation: 0,
-          shadowColor: colorScheme.shadow,
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: 144.h),
             child: SizedBox(
