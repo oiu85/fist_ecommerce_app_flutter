@@ -26,24 +26,30 @@ class ProductCardImage extends StatelessWidget {
       width: size,
       height: size,
       child: Center(
-        child: Container(
-          decoration: ShapeDecoration(shape: RoundedRectangleBorder()),
-          clipBehavior: Clip.antiAlias,
-          child: isAssetPath(imageUrl)
-              ? Image.asset(
-                  imageUrl,
-                  width: size,
-                  height: size,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => _defaultError(context),
-                )
-              : AppCachedNetworkImage(
-                  imageUrl: imageUrl,
-                  width: size,
-                  height: size,
-                  fit: BoxFit.cover,
-                  formatUrl: formatUrl,
-                ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: ColoredBox(
+            color: backgroundColor,
+            child: SizedBox(
+              width: size,
+              height: size,
+              child: isAssetPath(imageUrl)
+                  ? Image.asset(
+                      imageUrl,
+                      width: size,
+                      height: size,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => _defaultError(context),
+                    )
+                  : AppCachedNetworkImage(
+                      imageUrl: imageUrl,
+                      width: size,
+                      height: size,
+                      fit: BoxFit.contain,
+                      formatUrl: formatUrl,
+                    ),
+            ),
+          ),
         ),
       ),
     );

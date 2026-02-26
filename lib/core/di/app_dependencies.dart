@@ -1,7 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../network/network_client.dart';
 import '../storage/app_storage_service.dart';
+import 'package:fsit_flutter_task_ecommerce/features/home/data/di.dart';
 
 
 final getIt = GetIt.instance;
@@ -24,6 +26,8 @@ Future<GetIt> configureDependencies() async {
     NetworkClient(getIt<AppStorageService>()),
   );
 
+  //! Home feature (products, categories API)
+  registerHomeDependencies(getIt);
 
   return getIt;
 }

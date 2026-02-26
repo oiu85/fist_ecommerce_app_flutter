@@ -41,4 +41,19 @@ class BlocStatus {
   bool isFail() => status == Status.fail;
 
   bool isSuccess() => status == Status.success;
+
+  /// Pattern-matching builder: returns widget based on status.
+  /// Use for consistent UI handling across features.
+  T when<T>({
+    required T Function() initial,
+    required T Function() loading,
+    required T Function() success,
+    required T Function(String? error) error,
+  }) {
+    if (isInitial()) return initial();
+    if (isLoading() || isLoadingMore()) return loading();
+    if (isSuccess()) return success();
+    if (isFail()) return error(this.error);
+    return initial();
+  }
 }

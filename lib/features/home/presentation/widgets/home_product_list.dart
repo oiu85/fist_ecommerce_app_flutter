@@ -13,6 +13,7 @@ Widget buildHomeProductListSliver(
   EdgeInsetsGeometry? padding,
   double? itemSpacing,
   void Function(HomeProductGridItem item)? onProductTap,
+  void Function(HomeProductGridItem item, int index)? onProductTapWithIndex,
 }) {
   final bottomPadding = MediaQuery.of(context).viewPadding.bottom + 90.h;
   final spacing = itemSpacing ?? 12.h;
@@ -29,7 +30,12 @@ Widget buildHomeProductListSliver(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           final item = items[index];
-          final tapCallback = onProductTap;
+          void Function()? tapHandler;
+          if (onProductTapWithIndex != null) {
+            tapHandler = () => onProductTapWithIndex(item, index);
+          } else if (onProductTap != null) {
+            tapHandler = () => onProductTap(item);
+          }
           final card = Padding(
             padding: EdgeInsets.only(bottom: spacing),
             child: ProductListCard(
@@ -38,11 +44,11 @@ Widget buildHomeProductListSliver(
               rating: item.rating,
               reviewCount: item.reviewCount,
               priceFormatted: item.priceFormatted,
-              onTap: tapCallback != null ? () => tapCallback(item) : null,
+              onTap: tapHandler,
             ),
           );
           if (!AnimationConstants.shouldReduceMotion(context)) {
-            return card.staggeredItem(index: index);
+            return card.staggeredItem(index: index, scrollOptimized: true);
           }
           return card;
         },

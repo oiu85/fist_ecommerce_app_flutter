@@ -98,15 +98,19 @@ class AppCachedNetworkImage extends StatelessWidget {
       );
     }
 
-    //* Raster images: CachedNetworkImage
+    //* Raster images: CachedNetworkImage — fade-in effect instead of spinner
     return _wrap(
       child: CachedNetworkImage(
         imageUrl: effectiveUrl,
         width: width,
         height: height,
         fit: fit,
-        fadeInDuration: const Duration(milliseconds: 200),
-        placeholder: (_, __) => placeholder ?? _defaultPlaceholder(context),
+        placeholder: (_, __) =>
+            placeholder ?? _defaultPlaceholder(context),
+        fadeInDuration: const Duration(milliseconds: 400),
+        fadeOutDuration: const Duration(milliseconds: 300),
+        fadeInCurve: Curves.easeOut,
+        fadeOutCurve: Curves.easeIn,
         errorWidget: (_, __, ___) =>
             errorWidget ?? _defaultErrorWidget(context),
       ),
@@ -118,13 +122,13 @@ class AppCachedNetworkImage extends StatelessWidget {
     return ClipRRect(borderRadius: borderRadius!, child: child);
   }
 
+  /// Placeholder that the image fades in over — no loading indicator.
+  /// Uses a subtle surface color; image gradually becomes clearer on load.
   Widget _defaultPlaceholder(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: width != null ? (width! * 0.4) : 24,
-        height: height != null ? (height! * 0.4) : 24,
-        child: const CircularProgressIndicator(strokeWidth: 2),
-      ),
+    final color = Theme.of(context).colorScheme.surfaceContainerHighest;
+    return ColoredBox(
+      color: color,
+      child: SizedBox(width: width ?? double.infinity, height: height ?? double.infinity),
     );
   }
 

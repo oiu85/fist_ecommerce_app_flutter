@@ -152,12 +152,23 @@ extension WidgetAnimationExtensions on Widget {
   /// [index] - Position in the list (0-based)
   /// [baseDelay] - Delay between each item
   /// [animationType] - Type of entrance animation
+  /// [scrollOptimized] - When true, uses zero delay + fast fade only. Use for
+  /// scrollable grids/lists where index-based delay causes lag on fast scroll.
   Widget staggeredItem({
     required int index,
     Duration? baseDelay,
     StaggerAnimationType animationType = StaggerAnimationType.fadeSlideUp,
     Duration? duration,
+    bool scrollOptimized = false,
   }) {
+    //* Scroll-optimized: no delay, light fade — avoids lag when scrolling fast
+    if (scrollOptimized) {
+      return fadeInOnly(
+        delay: Duration.zero,
+        duration: duration ?? const Duration(milliseconds: 200),
+      );
+    }
+
     final delay = AnimationConstants.staggerDelay(
       index,
       baseDelay: baseDelay ?? AnimationConstants.smallStagger,

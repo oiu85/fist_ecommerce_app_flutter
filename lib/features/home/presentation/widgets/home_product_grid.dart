@@ -32,6 +32,7 @@ Widget buildHomeProductGridSliver(
   double? crossAxisSpacing,
   double? mainAxisSpacing,
   void Function(HomeProductGridItem item)? onProductTap,
+  void Function(HomeProductGridItem item, int index)? onProductTapWithIndex,
 }) {
   return SliverPadding(
     padding:
@@ -46,18 +47,23 @@ Widget buildHomeProductGridSliver(
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final item = items[index];
-        final tapCallback = onProductTap;
+        void Function()? tapHandler;
+        if (onProductTapWithIndex != null) {
+          tapHandler = () => onProductTapWithIndex(item, index);
+        } else if (onProductTap != null) {
+          tapHandler = () => onProductTap(item);
+        }
         final card = ProductCard(
           imageUrl: item.imageUrl,
           name: item.name,
           rating: item.rating,
           reviewCount: item.reviewCount,
           priceFormatted: item.priceFormatted,
-          onTap: tapCallback != null ? () => tapCallback(item) : null,
+          onTap: tapHandler,
         );
-        //* Staggered entrance + reduced-motion support
+        //* Staggered entrance + scroll-optimized (no delay on fast scroll)
         if (!AnimationConstants.shouldReduceMotion(context)) {
-          return card.staggeredItem(index: index);
+          return card.staggeredItem(index: index, scrollOptimized: true);
         }
         return card;
       }, childCount: items.length),

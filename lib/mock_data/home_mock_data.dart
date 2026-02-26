@@ -18,6 +18,12 @@ List<HomeCategoryItem> get mockHomeCategories => const <HomeCategoryItem>[
 List<HomeCategoryItem> categoriesFromApi(List<String> apiCategories) =>
     apiCategories.map((s) => HomeCategoryItem(id: s, label: s, labelIsLocaleKey: false)).toList();
 
+/// Build categories with "All" prepended for home filter. Use API list as [apiCategories].
+List<HomeCategoryItem> categoriesFromApiWithAll(List<String> apiCategories) => [
+  const HomeCategoryItem(id: 'all', label: LocaleKeys.home_categoryAll, labelIsLocaleKey: true),
+  ...categoriesFromApi(apiCategories),
+];
+
 //* ==================== Product Mock Data ====================
 
 /// Default list of placeholder products for the home grid.
