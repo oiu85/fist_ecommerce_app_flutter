@@ -6,7 +6,6 @@ import '../widgets/home_category_chips.dart';
 import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_product_grid.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
@@ -30,39 +29,47 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final surfaceColor = theme.colorScheme.surface;
+    final gridBackgroundColor = theme.colorScheme.surfaceContainerHighest;
 
     return AppScaffold.custom(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: gridBackgroundColor,
       appBar: HomePageAppBar(
         cartCount: widget.cartCount,
         onSearchTap: widget.onSearchTap,
         onCartTap: widget.onCartTap,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          HomeCategorySection(
-            categories: mockHomeCategories,
-            selectedIndex: _selectedCategoryIndex,
-            onCategorySelected: (index) {
-              setState(() => _selectedCategoryIndex = index);
-            },
-            layoutStyle: _categoryLayout,
-            onLayoutToggle: () {
-              setState(() {
-                _categoryLayout = _categoryLayout == CategoryLayoutStyle.row
-                    ? CategoryLayoutStyle.grid
-                    : CategoryLayoutStyle.row;
-              });
-            },
-          ),
-          Expanded(
-            child: HomeProductGrid(
-              items: defaultHomeProductGridItems,
-              onProductTap: (_) {
-                //! TODO: Navigate to product detail when implemented.
-              },
+      body: CustomScrollView(
+        slivers: <Widget>[
+          // ——— Category section: chips row or grid, surface background ———
+          SliverToBoxAdapter(
+            child: ColoredBox(
+              color: surfaceColor,
+              child: HomeCategorySection(
+                categories: mockHomeCategories,
+                selectedIndex: _selectedCategoryIndex,
+                onCategorySelected: (index) {
+                  setState(() => _selectedCategoryIndex = index);
+                },
+                layoutStyle: _categoryLayout,
+                onLayoutToggle: () {
+                  setState(() {
+                    _categoryLayout =
+                        _categoryLayout == CategoryLayoutStyle.row
+                            ? CategoryLayoutStyle.grid
+                            : CategoryLayoutStyle.row;
+                  });
+                },
+              ),
             ),
+          ),
+          // ——— Product grid: 2-column grid with bottom safe padding ———
+          buildHomeProductGridSliver(
+            context,
+            items: defaultHomeProductGridItems,
+            onProductTap: (_) {
+              //! TODO: Navigate to product detail when implemented.
+            },
           ),
         ],
       ),

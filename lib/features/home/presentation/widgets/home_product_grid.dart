@@ -24,6 +24,53 @@ class HomeProductGridItem {
   final String imageUrl;
 }
 
+/// Builds the product grid as a sliver for use inside [CustomScrollView].
+Widget buildHomeProductGridSliver(
+  BuildContext context, {
+  required List<HomeProductGridItem> items,
+  EdgeInsetsGeometry? padding,
+  double? crossAxisSpacing,
+  double? mainAxisSpacing,
+  void Function(HomeProductGridItem item)? onProductTap,
+}) {
+  final crossSpacing = crossAxisSpacing ?? 16.w;
+  final mainSpacing = mainAxisSpacing ?? 16.h;
+  final bottomPadding = MediaQuery.of(context).viewPadding.bottom + 90.h;
+  final edgePadding = EdgeInsets.only(
+    left: 20.w,
+    right: 20.w,
+    top: 8.h,
+    bottom: bottomPadding,
+  );
+  final resolvedPadding = padding ?? edgePadding;
+  final onTap = onProductTap;
+
+  return SliverPadding(
+    padding: resolvedPadding,
+    sliver: SliverGrid(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: mainSpacing,
+        crossAxisSpacing: crossSpacing,
+        childAspectRatio: 163.5 / 283.5,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final item = items[index];
+          return ProductCard(
+            imageUrl: item.imageUrl,
+            name: item.name,
+            rating: item.rating,
+            reviewCount: item.reviewCount,
+            priceFormatted: item.priceFormatted,
+            onTap: onTap != null ? () => onTap(item) : null,
+          );
+        },
+        childCount: items.length,
+      ),
+    ),
+  );
+}
 
 class HomeProductGrid extends StatelessWidget {
   const HomeProductGrid({
@@ -45,41 +92,19 @@ class HomeProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final surfaceColor = theme.colorScheme.surfaceContainerHighest;
-    final crossSpacing = crossAxisSpacing ?? 16.w;
-    final mainSpacing = mainAxisSpacing ?? 16.h;
-
-    //* Bottom padding to prevent last rows from hiding behind the nav bar.
-    final bottomPadding = MediaQuery.of(context).viewPadding.bottom + 90.h;
-
     return ColoredBox(
       color: surfaceColor,
-      child: GridView.builder(
-        padding: EdgeInsets.only(
-          left: 20.w,
-          right: 20.w,
-          top: 8.h,
-          bottom: bottomPadding,
-        ),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: mainSpacing,
-          crossAxisSpacing: crossSpacing,
-          childAspectRatio: 163.5 / 283.5,
-        ),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return ProductCard(
-            imageUrl: item.imageUrl,
-            name: item.name,
-            rating: item.rating,
-            reviewCount: item.reviewCount,
-            priceFormatted: item.priceFormatted,
-            onTap: onProductTap != null
-                ? () => onProductTap!(item)
-                : null,
-          );
-        },
+      child: CustomScrollView(
+        slivers: [
+          buildHomeProductGridSliver(
+            context,
+            items: items,
+            padding: padding,
+            crossAxisSpacing: crossAxisSpacing,
+            mainAxisSpacing: mainAxisSpacing,
+            onProductTap: onProductTap,
+          ),
+        ],
       ),
     );
   }
