@@ -9,7 +9,6 @@ import '../../../../core/theme/app_color_extension.dart';
 
 import 'product_card_image.dart';
 
-/// Displays product image, name, star rating, review count, and price.
 class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
@@ -40,32 +39,34 @@ class ProductCard extends StatelessWidget {
 
     return RepaintBoundary(
       child: HoverAnimationWrapper(
-        scaleAmount: 1.02,
+        scaleAmount: 1.03,
         duration: AnimationConstants.fast,
-        child: GestureDetector(
-        onTap: onTap != null
-            ? () {
-                AppHaptic.selection();
-                onTap!();
-              }
-            : null,
-        child: Container(
-          width: width ?? 163.5.w,
-          height: 283.5.h,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
-            color: colorScheme.surfaceContainerHighest,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                width: 0.5,
-                color: appColors?.primaryNavy != null
-                    ? appColors!.primaryNavy.withValues(alpha: 0.25)
-                    : (appColors?.borderColor ?? colorScheme.outline),
-              ),
-              borderRadius: BorderRadius.circular(12.r),
+        elevationOnHover: 6,
+        borderRadius: BorderRadius.circular(12.r),
+        child: Material(
+          color: colorScheme.surfaceContainerHighest,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 0.5,
+              color: appColors?.primaryNavy != null
+                  ? appColors!.primaryNavy.withValues(alpha: 0.25)
+                  : (appColors?.borderColor ?? colorScheme.outline),
             ),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: Column(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap != null
+                ? () {
+                    AppHaptic.selection();
+                    onTap!();
+                  }
+                : null,
+            borderRadius: BorderRadius.circular(12.r),
+            child: SizedBox(
+              width: width ?? 163.5.w,
+              height: 283.5.h,
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -115,7 +116,8 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
-        ),
+            ),
+          ),
         ),
       ),
     );

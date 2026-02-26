@@ -157,6 +157,8 @@ class HoverAnimationWrapper extends StatefulWidget {
     this.duration = AnimationConstants.fast,
     this.onHover,
     this.cursor = SystemMouseCursors.click,
+    this.elevationOnHover,
+    this.borderRadius,
   });
 
   /// The widget to wrap
@@ -177,6 +179,13 @@ class HoverAnimationWrapper extends StatefulWidget {
   /// Mouse cursor to show on hover
   final MouseCursor cursor;
 
+  /// When set, animates elevation on hover (0 → this value).
+  /// Works even when scale is clipped; use for cards in grids.
+  final double? elevationOnHover;
+
+  /// Border radius for elevation shadow when [elevationOnHover] is set.
+  final BorderRadius? borderRadius;
+
   @override
   State<HoverAnimationWrapper> createState() => _HoverAnimationWrapperState();
 }
@@ -192,16 +201,40 @@ class _HoverAnimationWrapperState extends State<HoverAnimationWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: widget.enabled ? widget.cursor : MouseCursor.defer,
-      onEnter: (_) => _onHover(true),
-      onExit: (_) => _onHover(false),
-      child: AnimatedScale(
-        scale: _isHovered && widget.enabled ? widget.scaleAmount : 1.0,
+    final showHover = _isHovered && widget.enabled;
+    final scale = showHover ? widget.scaleAmount : 1.0;
+    final elevation = widget.elevationOnHover != null
+        ? (showHover ? widget.elevationOnHover! : 0.0)
+        : null;
+
+    Widget content = widget.child;
+    if (elevation != null) {
+      content = AnimatedPhysicalModel(
+        shape: BoxShape.rectangle,
+        borderRadius: widget.borderRadius ?? BorderRadius.zero,
+        clipBehavior: Clip.none,
+        elevation: elevation,
+        color: Colors.transparent,
+        shadowColor: Theme.of(context).shadowColor.withValues(alpha: 0.35),
         duration: widget.duration,
         curve: AnimationConstants.snappyCurve,
-        child: widget.child,
-      ),
+        child: content,
+      );
+    }
+
+    content = AnimatedScale(
+      scale: scale,
+      duration: widget.duration,
+      curve: AnimationConstants.snappyCurve,
+      child: content,
+    );
+
+    return MouseRegion(
+      cursor: widget.enabled ? widget.cursor : MouseCursor.defer,
+      hitTestBehavior: HitTestBehavior.opaque,
+      onEnter: (_) => _onHover(true),
+      onExit: (_) => _onHover(false),
+      child: content,
     );
   }
 }
