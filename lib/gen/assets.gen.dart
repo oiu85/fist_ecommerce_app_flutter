@@ -573,8 +573,11 @@ class $AssetsImagesPngGen {
   /// File path: assets/images/png/prototype2.png
   AssetGenImage get prototype2 => const AssetGenImage('assets/images/png/prototype2.png');
 
+  /// File path: assets/images/png/prototype3.png
+  AssetGenImage get prototype3 => const AssetGenImage('assets/images/png/prototype3.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [noDataDark, noDataWhite, prototype1, prototype2];
+  List<AssetGenImage> get values => [noDataDark, noDataWhite, prototype1, prototype2, prototype3];
 }
 
 class $AssetsImagesStatusGen {

@@ -264,6 +264,15 @@
     "twoYearWarranty": "ضمان سنتين",
     "thirtyDayReturns": "إرجاع 30 يوم"
   },
+  "cart": {
+    "empty": "سلتك فارغة",
+    "subtotal": "المجموع الفرعي",
+    "shipping": "الشحن",
+    "calculatedAtCheckout": "يُحسب عند الدفع",
+    "total": "الإجمالي",
+    "proceedToCheckout": "متابعة للدفع",
+    "secureCheckoutStripe": "دفع آمن مدعوم من Stripe"
+  },
   "home": {
     "appBarTitle": "فست للتجارة الإلكترونية",
     "navHome": "الرئيسية",

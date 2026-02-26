@@ -264,6 +264,15 @@
     "twoYearWarranty": "2 Year\nWarranty",
     "thirtyDayReturns": "30 Day\nReturns"
   },
+  "cart": {
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "calculatedAtCheckout": "Calculated at checkout",
+    "total": "Total",
+    "proceedToCheckout": "Proceed to Checkout",
+    "secureCheckoutStripe": "Secure checkout powered by Stripe"
+  },
   "home": {
     "appBarTitle": "Fist E-commerce",
     "navHome": "Home",

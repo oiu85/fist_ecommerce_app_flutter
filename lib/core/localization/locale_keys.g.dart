@@ -252,6 +252,14 @@ abstract class  LocaleKeys {
   static const product_twoYearWarranty = 'product.twoYearWarranty';
   static const product_thirtyDayReturns = 'product.thirtyDayReturns';
   static const product = 'product';
+  static const cart_empty = 'cart.empty';
+  static const cart_subtotal = 'cart.subtotal';
+  static const cart_shipping = 'cart.shipping';
+  static const cart_calculatedAtCheckout = 'cart.calculatedAtCheckout';
+  static const cart_total = 'cart.total';
+  static const cart_proceedToCheckout = 'cart.proceedToCheckout';
+  static const cart_secureCheckoutStripe = 'cart.secureCheckoutStripe';
+  static const cart = 'cart';
   static const home_appBarTitle = 'home.appBarTitle';
   static const home_navHome = 'home.navHome';
   static const home_navCart = 'home.navCart';

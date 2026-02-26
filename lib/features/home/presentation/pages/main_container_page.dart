@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/component/custom_bottom_nav_bar.dart';
 import '../../../../core/shared/app_scaffold.dart';
+import '../../../cart/presentation/pages/cart_page.dart';
 import 'home_page.dart';
 
 class MainContainerPage extends StatefulWidget {
@@ -47,7 +48,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: _onPageChanged,
-          children: const [HomePage(), _CartPlaceholderPage(), _AddProductPlaceholderPage()],
+          children: const [HomePage(), CartPage(), _AddProductPlaceholderPage()],
         ),
       ),
       bottomNavigationBar: CustomBottomNavBar(selectedIndex: _selectedIndex, onTabChange: _onTabChange),
@@ -65,13 +66,6 @@ class _ComingSoonPage extends StatelessWidget {
       child: Text('Coming soon', style: theme.textTheme.titleLarge?.copyWith(color: theme.colorScheme.onSurface)),
     );
   }
-}
-
-class _CartPlaceholderPage extends StatelessWidget {
-  const _CartPlaceholderPage();
-
-  @override
-  Widget build(BuildContext context) => const _ComingSoonPage();
 }
 
 class _AddProductPlaceholderPage extends StatelessWidget {
