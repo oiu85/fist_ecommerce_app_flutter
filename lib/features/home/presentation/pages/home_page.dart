@@ -9,6 +9,8 @@ import '../../../../mock_data/product_details_mock_data.dart';
 import '../widgets/home_category_chips.dart';
 import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_product_grid.dart';
+import '../widgets/home_product_list.dart';
+import '../widgets/home_product_view_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.cartCount = 0, this.onSearchTap, this.onCartTap});
@@ -24,6 +26,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedCategoryIndex = 0;
   CategoryLayoutStyle _categoryLayout = CategoryLayoutStyle.row;
+
+  //* Product view: grid (2 columns) or list (horizontal rows)
+  ProductViewStyle _productViewStyle = ProductViewStyle.grid;
 
   //* Search mode state: show search field in app bar, hide logo + title
   bool _isSearchMode = false;
@@ -118,14 +123,45 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // ——— Product grid: 2-column grid with bottom safe padding ———
-          buildHomeProductGridSliver(
-            context,
-            items: defaultHomeProductGridItems,
-            onProductTap: (item) {
-              context.push(AppRoutes.productDetails, extra: payloadFromHomeItem(item));
-            },
+          // ——— Product section: header + grid or list ———
+          SliverToBoxAdapter(
+            child: ColoredBox(
+              color: theme.colorScheme.surfaceContainerHighest,
+              child: HomeProductViewHeader(
+                viewStyle: _productViewStyle,
+                onViewToggle: () {
+                  setState(() {
+                    _productViewStyle =
+                        _productViewStyle == ProductViewStyle.grid
+                            ? ProductViewStyle.list
+                            : ProductViewStyle.grid;
+                  });
+                },
+              ),
+            ),
           ),
+          if (_productViewStyle == ProductViewStyle.grid)
+            buildHomeProductGridSliver(
+              context,
+              items: defaultHomeProductGridItems,
+              onProductTap: (item) {
+                context.push(
+                  AppRoutes.productDetails,
+                  extra: payloadFromHomeItem(item),
+                );
+              },
+            )
+          else
+            buildHomeProductListSliver(
+              context,
+              items: defaultHomeProductGridItems,
+              onProductTap: (item) {
+                context.push(
+                  AppRoutes.productDetails,
+                  extra: payloadFromHomeItem(item),
+                );
+              },
+            ),
         ],
       ),
     );
