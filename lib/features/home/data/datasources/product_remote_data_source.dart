@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/config/api_config.dart';
 import '../../../../core/network/network_client.dart';
-import '../constants/home_api_paths.dart';
 import '../models/product_model.dart';
 
 //* Remote data source for product API.
@@ -14,7 +14,7 @@ class ProductRemoteDataSource {
 
   /// Fetches all products.
   Future<Either<NetworkFailure, List<ProductModel>>> getProducts() async {
-    final result = await _client.get(productsPath);
+    final result = await _client.get(ApiConfig.productsPath);
     return result.fold(
       Left.new,
       (response) {
@@ -38,7 +38,7 @@ class ProductRemoteDataSource {
 
   /// Fetches product categories.
   Future<Either<NetworkFailure, List<String>>> getCategories() async {
-    final result = await _client.get(productsCategoriesPath);
+    final result = await _client.get(ApiConfig.productsCategoriesPath);
     return result.fold(
       Left.new,
       (response) {
@@ -65,7 +65,7 @@ class ProductRemoteDataSource {
   Future<Either<NetworkFailure, List<ProductModel>>> getProductsByCategory(
     String categoryName,
   ) async {
-    final path = productsByCategoryPath(categoryName);
+    final path = ApiConfig.productsByCategoryPath(categoryName);
     final result = await _client.get(path);
     return result.fold(
       Left.new,
