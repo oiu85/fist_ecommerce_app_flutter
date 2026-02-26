@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/component/quantity_counter_chip.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
@@ -43,28 +44,27 @@ class CartItem extends StatelessWidget {
     final surfaceHighest = colorScheme.surfaceContainerHighest;
 
     return RepaintBoundary(
-      child: Container(
-        width: 335.w,
-        constraints: BoxConstraints(minHeight: 144.h),
-        decoration: ShapeDecoration(
+      child: HoverAnimationWrapper(
+        scaleAmount: 1.02,
+        duration: AnimationConstants.fast,
+        elevationOnHover: 4,
+        borderRadius: BorderRadius.circular(16.r),
+        child: Material(
           color: surfaceColor,
           shape: RoundedRectangleBorder(
             side: BorderSide(color: borderColor),
             borderRadius: BorderRadius.circular(16.r),
           ),
-          shadows: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.12),
-              blurRadius: 2,
-              offset: const Offset(0, 1),
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        //* 3-column layout: image | content | delete — delete no longer constrains price
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
-          child: Row(
+          clipBehavior: Clip.antiAlias,
+          elevation: 0,
+          shadowColor: colorScheme.shadow,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 144.h),
+            child: SizedBox(
+              width: 335.w,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+                child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //* Column 1: Image
@@ -128,6 +128,9 @@ class CartItem extends StatelessWidget {
                 colorScheme: colorScheme,
               ),
             ],
+                ),
+              ),
+            ),
           ),
         ),
       ),

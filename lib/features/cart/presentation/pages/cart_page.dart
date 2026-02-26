@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../mock_data/cart_mock_data.dart';
@@ -67,12 +68,17 @@ class _CartPageState extends State<CartPage> {
           child: CustomScrollView(
             slivers: <Widget>[
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 16.h),
-                  child: AppText(
-                    LocaleKeys.home_navCart,
-                    translation: true,
-                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+                child: AnimatedSection(
+                  sectionIndex: 0,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 16.h),
+                    child: AppText(
+                      LocaleKeys.home_navCart,
+                      translation: true,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -91,37 +97,48 @@ class _CartPageState extends State<CartPage> {
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                      final item = _items[index];
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        child: CartItem(
-                          imageUrl: item.imageUrl,
-                          name: item.name,
-                          variant: item.variant,
-                          quantity: item.quantity,
-                          priceFormatted: formatCartPrice(item.lineTotal),
-                          onQuantityChanged: (q) => _onQuantityChanged(index, q),
-                          onDelete: () => _onDelete(index),
-                          maxQuantity: 99,
-                        ),
-                      );
-                    }, childCount: _items.length),
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        final item = _items[index];
+                        final cartItem = Padding(
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          child: CartItem(
+                            imageUrl: item.imageUrl,
+                            name: item.name,
+                            variant: item.variant,
+                            quantity: item.quantity,
+                            priceFormatted: formatCartPrice(item.lineTotal),
+                            onQuantityChanged: (q) =>
+                                _onQuantityChanged(index, q),
+                            onDelete: () => _onDelete(index),
+                            maxQuantity: 99,
+                          ),
+                        );
+                        if (!AnimationConstants.shouldReduceMotion(context)) {
+                          return cartItem.staggeredItem(index: index);
+                        }
+                        return cartItem;
+                      },
+                      childCount: _items.length,
+                    ),
                   ),
                 ),
             ],
           ),
         ),
         //* Sticky total section (not scrollable)
-        Padding(
-          padding: EdgeInsets.only(top: 8.h, bottom: bottomPadding),
-          child: CartTotalSection(
+        AnimatedSection(
+          sectionIndex: 1,
+          child: Padding(
+            padding: EdgeInsets.only(top: 8.h, bottom: bottomPadding),
+            child: CartTotalSection(
             subtotalFormatted: subtotalStr,
             totalFormatted: totalStr,
-            onProceedToCheckout: () {
-              // TODO: Navigate to checkout
-            },
-            enabled: _items.isNotEmpty,
+              onProceedToCheckout: () {
+                // TODO: Navigate to checkout
+              },
+              enabled: _items.isNotEmpty,
+            ),
           ),
         ),
       ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../gen/assets.gen.dart';
@@ -60,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
               builder: (context, state) {
                 return SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-                  child: Column(
+                  child: AnimatedColumn(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       //* Profile section

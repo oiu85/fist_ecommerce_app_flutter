@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/component/custom_text_area_form_field.dart';
 import '../../../../core/component/custom_text_form_field.dart';
 import '../../../../core/localization/locale_keys.g.dart';
@@ -85,7 +86,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Form(
                   key: _formKey,
-                  child: Column(
+                  child: AnimatedColumn(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       //* Product Name
@@ -170,7 +171,9 @@ class _AddProductPageState extends State<AddProductPage> {
             ),
 
             //* Bottom action bar — white bg, top border
-            Container(
+            AnimatedSection(
+              sectionIndex: 0,
+              child: Container(
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(20.w, 17.h, 20.w, 24.h),
               decoration: BoxDecoration(
@@ -189,6 +192,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   AddProductCancelButton(onPressed: _onCancel),
                 ],
               ),
+            ),
             ),
           ],
         ),
