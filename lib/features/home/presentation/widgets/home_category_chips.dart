@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/component/category_chip.dart';
+import '../../../../core/haptic/app_haptic.dart';
 import '../../../../gen/assets.gen.dart';
 
 import 'home_category_grid.dart';
@@ -88,6 +89,10 @@ class HomeCategorySection extends StatelessWidget {
                 top: 0,
                 right: 12.w,
                 child: IconButton(
+                  onPressed: () {
+                    AppHaptic.selection();
+                    onLayoutToggle!();
+                  },
                   icon: (layoutStyle == CategoryLayoutStyle.row
                           ? Assets.images.icons.category
                           : Assets.images.icons.listRow)
@@ -99,7 +104,6 @@ class HomeCategorySection extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  onPressed: onLayoutToggle,
                   style: IconButton.styleFrom(
                     minimumSize: Size(40.r, 40.r),
                     padding: EdgeInsets.zero,

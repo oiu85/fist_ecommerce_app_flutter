@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/component/category_chip.dart';
+import '../../../../core/haptic/app_haptic.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../home/presentation/widgets/category_card.dart';
 import '../../../home/presentation/widgets/home_category_chips.dart';
@@ -35,6 +36,10 @@ class AddProductCategorySection extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: IconButton(
+              onPressed: () {
+                AppHaptic.selection();
+                onLayoutToggle();
+              },
               icon: (layoutStyle == CategoryLayoutStyle.row
                       ? Assets.images.icons.category
                       : Assets.images.icons.listRow)
@@ -46,7 +51,6 @@ class AddProductCategorySection extends StatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              onPressed: onLayoutToggle,
               style: IconButton.styleFrom(
                 minimumSize: Size(40.r, 40.r),
                 padding: EdgeInsets.zero,

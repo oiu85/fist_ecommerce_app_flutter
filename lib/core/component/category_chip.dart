@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../haptic/app_haptic.dart';
 import '../localization/app_text.dart';
 import '../theme/app_color_extension.dart';
 
@@ -74,7 +75,14 @@ class CategoryChip extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: child);
+      return GestureDetector(
+        onTap: () {
+          AppHaptic.selection();
+          onTap!();
+        },
+        behavior: HitTestBehavior.opaque,
+        child: child,
+      );
     }
 
     return child;

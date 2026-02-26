@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/theme/app_color_extension.dart';
@@ -67,7 +68,12 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               SizedBox(width: 8.w),
               IconButton(
-                onPressed: onSearchTap,
+                onPressed: onSearchTap != null
+                    ? () {
+                        AppHaptic.lightTap();
+                        onSearchTap!();
+                      }
+                    : null,
                 icon: Assets.images.icons.search.svg(
                   width: 24.r,
                   height: 24.r,
@@ -86,7 +92,12 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 backgroundColor: colorScheme.primary,
                 textColor: colorScheme.onPrimary,
                 child: IconButton(
-                  onPressed: onCartTap,
+                  onPressed: onCartTap != null
+                      ? () {
+                          AppHaptic.lightTap();
+                          onCartTap!();
+                        }
+                      : null,
                   icon: Assets.images.icons.cart.svg(
                     width: 24.r,
                     height: 24.r,

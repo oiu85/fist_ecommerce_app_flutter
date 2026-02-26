@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../haptic/app_haptic.dart';
+
 class AppScaffold extends StatelessWidget {
   final Widget body;
   final PreferredSizeWidget? appBar;
@@ -97,6 +99,7 @@ class AppScaffold extends StatelessWidget {
         Builder(
           builder: (context) => IconButton(
             onPressed: () {
+              AppHaptic.lightTap();
               // TODO: Navigate to notifications page when implemented
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Notifications coming soon')),
@@ -120,6 +123,7 @@ class AppScaffold extends StatelessWidget {
         Builder(
           builder: (context) => IconButton(
             onPressed: () {
+              AppHaptic.lightTap();
               Navigator.of(context).pop();
             },
             icon: const Icon(Icons.arrow_forward_outlined),

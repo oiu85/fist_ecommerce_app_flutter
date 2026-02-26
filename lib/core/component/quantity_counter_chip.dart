@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../haptic/app_haptic.dart';
 import '../localization/app_text.dart';
 import '../theme/app_color_extension.dart';
 
@@ -59,7 +60,12 @@ class QuantityCounterChip extends StatelessWidget {
               iconColor: iconColor ?? colorScheme.onSurface,
               borderColor: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
               size: (height ?? 40.h) - 16.h,
-              onTap: value > minValue ? onDecrement : null,
+              onTap: value > minValue
+                  ? () {
+                      AppHaptic.selection();
+                      onDecrement();
+                    }
+                  : null,
               iconSize: (((height ?? 40.h) - 16.h) * 0.45).clamp(12.0, 20.0),
             ),
             Expanded(
@@ -84,7 +90,12 @@ class QuantityCounterChip extends StatelessWidget {
               iconColor: iconColor ?? colorScheme.onSurface,
               borderColor: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
               size: (height ?? 40.h) - 16.h,
-              onTap: maxValue == null || value < maxValue! ? onIncrement : null,
+              onTap: maxValue == null || value < maxValue!
+                  ? () {
+                      AppHaptic.selection();
+                      onIncrement();
+                    }
+                  : null,
               iconSize: (((height ?? 40.h) - 16.h) * 0.45).clamp(12.0, 20.0),
             ),
           ],

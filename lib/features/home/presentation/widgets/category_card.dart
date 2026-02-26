@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
 
@@ -70,7 +71,14 @@ class CategoryCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: child);
+      return GestureDetector(
+        onTap: () {
+          AppHaptic.selection();
+          onTap!();
+        },
+        behavior: HitTestBehavior.opaque,
+        child: child,
+      );
     }
 
     return child;

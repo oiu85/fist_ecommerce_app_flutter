@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/component/quantity_counter_chip.dart';
+import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
 import '../../../../gen/assets.gen.dart';
@@ -153,7 +154,10 @@ class _DeleteButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: () {
+          AppHaptic.lightTap();
+          onTap();
+        },
         borderRadius: BorderRadius.circular(9999.r),
         splashColor: colorScheme.error.withValues(alpha: 0.16),
         highlightColor: colorScheme.error.withValues(alpha: 0.08),
