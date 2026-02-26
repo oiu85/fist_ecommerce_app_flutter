@@ -102,7 +102,10 @@ class $AssetsImagesIconsGen {
   SvgGenImage get arrowLeftSquare => const SvgGenImage('assets/images/icons/Arrow - Left Square.svg');
 
   /// File path: assets/images/icons/Arrow - Left.svg
-  SvgGenImage get arrowLeft => const SvgGenImage('assets/images/icons/Arrow - Left.svg');
+  SvgGenImage get arrowLeftSvg => const SvgGenImage('assets/images/icons/Arrow - Left.svg');
+
+  /// File path: assets/images/icons/arrow-left.svg
+  SvgGenImage get arrowLeftSvg_ => const SvgGenImage('assets/images/icons/arrow-left.svg');
 
   /// File path: assets/images/icons/Arrow - Right 2.svg
   SvgGenImage get arrowRight2 => const SvgGenImage('assets/images/icons/Arrow - Right 2.svg');
@@ -136,9 +139,6 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/Bag 2.svg
   SvgGenImage get bag2 => const SvgGenImage('assets/images/icons/Bag 2.svg');
-
-  /// File path: assets/images/icons/Bag.svg
-  SvgGenImage get bag => const SvgGenImage('assets/images/icons/Bag.svg');
 
   /// File path: assets/images/icons/Bookmark.svg
   SvgGenImage get bookmark => const SvgGenImage('assets/images/icons/Bookmark.svg');
@@ -368,6 +368,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/add_new.svg
   SvgGenImage get addNew => const SvgGenImage('assets/images/icons/add_new.svg');
 
+  /// File path: assets/images/icons/bag.svg
+  SvgGenImage get bag => const SvgGenImage('assets/images/icons/bag.svg');
+
   /// File path: assets/images/icons/calnder.svg
   SvgGenImage get calnder => const SvgGenImage('assets/images/icons/calnder.svg');
 
@@ -442,7 +445,8 @@ class $AssetsImagesIconsGen {
     arrowLeft3,
     arrowLeftCircle,
     arrowLeftSquare,
-    arrowLeft,
+    arrowLeftSvg,
+    arrowLeftSvg_,
     arrowRight2,
     arrowRight3,
     arrowRightCircle,
@@ -454,7 +458,6 @@ class $AssetsImagesIconsGen {
     arrowUpSquare,
     arrowUp,
     bag2,
-    bag,
     bookmark,
     buy,
     calendar,
@@ -531,6 +534,7 @@ class $AssetsImagesIconsGen {
     work,
     addSquare,
     addNew,
+    bag,
     calnder,
     cart,
     cartTransparent,

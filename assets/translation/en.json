@@ -257,7 +257,8 @@
     "copyFailed": "Failed to copy"
   },
   "product": {
-    "reviewsCount": "({count})"
+    "reviewsCount": "({count})",
+    "addToCart": "Add to Cart"
   },
   "home": {
     "appBarTitle": "Fist E-commerce",

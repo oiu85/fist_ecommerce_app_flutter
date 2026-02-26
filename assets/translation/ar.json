@@ -257,7 +257,8 @@
     "copyFailed": "فشل في النسخ"
   },
   "product": {
-    "reviewsCount": "({count})"
+    "reviewsCount": "({count})",
+    "addToCart": "أضف إلى السلة"
   },
   "home": {
     "appBarTitle": "فست للتجارة الإلكترونية",
