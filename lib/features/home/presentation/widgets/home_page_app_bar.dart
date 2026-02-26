@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/theme/app_color_extension.dart';
+import '../../../../gen/assets.gen.dart';
 
 class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomePageAppBar({super.key, this.title, this.cartCount = 0, this.onSearchTap, this.onCartTap});
@@ -43,7 +44,13 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                   borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(color: appColors?.primaryNavy ?? colorScheme.onSurface, width: 1),
                 ),
-                child: Icon(Icons.store_outlined, size: 18.r, color: colorScheme.onPrimary),
+                child: Center(
+                  child: Assets.images.icons.shop.svg(
+                    width: 18.r,
+                    height: 18.r,
+                    colorFilter: ColorFilter.mode(colorScheme.onPrimary, BlendMode.srcIn),
+                  ),
+                ),
               ),
               SizedBox(width: 8.w),
               Expanded(
@@ -61,7 +68,11 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
               SizedBox(width: 8.w),
               IconButton(
                 onPressed: onSearchTap,
-                icon: Icon(Icons.search, size: 24.r, color: colorScheme.onSurface),
+                icon: Assets.images.icons.search.svg(
+                  width: 24.r,
+                  height: 24.r,
+                  colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                ),
                 style: IconButton.styleFrom(
                   minimumSize: Size(40.r, 40.r),
                   padding: EdgeInsets.zero,
@@ -76,7 +87,11 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 textColor: colorScheme.onPrimary,
                 child: IconButton(
                   onPressed: onCartTap,
-                  icon: Icon(Icons.shopping_cart_outlined, size: 24.r, color: colorScheme.onSurface),
+                  icon: Assets.images.icons.cart.svg(
+                    width: 24.r,
+                    height: 24.r,
+                    colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                  ),
                   style: IconButton.styleFrom(
                     minimumSize: Size(40.r, 40.r),
                     padding: EdgeInsets.zero,

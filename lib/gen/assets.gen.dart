@@ -362,11 +362,17 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/Work.svg
   SvgGenImage get work => const SvgGenImage('assets/images/icons/Work.svg');
 
+  /// File path: assets/images/icons/add-square.svg
+  SvgGenImage get addSquare => const SvgGenImage('assets/images/icons/add-square.svg');
+
   /// File path: assets/images/icons/add_new.svg
   SvgGenImage get addNew => const SvgGenImage('assets/images/icons/add_new.svg');
 
   /// File path: assets/images/icons/calnder.svg
   SvgGenImage get calnder => const SvgGenImage('assets/images/icons/calnder.svg');
+
+  /// File path: assets/images/icons/cart.svg
+  SvgGenImage get cart => const SvgGenImage('assets/images/icons/cart.svg');
 
   /// File path: assets/images/icons/cart_transparent.svg
   SvgGenImage get cartTransparent => const SvgGenImage('assets/images/icons/cart_transparent.svg');
@@ -398,6 +404,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/increse_plus.svg
   SvgGenImage get incresePlus => const SvgGenImage('assets/images/icons/increse_plus.svg');
 
+  /// File path: assets/images/icons/list-row.svg
+  SvgGenImage get listRow => const SvgGenImage('assets/images/icons/list-row.svg');
+
   /// File path: assets/images/icons/lsit.svg
   SvgGenImage get lsit => const SvgGenImage('assets/images/icons/lsit.svg');
 
@@ -406,6 +415,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/sdollar.svg
   SvgGenImage get sdollar => const SvgGenImage('assets/images/icons/sdollar.svg');
+
+  /// File path: assets/images/icons/shop.svg
+  SvgGenImage get shop => const SvgGenImage('assets/images/icons/shop.svg');
 
   /// File path: assets/images/icons/syrian_flag.svg
   SvgGenImage get syrianFlag => const SvgGenImage('assets/images/icons/syrian_flag.svg');
@@ -517,8 +529,10 @@ class $AssetsImagesIconsGen {
     volumeUp,
     wallet,
     work,
+    addSquare,
     addNew,
     calnder,
+    cart,
     cartTransparent,
     chat,
     checkBox,
@@ -529,9 +543,11 @@ class $AssetsImagesIconsGen {
     editPen,
     eye,
     incresePlus,
+    listRow,
     lsit,
     rooms,
     sdollar,
+    shop,
     syrianFlag,
     ukFlag,
     users,

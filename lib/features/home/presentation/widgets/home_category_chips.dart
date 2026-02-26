@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/component/category_chip.dart';
+import '../../../../gen/assets.gen.dart';
 
 import 'home_category_grid.dart';
 
@@ -80,10 +81,10 @@ class HomeCategorySection extends StatelessWidget {
             ),
             if (onLayoutToggle != null)
               IconButton(
-                icon: Icon(
-                  layoutStyle == CategoryLayoutStyle.row ? Icons.grid_view_rounded : Icons.view_agenda_rounded,
-                  size: 22.r,
-                ),
+                icon: (layoutStyle == CategoryLayoutStyle.row
+                        ? Assets.images.icons.category
+                        : Assets.images.icons.listRow)
+                    .svg(width: 22.r, height: 22.r),
                 onPressed: onLayoutToggle,
                 style: IconButton.styleFrom(minimumSize: Size(40.r, 40.r), padding: EdgeInsets.zero),
               ),

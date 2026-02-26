@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../gen/assets.gen.dart';
 import '../../gen/fonts.gen.dart';
 import '../localization/locale_keys.g.dart';
 import '../theme/app_color_extension.dart';
@@ -53,9 +54,66 @@ class CustomBottomNavBar extends StatelessWidget {
             tabBackgroundColor: colorScheme.primaryContainer.withValues(alpha: 0.35),
             tabBorderRadius: 24.r,
             tabs: [
-              GButton(icon: Icons.home_outlined, text: LocaleKeys.home_navHome.tr()),
-              GButton(icon: Icons.shopping_cart_outlined, text: LocaleKeys.home_navCart.tr()),
-              GButton(icon: Icons.add_box_outlined, text: LocaleKeys.home_navAddProduct.tr()),
+              GButton(
+                icon: Icons.circle,
+                iconActiveColor: Colors.transparent,
+                iconColor: Colors.transparent,
+                leading: SizedBox(
+                  width: 22.r,
+                  height: 22.r,
+                  child: Assets.images.icons.home.svg(
+                    width: 22.r,
+                    height: 22.r,
+                    colorFilter: ColorFilter.mode(
+                      selectedIndex == 0
+                          ? colorScheme.primary
+                          : colorScheme.onSurface.withValues(alpha: 0.6),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                text: LocaleKeys.home_navHome.tr(),
+              ),
+              GButton(
+                icon: Icons.circle,
+                iconActiveColor: Colors.transparent,
+                iconColor: Colors.transparent,
+                leading: SizedBox(
+                  width: 22.r,
+                  height: 22.r,
+                  child: Assets.images.icons.cart.svg(
+                    width: 22.r,
+                    height: 22.r,
+                    colorFilter: ColorFilter.mode(
+                      selectedIndex == 1
+                          ? colorScheme.primary
+                          : colorScheme.onSurface.withValues(alpha: 0.6),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                text: LocaleKeys.home_navCart.tr(),
+              ),
+              GButton(
+                icon: Icons.circle,
+                iconActiveColor: Colors.transparent,
+                iconColor: Colors.transparent,
+                leading: SizedBox(
+                  width: 22.r,
+                  height: 22.r,
+                  child: Assets.images.icons.addSquare.svg(
+                    width: 22.r,
+                    height: 22.r,
+                    colorFilter: ColorFilter.mode(
+                      selectedIndex == 2
+                          ? colorScheme.primary
+                          : colorScheme.onSurface.withValues(alpha: 0.6),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                text: LocaleKeys.home_navAddProduct.tr(),
+              ),
             ],
           ),
         ),
