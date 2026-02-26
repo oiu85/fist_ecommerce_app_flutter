@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../mock_data/home_mock_data.dart';
+import '../../../../mock_data/product_details_mock_data.dart';
 import '../widgets/home_category_chips.dart';
 import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_product_grid.dart';
@@ -55,8 +58,8 @@ class _HomePageState extends State<HomePage> {
           buildHomeProductGridSliver(
             context,
             items: defaultHomeProductGridItems,
-            onProductTap: (_) {
-              //! TODO: Navigate to product detail when implemented.
+            onProductTap: (item) {
+              context.push(AppRoutes.productDetails, extra: payloadFromHomeItem(item));
             },
           ),
         ],

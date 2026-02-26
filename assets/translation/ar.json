@@ -258,7 +258,11 @@
   },
   "product": {
     "reviewsCount": "({count})",
-    "addToCart": "أضف إلى السلة"
+    "addToCart": "أضف إلى السلة",
+    "quantity": "الكمية",
+    "freeShipping": "شحن مجاني",
+    "twoYearWarranty": "ضمان سنتين",
+    "thirtyDayReturns": "إرجاع 30 يوم"
   },
   "home": {
     "appBarTitle": "فست للتجارة الإلكترونية",

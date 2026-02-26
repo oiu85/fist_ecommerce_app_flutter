@@ -258,7 +258,11 @@
   },
   "product": {
     "reviewsCount": "({count})",
-    "addToCart": "Add to Cart"
+    "addToCart": "Add to Cart",
+    "quantity": "Quantity",
+    "freeShipping": "Free\nShipping",
+    "twoYearWarranty": "2 Year\nWarranty",
+    "thirtyDayReturns": "30 Day\nReturns"
   },
   "home": {
     "appBarTitle": "Fist E-commerce",

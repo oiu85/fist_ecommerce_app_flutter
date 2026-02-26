@@ -50,7 +50,7 @@ class QuantityCounterChip extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.r),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -58,9 +58,9 @@ class QuantityCounterChip extends StatelessWidget {
               icon: Icons.remove,
               iconColor: iconColor ?? colorScheme.onSurface,
               borderColor: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
-              size: 32.r,
+              size: (height ?? 40.h) - 16.h,
               onTap: value > minValue ? onDecrement : null,
-              iconSize: 12.r,
+              iconSize: (((height ?? 40.h) - 16.h) * 0.45).clamp(12.0, 20.0),
             ),
             Expanded(
               child: Center(
@@ -70,10 +70,9 @@ class QuantityCounterChip extends StatelessWidget {
                   style:
                       textStyle ??
                       textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        height: 1.5,
-                        letterSpacing: -0.5,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp,
+                  
                         color: colorScheme.onSurface,
                       ),
                   textAlign: TextAlign.center,
@@ -84,9 +83,9 @@ class QuantityCounterChip extends StatelessWidget {
               icon: Icons.add,
               iconColor: iconColor ?? colorScheme.onSurface,
               borderColor: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
-              size: 32.r,
+              size: (height ?? 40.h) - 16.h,
               onTap: maxValue == null || value < maxValue! ? onIncrement : null,
-              iconSize: 12.r,
+              iconSize: (((height ?? 40.h) - 16.h) * 0.45).clamp(12.0, 20.0),
             ),
           ],
         ),
@@ -115,18 +114,15 @@ class _CounterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Container(
+    final child = SizedBox(
       width: size,
       height: size,
-      decoration: ShapeDecoration(
-        color: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.circular(9999),
-        ),
-      ),
       child: Center(
-        child: Icon(icon, size: iconSize, color: onTap != null ? iconColor : iconColor.withValues(alpha: 0.4)),
+        child: Icon(
+          icon,
+          size: iconSize,
+          color: onTap != null ? iconColor : iconColor.withValues(alpha: 0.4),
+        ),
       ),
     );
 

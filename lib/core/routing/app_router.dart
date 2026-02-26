@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/pages/main_container_page.dart';
+import '../../features/product_details/presentation/pages/product_details_page.dart';
+import '../../mock_data/product_details_mock_data.dart';
 import '../di/app_dependencies.dart';
 import '../storage/app_storage_service.dart';
 import 'app_routes.dart';
@@ -40,6 +42,17 @@ class AppRouter {
           path: '/home',
           name: 'homeNamed',
           builder: (context, state) => const MainContainerPage(),
+        ),
+        GoRoute(
+          path: AppRoutes.productDetails,
+          name: 'productDetails',
+          builder: (context, state) {
+            final payload = state.extra as ProductDetailsPayload?;
+            return ProductDetailsPage(
+              payload: payload ?? mockProductDetailsPayload,
+              onBack: () => context.pop(),
+            );
+          },
         ),
       ],
     );

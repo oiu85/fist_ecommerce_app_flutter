@@ -7,6 +7,7 @@ abstract class AppRoutes {
   static const String resetPassword = '/auth/reset-password';
   static const String home = '/home';
   static const String donate = '/donate';
+  static const String productDetails = '/product-details';
 
   // Add more routes here as needed
   // static const String profile = '/profile';
