@@ -47,10 +47,14 @@ Widget buildHomeProductListSliver(
               onTap: tapHandler,
             ),
           );
-          if (!AnimationConstants.shouldReduceMotion(context)) {
-            return card.staggeredItem(index: index, scrollOptimized: true);
-          }
-          return card;
+          final child = !AnimationConstants.shouldReduceMotion(context)
+              ? card.staggeredItem(index: index, scrollOptimized: true)
+              : card;
+          //* Stable key reduces element churn on scroll.
+          return KeyedSubtree(
+            key: ValueKey<int>(index),
+            child: child,
+          );
         },
         childCount: items.length,
       ),

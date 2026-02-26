@@ -65,6 +65,18 @@ class _HomePageState extends State<HomePage> {
           }
         },
         child: BlocBuilder<HomeBloc, HomeState>(
+          //* Rebuild only when body or app bar content actually changes.
+          buildWhen: (prev, curr) =>
+              prev.status != curr.status ||
+              prev.isRefreshing != curr.isRefreshing ||
+              prev.isSearchMode != curr.isSearchMode ||
+              prev.products != curr.products ||
+              prev.categories != curr.categories ||
+              prev.selectedCategory != curr.selectedCategory ||
+              prev.categoryLayoutStyle != curr.categoryLayoutStyle ||
+              prev.productViewStyle != curr.productViewStyle ||
+              (curr.status.isFail() &&
+                  prev.homeStatus != curr.homeStatus),
           builder: (blocContext, state) {
             return AppScaffold.custom(
                   backgroundColor: Theme.of(context).colorScheme.surface,

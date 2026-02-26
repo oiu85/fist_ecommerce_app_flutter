@@ -41,6 +41,7 @@ class HomeCategoryGrid extends StatelessWidget {
             child: Wrap(
               spacing: 12.w,
               runSpacing: 12.h,
+              //* Category count from API is small (<10); List.generate is acceptable.
               children: List.generate(categories.length, (index) {
                 final category = categories[index];
                 final cardWidth = (MediaQuery.sizeOf(context).width - horizontalPadding * 2 - 12.w) / 2;

@@ -27,7 +27,7 @@ class ProductCardImage extends StatelessWidget {
       height: size,
       child: Center(
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           child: ColoredBox(
             color: backgroundColor,
             child: SizedBox(

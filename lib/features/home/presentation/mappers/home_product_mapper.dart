@@ -11,7 +11,7 @@ import '../../../product_details/presentation/pages/product_details_page.dart';
 String _formatPrice(double price) =>
     NumberFormat.currency(symbol: r'$', decimalDigits: 2).format(price);
 
-/// Maps domain [Product] to [HomeProductGridItem] for grid/list display.
+
 HomeProductGridItem productToGridItem(Product product) =>
     HomeProductGridItem(
       name: product.title,
