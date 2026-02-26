@@ -20,6 +20,8 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
   // Component colors
   final Color componentBackground;
   final Color borderColor;
+  /// Star rating color for product cards, reviews.
+  final Color starRating;
 
   const AppColorExtension({
     required this.accentHover,
@@ -34,6 +36,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     required this.warningBackground,
     required this.componentBackground,
     required this.borderColor,
+    required this.starRating,
   });
 
   //* Light: primary (green) accent only — secondary color removed
@@ -50,6 +53,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     warningBackground: AppColors.warningAmberLight,
     componentBackground: AppColors.componentsBackground,
     borderColor: AppColors.borderColor,
+    starRating: AppColors.starRatingYellow,
   );
 
   //* Dark: same primary (green) accent — no secondary color
@@ -66,6 +70,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     warningBackground: AppColors.warningAmberLight,
     componentBackground: AppColors.componentsBackground,
     borderColor: AppColors.borderColor,
+    starRating: AppColors.starRatingYellow,
   );
 
   @override
@@ -82,6 +87,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     Color? warningBackground,
     Color? componentBackground,
     Color? borderColor,
+    Color? starRating,
   }) {
     return AppColorExtension(
       accentHover: accentHover ?? this.accentHover,
@@ -96,6 +102,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
       warningBackground: warningBackground ?? this.warningBackground,
       componentBackground: componentBackground ?? this.componentBackground,
       borderColor: borderColor ?? this.borderColor,
+      starRating: starRating ?? this.starRating,
     );
   }
 
@@ -115,6 +122,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
       warningBackground: Color.lerp(warningBackground, other.warningBackground, t)!,
       componentBackground: Color.lerp(componentBackground, other.componentBackground, t)!,
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
+      starRating: Color.lerp(starRating, other.starRating, t)!,
     );
   }
 }

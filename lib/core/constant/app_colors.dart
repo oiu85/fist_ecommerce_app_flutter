@@ -101,8 +101,8 @@ class AppColors {
   // Components Background
   static const Color componentsBackground = Color(0xFFF9F2ED); // rgb(249, 242, 237)
   
-  // Border Color
-  static const Color borderColor = Color(0xFFEDD6C8); // rgb(237, 214, 200)
+  //* Border color — preferred gray for cards, chips, inputs
+  static const Color borderColor = Color(0xFFF3F4F6); // rgb(243, 244, 246)
 
   //* ==================== Status Colors ====================
   
@@ -113,4 +113,5 @@ class AppColors {
   // Warning (yellow/amber) - for end booking/warning states
   static const Color warningAmber = Color(0xFFB3A41D); // rgb(179, 164, 29)
   static const Color warningAmberLight = Color(0xFFFDF8E8); // rgb(253, 248, 232)
+  static const Color starRatingYellow = Color(0xFFFFC107); // rgb(255, 193, 7)
 }

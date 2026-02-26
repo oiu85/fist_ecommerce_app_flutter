@@ -251,6 +251,11 @@ abstract class  LocaleKeys {
   static const home_navHome = 'home.navHome';
   static const home_navCart = 'home.navCart';
   static const home_navAddProduct = 'home.navAddProduct';
+  static const home_categoryAll = 'home.categoryAll';
+  static const home_categoryElectronics = 'home.categoryElectronics';
+  static const home_categoryJewelery = 'home.categoryJewelery';
+  static const home_categoryMensClothing = 'home.categoryMensClothing';
+  static const home_categoryWomensClothing = 'home.categoryWomensClothing';
   static const home = 'home';
 
 }

@@ -19,12 +19,6 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onSearchTap;
   final VoidCallback? onCartTap;
 
-  static const double _logoSize = 32;
-  static const double _logoRadius = 8;
-  static const double _actionSize = 40;
-  static const double _horizontalPadding = 20;
-  static const double _spacing = 8;
-
   @override
   Size get preferredSize => Size.fromHeight(56.h + 16.h);
 
@@ -40,8 +34,6 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     final effectiveTitle = title ?? LocaleKeys.home_appBarTitle;
     final titleStyle = textTheme.headlineSmall?.copyWith(
       fontWeight: FontWeight.w700,
-      height: 1.4,
-      letterSpacing: -0.5,
       color: colorScheme.onSurface,
     );
 
@@ -56,15 +48,15 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: _horizontalPadding.w),
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
             children: [
               Container(
-                width: _logoSize.r,
-                height: _logoSize.r,
+                width: 32.r,
+                height: 32.r,
                 decoration: BoxDecoration(
                   color: colorScheme.primary,
-                  borderRadius: BorderRadius.circular(_logoRadius.r),
+                  borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(
                     color: borderColor,
                     width: 1,
@@ -76,17 +68,17 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                   color: colorScheme.onPrimary,
                 ),
               ),
-              SizedBox(width: _spacing.w),
+              SizedBox(width: 8.w),
               Expanded(
                 child: AppText(
                   effectiveTitle,
                   translation: useTitleKey,
                   style: titleStyle,
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  isAutoScale: true,
                 ),
               ),
-              SizedBox(width: _spacing.w),
+              SizedBox(width: 8.w),
               IconButton(
                 onPressed: onSearchTap,
                 icon: Icon(
@@ -95,12 +87,12 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                   color: colorScheme.onSurface,
                 ),
                 style: IconButton.styleFrom(
-                  minimumSize: Size(_actionSize.r, _actionSize.r),
+                  minimumSize: Size(40.r, 40.r),
                   padding: EdgeInsets.zero,
                   shape: const CircleBorder(),
                 ),
               ),
-              SizedBox(width: _spacing.w),
+              SizedBox(width: 8.w),
               Badge(
                 isLabelVisible: cartCount > 0,
                 label: Text(cartCount > 99 ? '99+' : '$cartCount'),
@@ -114,7 +106,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: colorScheme.onSurface,
                   ),
                   style: IconButton.styleFrom(
-                    minimumSize: Size(_actionSize.r, _actionSize.r),
+                    minimumSize: Size(40.r, 40.r),
                     padding: EdgeInsets.zero,
                     shape: const CircleBorder(),
                   ),

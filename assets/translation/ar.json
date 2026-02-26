@@ -263,6 +263,11 @@
     "appBarTitle": "فست للتجارة الإلكترونية",
     "navHome": "الرئيسية",
     "navCart": "السلة",
-    "navAddProduct": "إضافة منتج"
+    "navAddProduct": "إضافة منتج",
+    "categoryAll": "الكل",
+    "categoryElectronics": "إلكترونيات",
+    "categoryJewelery": "مجوهرات",
+    "categoryMensClothing": "ملابس رجالية",
+    "categoryWomensClothing": "ملابس نسائية"
   }
 }

@@ -31,14 +31,7 @@ class QuantityCounterChip extends StatelessWidget {
   final TextStyle? textStyle;
   final double? width;
   final double? height;
-  static const double _designWidth = 112;
-  static const double _designHeight = 40;
-  static const double _pillRadius = 9999;
-  static const double _buttonSize = 32;
-  static const double _inset = 4;
-  static const double _iconSize = 12;
 
-  
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -61,10 +54,10 @@ class QuantityCounterChip extends StatelessWidget {
     final canDecrement = value > minValue;
     final canIncrement = maxValue == null || value < maxValue!;
 
-    final chipWidth = width ?? _designWidth.w;
-    final chipHeight = height ?? _designHeight.h;
-    final buttonSize = _buttonSize.r;
-    final inset = _inset.r;
+    final chipWidth = width ?? 112.w;
+    final chipHeight = height ?? 40.h;
+    final buttonSize = 32.r;
+    final inset = 4.r;
 
     return Container(
       width: chipWidth,
@@ -73,7 +66,7 @@ class QuantityCounterChip extends StatelessWidget {
         color: effectiveBg,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: effectiveBorder),
-          borderRadius: BorderRadius.circular(_pillRadius.r),
+          borderRadius: BorderRadius.circular(9999.r),
         ),
       ),
       child: Padding(
@@ -81,16 +74,14 @@ class QuantityCounterChip extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //* Minus button (circular, left).
             _CounterButton(
               icon: Icons.remove,
               iconColor: effectiveIconColor,
               borderColor: effectiveBorder,
               size: buttonSize,
               onTap: canDecrement ? onDecrement : null,
-              iconSize: _iconSize.r,
+              iconSize: 12.r,
             ),
-            //* Quantity value (centered).
             Expanded(
               child: Center(
                 child: AppText(
@@ -101,14 +92,13 @@ class QuantityCounterChip extends StatelessWidget {
                 ),
               ),
             ),
-            //* Plus button (circular, right).
             _CounterButton(
               icon: Icons.add,
               iconColor: effectiveIconColor,
               borderColor: effectiveBorder,
               size: buttonSize,
               onTap: canIncrement ? onIncrement : null,
-              iconSize: _iconSize.r,
+              iconSize: 12.r,
             ),
           ],
         ),

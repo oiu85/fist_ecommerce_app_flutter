@@ -1,22 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/home/presentation/pages/main_container_page.dart';
 import '../di/app_dependencies.dart';
 import '../storage/app_storage_service.dart';
 import 'app_routes.dart';
 
 class AppRouter {
-  /// Creates and returns the router with authentication-aware redirect logic.
+  /// Creates and returns the router; initial page is home.
   static Future<GoRouter> createRouter() async {
-    // Check authentication status to set initial location
-    final storageService = getIt<AppStorageService>();
-    final token = await storageService.getAccessToken();
-    final initialLocation = (token != null && token.isNotEmpty)
-        ? AppRoutes.home
-        : AppRoutes.login;
-
     return GoRouter(
-      initialLocation: initialLocation,
+      initialLocation: '/',
       debugLogDiagnostics: kDebugMode,
       redirect: (context, state) async {
         final storageService = getIt<AppStorageService>();
@@ -24,20 +18,30 @@ class AppRouter {
         final isAuthenticated = token != null && token.isNotEmpty;
         final isLoginRoute = state.matchedLocation == AppRoutes.login;
 
-        // If authenticated and trying to access login, redirect to home
+        //? If authenticated and on login, go to home
         if (isAuthenticated && isLoginRoute) {
           return AppRoutes.home;
         }
 
-        // If not authenticated and trying to access protected routes, redirect to login
-        if (!isAuthenticated && !isLoginRoute) {
-          return AppRoutes.login;
-        }
+        //? Auth redirect disabled until login route exists — show home for all
+        // if (!isAuthenticated && !isLoginRoute) {
+        //   return AppRoutes.login;
+        // }
 
-        // No redirect needed
         return null;
       },
-      routes: [],
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/',
+          name: 'home',
+          builder: (context, state) => const MainContainerPage(),
+        ),
+        GoRoute(
+          path: '/home',
+          name: 'homeNamed',
+          builder: (context, state) => const MainContainerPage(),
+        ),
+      ],
     );
   }
 

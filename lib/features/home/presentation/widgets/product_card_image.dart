@@ -9,47 +9,58 @@ class ProductCardImage extends StatelessWidget {
     required this.size,
     required this.borderColor,
     required this.backgroundColor,
-    this.imagePadding = 16,
     this.formatUrl = false,
   });
+
   final String imageUrl;
   final double size;
   final Color borderColor;
   final Color backgroundColor;
-  final double imagePadding;
   final bool formatUrl;
+
+  static bool isAssetPath(String url) =>
+      url.trim().toLowerCase().startsWith('assets/');
 
   @override
   Widget build(BuildContext context) {
-    final innerSize = size - (imagePadding * 2);
 
-    return Container(
+    return SizedBox(
       width: size,
       height: size,
-      decoration: ShapeDecoration(
-        color: backgroundColor,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: borderColor),
-        ),
-      ),
       child: Center(
         child: Container(
-          width: innerSize > 0 ? innerSize : size,
-          height: innerSize > 0 ? innerSize : size,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: borderColor),
             ),
           ),
           clipBehavior: Clip.antiAlias,
-          child: AppCachedNetworkImage(
-            imageUrl: imageUrl,
-            width: innerSize > 0 ? innerSize : null,
-            height: innerSize > 0 ? innerSize : null,
-            fit: BoxFit.cover,
-            formatUrl: formatUrl,
-          ),
+          child: isAssetPath(imageUrl)
+              ? Image.asset(
+                  imageUrl,
+                  width: size,
+                  height: size,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _defaultError(context),
+                )
+              : AppCachedNetworkImage(
+                  imageUrl: imageUrl,
+                  width: size,
+                  height: size,
+                  fit: BoxFit.cover,
+                  formatUrl: formatUrl,
+                ),
         ),
+      ),
+    );
+  }
+
+  Widget _defaultError(BuildContext context) {
+
+    return Center(
+      child: Icon(
+        Icons.broken_image_outlined,
+        size: size > 0 ? (size * 0.5) : 24,
+        color: Theme.of(context).colorScheme.outline,
       ),
     );
   }

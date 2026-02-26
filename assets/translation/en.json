@@ -263,6 +263,11 @@
     "appBarTitle": "Fist E-commerce",
     "navHome": "Home",
     "navCart": "Cart",
-    "navAddProduct": "Add Product"
+    "navAddProduct": "Add Product",
+    "categoryAll": "All",
+    "categoryElectronics": "Electronics",
+    "categoryJewelery": "Jewelery",
+    "categoryMensClothing": "Men's clothing",
+    "categoryWomensClothing": "Women's clothing"
   }
 }

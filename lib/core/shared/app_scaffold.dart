@@ -75,6 +75,8 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    //* When appBar is set, body must start below it so content (e.g. chips) is visible.
+    final extendBehindAppBar = appBar == null;
     return Scaffold(
       appBar: appBar,
       drawer: drawer,
@@ -83,7 +85,7 @@ class AppScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       backgroundColor: backgroundColor ?? theme.scaffoldBackgroundColor,
       extendBody: true,
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: extendBehindAppBar,
       resizeToAvoidBottomInset: true,
     );
   }

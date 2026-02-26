@@ -39,13 +39,6 @@ class AppFilledButton extends StatelessWidget {
   final double? borderRadius;
   final Color? borderColor;
 
-  static const double _designWidth = 335;
-  static const double _designHeight = 56;
-  static const double _designRadius = 16;
-  static const double _shadowOpacity = 0.1;
-  static const double _defaultIconSize = 20;
-  static const double _defaultIconSpacing = 8;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -56,11 +49,11 @@ class AppFilledButton extends StatelessWidget {
     final resolvedBackground = backgroundColor ?? colorScheme.primary;
     final resolvedForeground = foregroundColor ?? colorScheme.onPrimary;
     final resolvedBorder = borderColor ?? appColors?.borderColor ?? colorScheme.outline;
-    final resolvedRadius = BorderRadius.circular((borderRadius ?? _designRadius).r);
-    final shadowColor = theme.shadowColor.withValues(alpha: _shadowOpacity);
+    final resolvedRadius = BorderRadius.circular((borderRadius ?? 16).r);
+    final shadowColor = theme.shadowColor.withValues(alpha: 0.1);
 
-    final buttonWidth = width ?? _designWidth.w;
-    final buttonHeight = height ?? _designHeight.h;
+    final buttonWidth = width ?? 335.w;
+    final buttonHeight = height ?? 56.h;
 
     final textWidget = AppText(
       labelKey ?? label ?? '',
@@ -69,14 +62,12 @@ class AppFilledButton extends StatelessWidget {
         color: resolvedForeground,
         fontWeight: FontWeight.w600,
         fontSize: 16.sp,
-        height: 1.25,
-        letterSpacing: -0.5,
       ),
       textAlign: TextAlign.center,
     );
 
-    final effectiveIconSize = (iconSize ?? _defaultIconSize).r;
-    final effectiveIconSpacing = iconSpacing ?? _defaultIconSpacing.w;
+    final effectiveIconSize = (iconSize ?? 20).r;
+    final effectiveIconSpacing = iconSpacing ?? 8.w;
 
     final content = icon != null
         ? Row(

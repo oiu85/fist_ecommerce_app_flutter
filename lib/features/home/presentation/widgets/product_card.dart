@@ -31,13 +31,6 @@ class ProductCard extends StatelessWidget {
 
   final VoidCallback? onTap;
 
-  static const double _designCardWidth = 163.5;
-  static const double _designCardHeight = 283.5;
-  static const double _designImageSize = 161.5;
-  static const double _designRadius = 12;
-  static const double _imagePadding = 16;
-  static const double _contentPadding = 12;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -45,41 +38,38 @@ class ProductCard extends StatelessWidget {
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
     final borderColor = appColors?.borderColor ?? colorScheme.outline;
-    final starColor = appColors?.warning ?? colorScheme.tertiary;
+    final starColor = appColors?.starRating ?? colorScheme.tertiary;
 
-    final cardWidth = width ?? _designCardWidth.w;
-    final imageSize = (cardWidth - 2).clamp(0.0, _designImageSize.w);
+    final cardWidth = width ?? 163.5.w;
+    final imageSize = (cardWidth - 2).clamp(0.0, double.infinity);
 
     return RepaintBoundary(
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           width: cardWidth,
-          height: _designCardHeight.h,
+          height: 283.5.h,
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: colorScheme.surface,
             shape: RoundedRectangleBorder(
               side: BorderSide(width: 1, color: borderColor),
-              borderRadius: BorderRadius.circular(_designRadius.r),
+              borderRadius: BorderRadius.circular(12.r),
             ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //* Image section — square area with light background and bordered image.
               ProductCardImage(
                 imageUrl: imageUrl,
                 size: imageSize,
                 borderColor: borderColor,
                 backgroundColor: colorScheme.surfaceContainerHighest,
-                imagePadding: _imagePadding,
               ),
-              //* Details section — name, rating, price.
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(_contentPadding.w),
+                  padding: EdgeInsets.all(8.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -88,22 +78,16 @@ class ProductCard extends StatelessWidget {
                       AppText(
                         name,
                         translation: false,
-                        style: textTheme.titleMedium?.copyWith(
-                          height: 1.43,
-                          letterSpacing: -0.5,
-                        ),
+                        style: textTheme.titleMedium,
                         maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        isAutoScale: true,
                       ),
                       SizedBox(height: 8.h),
-                      //? Rating row — stars + localized review count (core component).
                       StarRatingRow(
                         rating: rating,
                         reviewCount: reviewCount,
                         starColor: starColor,
                         textStyle: textTheme.bodySmall?.copyWith(
-                          height: 1.33,
-                          letterSpacing: -0.5,
                         ),
                       ),
                       const Spacer(),
@@ -111,11 +95,11 @@ class ProductCard extends StatelessWidget {
                       AppText(
                         priceFormatted,
                         translation: false,
+                        maxLines: 1,
+                        isAutoScale: true,
                         style: textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.w700,
                           color: colorScheme.primary,
-                          height: 1.56,
-                          letterSpacing: -0.5,
                         ),
                       ),
                     ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/component/custom_bottom_nav_bar.dart';
 import '../../../../core/shared/app_scaffold.dart';
+import 'home_page.dart';
 
 class MainContainerPage extends StatefulWidget {
   const MainContainerPage({super.key});
@@ -51,7 +52,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: _onPageChanged,
           children: const [
-            _HomePlaceholderPage(),
+            HomePage(),
             _CartPlaceholderPage(),
             _AddProductPlaceholderPage(),
           ],
@@ -80,13 +81,6 @@ class _ComingSoonPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class _HomePlaceholderPage extends StatelessWidget {
-  const _HomePlaceholderPage();
-
-  @override
-  Widget build(BuildContext context) => const _ComingSoonPage();
 }
 
 class _CartPlaceholderPage extends StatelessWidget {

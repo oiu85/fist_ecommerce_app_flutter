@@ -8,7 +8,7 @@ import '../theme/app_color_extension.dart';
 
 //* Reusable star-rating widget for product cards, reviews, etc.
 /// Renders up to [maxStars] stars: filled, half, or outline based on [rating].
-/// Uses theme [AppColorExtension.warning] when [color] is null.
+/// Uses theme [AppColorExtension.starRating] when [color] is null.
 class StarRating extends StatelessWidget {
   const StarRating({
     super.key,
@@ -22,7 +22,7 @@ class StarRating extends StatelessWidget {
   /// Rating value in range [0, maxStars]; supports half steps (e.g. 4.5).
   final double rating;
 
-  /// Star color; when null uses [Theme] extension [AppColorExtension.warning]
+  /// Star color; when null uses [Theme] extension [AppColorExtension.starRating]
   /// or [ColorScheme.tertiary].
   final Color? color;
 
@@ -42,7 +42,7 @@ class StarRating extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final effectiveColor = color ??
-        theme.extension<AppColorExtension>()?.warning ??
+        theme.extension<AppColorExtension>()?.starRating ??
         theme.colorScheme.tertiary;
     final effectiveSize = (size ?? _defaultSize).r;
     final effectiveSpacing = spacing ?? 2.w;
@@ -88,7 +88,7 @@ class StarRatingRow extends StatelessWidget {
   /// Number of reviews; shown via localized "({count})" string.
   final int reviewCount;
 
-  /// Star color; when null uses theme [AppColorExtension.warning].
+  /// Star color; when null uses theme [AppColorExtension.starRating].
   final Color? starColor;
 
   /// Style for the review count text; when null uses [TextTheme.bodySmall].

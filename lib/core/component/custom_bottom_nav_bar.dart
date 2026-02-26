@@ -35,7 +35,7 @@ class CustomBottomNavBar extends StatelessWidget {
         color: bg,
         boxShadow: [
           BoxShadow(
-            blurRadius: 20,
+            blurRadius: 20.r,
             color: theme.shadowColor.withValues(alpha: 0.1),
           ),
         ],
@@ -48,7 +48,7 @@ class CustomBottomNavBar extends StatelessWidget {
             onTabChange: onTabChange,
             rippleColor: colorScheme.surfaceContainerHighest,
             hoverColor: colorScheme.surfaceContainerHighest,
-            gap: 8,
+            gap: 8.w,
             activeColor: activeColor,
             color: inactiveColor,
             iconSize: 24.r,

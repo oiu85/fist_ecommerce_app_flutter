@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +10,7 @@ class StorageKeys {
   static const String accessToken = 'access_token';
   static const String userName = 'user_name';
   static const String locale = 'locale';
+  static const String themeMode = 'theme_mode';
 }
 
 abstract class AppStorageService {
@@ -31,6 +31,10 @@ abstract class AppStorageService {
   Future<Locale?> getLocale();
 
   Future<void> setLocale(Locale locale);
+
+  Future<ThemeMode?> getThemeMode();
+
+  Future<void> setThemeMode(ThemeMode mode);
 }
 
 //? SharedPreferences implementation of AppStorageService
@@ -99,5 +103,19 @@ class SharedPreferencesStorageService implements AppStorageService {
     await _prefs.setString(StorageKeys.locale, locale.languageCode);
   }
 
+  @override
+  Future<ThemeMode?> getThemeMode() async {
+    final index = _prefs.getInt(StorageKeys.themeMode);
+    if (index == null) return null;
+    if (index >= 0 && index <= 2) {
+      return ThemeMode.values[index];
+    }
+    return null;
+  }
+
+  @override
+  Future<void> setThemeMode(ThemeMode mode) async {
+    await _prefs.setInt(StorageKeys.themeMode, mode.index);
+  }
 }
 

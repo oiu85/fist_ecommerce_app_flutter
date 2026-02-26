@@ -4,13 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../localization/app_text.dart';
 import '../theme/app_color_extension.dart';
 
-/// Use for category filters, tags, or selection chips.
+
 class CategoryChip extends StatelessWidget {
   const CategoryChip({
     super.key,
     required this.label,
     this.onTap,
     this.selected = false,
+    this.labelIsLocaleKey = false,
     this.width,
     this.height,
     this.horizontalPadding,
@@ -22,17 +23,13 @@ class CategoryChip extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
   final bool selected;
+  final bool labelIsLocaleKey;
   final double? width;
   final double? height;
   final double? horizontalPadding;
   final Color? backgroundColor;
   final Color? borderColor;
   final TextStyle? textStyle;
-
-  static const double _designWidth = 106;
-  static const double _designHeight = 42;
-  static const double _designPaddingH = 18;
-  static const double _pillRadius = 9999;
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +44,12 @@ class CategoryChip extends StatelessWidget {
     final effectiveTextStyle = textStyle ??
         textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.w500,
-          height: 1.21,
-          letterSpacing: -0.5,
           color: selected ? colorScheme.onPrimaryContainer : colorScheme.onSurface,
         );
 
-    final chipWidth = width ?? _designWidth.w;
-    final chipHeight = height ?? _designHeight.h;
-    final paddingH = horizontalPadding ?? _designPaddingH.w;
+    final chipWidth = width ?? 106.w;
+    final chipHeight = height ?? 42.h;
+    final paddingH = horizontalPadding ?? 18.w;
 
     final child = Container(
       width: chipWidth,
@@ -63,7 +58,7 @@ class CategoryChip extends StatelessWidget {
         color: effectiveBg,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: effectiveBorder),
-          borderRadius: BorderRadius.circular(_pillRadius.r),
+          borderRadius: BorderRadius.circular(9999.r),
         ),
       ),
       child: Center(
@@ -71,10 +66,9 @@ class CategoryChip extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: paddingH),
           child: AppText(
             label,
-            translation: false,
+            translation: labelIsLocaleKey,
             style: effectiveTextStyle,
             textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
             isAutoScale: true,
             maxLines: 1,
           ),
