@@ -24,7 +24,7 @@ class ProductAdvantageCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 17.h, horizontal: 12.w),
       decoration: ShapeDecoration(
-        color: colorScheme.surface,
+        color: colorScheme.surfaceContainerHighest,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: appColors?.borderColor ?? colorScheme.outline),
           borderRadius: BorderRadius.circular(27.r),
@@ -40,7 +40,7 @@ class ProductAdvantageCard extends StatelessWidget {
             labelKey,
             translation: true,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors?.strongBorder ?? colorScheme.onSurfaceVariant,
+              color: appColors?.primaryNavy ?? colorScheme.onSurface,
               fontWeight: FontWeight.w500,
               fontSize: 12.sp,
               height: 1.33,

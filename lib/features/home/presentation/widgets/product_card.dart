@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/component/star_rating.dart';
+import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
 
@@ -38,13 +39,18 @@ class ProductCard extends StatelessWidget {
 
     return RepaintBoundary(
       child: GestureDetector(
-        onTap: onTap,
+        onTap: onTap != null
+            ? () {
+                AppHaptic.selection();
+                onTap!();
+              }
+            : null,
         child: Container(
           width: width ?? 163.5.w,
           height: 283.5.h,
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
-            color: colorScheme.surface,
+            color: colorScheme.surfaceContainerHighest,
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 width: 0.5,
@@ -63,7 +69,7 @@ class ProductCard extends StatelessWidget {
                 imageUrl: imageUrl,
                 size: ((width ?? 163.5.w) - 2).clamp(0.0, double.infinity),
                 borderColor: appColors?.borderColor ?? colorScheme.outline,
-                backgroundColor: colorScheme.surfaceContainerHighest,
+                backgroundColor: colorScheme.surfaceContainer,
               ),
               Expanded(
                 child: Padding(

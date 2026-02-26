@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/app_dependencies.dart';
+import 'core/haptic/app_haptic.dart';
 import 'core/routing/app_router.dart';
 import 'core/shared/locale_service.dart';
 import 'core/storage/app_storage_service.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_mode_notifier.dart';
 import 'core/theme/theme_transition.dart';
 
 void main() async {
@@ -49,6 +51,11 @@ void main() async {
   final savedLocale = await LocaleService.loadLocale(storageService);
   final savedThemeMode = await storageService.getThemeMode();
   final themeMode = savedThemeMode ?? ThemeMode.system;
+  //* Register theme notifier for runtime theme updates from Settings
+  getIt.registerSingleton<ThemeModeNotifier>(ThemeModeNotifier(themeMode));
+  //* Initialize haptic preference from storage
+  final hapticEnabled = await storageService.getHapticEnabled();
+  AppHaptic.setEnabled(hapticEnabled);
 
   runApp(
     EasyLocalization(
@@ -57,7 +64,7 @@ void main() async {
       fallbackLocale: const Locale('en'),
       startLocale: savedLocale,
       useOnlyLangCode: true,
-      child: MyApp(initialThemeMode: themeMode),
+      child: MyApp(themeNotifier: getIt<ThemeModeNotifier>()),
     ),
   );
 }
@@ -65,26 +72,23 @@ void main() async {
 class MyApp extends StatefulWidget {
   const MyApp({
     super.key,
-    required this.initialThemeMode,
+    required this.themeNotifier,
   });
 
-  final ThemeMode initialThemeMode;
+  final ThemeModeNotifier themeNotifier;
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  late ThemeMode _themeMode;
-
   @override
   void initState() {
     super.initState();
-    _themeMode = widget.initialThemeMode;
-    //* Listen to system theme changes
+    //* Listen to system theme changes when using ThemeMode.system
     WidgetsBinding.instance.platformDispatcher.onPlatformBrightnessChanged =
         () {
-      if (_themeMode == ThemeMode.system) {
+      if (widget.themeNotifier.value == ThemeMode.system) {
         setState(() {});
       }
     };
@@ -93,32 +97,37 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     //* Design size: Honor X9b 5G (6.78", 1220×2652)
-    return ScreenUtilInit(
-      designSize: const Size(375, 861),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: const TextScaler.linear(1.0),
-          ),
-          child: MaterialApp.router(
-            routerConfig: AppRouter.router,
-            title: 'Fist Ecommerce App',
-            theme: appTheme(context),
-            darkTheme: appAltTheme(context),
-            themeMode: _themeMode,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            builder: (context, child) {
-              return ThemeTransition(
-                themeMode: _themeMode,
-                child: child ?? const SizedBox(),
-              );
-            },
-          ),
+    return ListenableBuilder(
+      listenable: widget.themeNotifier,
+      builder: (context, _) {
+        return ScreenUtilInit(
+          designSize: const Size(375, 861),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: const TextScaler.linear(1.0),
+              ),
+              child: MaterialApp.router(
+                routerConfig: AppRouter.router,
+                title: 'Fist Ecommerce App',
+                theme: appTheme(context),
+                darkTheme: appAltTheme(context),
+                themeMode: widget.themeNotifier.value,
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                builder: (context, child) {
+                  return ThemeTransition(
+                    themeMode: widget.themeNotifier.value,
+                    child: child ?? const SizedBox(),
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

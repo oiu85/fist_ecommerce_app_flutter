@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     final theme = Theme.of(context);
 
     return AppScaffold.custom(
-      backgroundColor: theme.colorScheme.surfaceContainerHighest,
+      backgroundColor: theme.colorScheme.surface,
       appBar: HomePageAppBar(cartCount: widget.cartCount, onSearchTap: widget.onSearchTap, onCartTap: widget.onCartTap),
       body: CustomScrollView(
         slivers: <Widget>[

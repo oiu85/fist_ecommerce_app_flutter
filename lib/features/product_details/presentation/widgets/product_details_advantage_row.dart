@@ -13,7 +13,7 @@ class ProductDetailsAdvantageRow extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final appColors = theme.extension<AppColorExtension>();
-    final iconColor = appColors?.strongBorder ?? colorScheme.onSurfaceVariant;
+    final iconColor = appColors?.primaryNavy ?? colorScheme.onSurface;
 
     return Row(
       children: [

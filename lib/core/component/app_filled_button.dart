@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../haptic/app_haptic.dart';
 import '../localization/app_text.dart';
 import '../theme/app_color_extension.dart';
 
@@ -53,11 +54,17 @@ class AppFilledButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: onPressed,
+          onTap: onPressed != null
+              ? () {
+                  AppHaptic.mediumTap();
+                  onPressed!();
+                }
+              : null,
           borderRadius: radius,
           splashColor: fg.withValues(alpha: 0.26),
           highlightColor: fg.withValues(alpha: 0.13),
-          child: Container(
+          hoverColor: fg.withValues(alpha: 0.12),
+          child: Ink(
             width: width ?? 335.w,
             height: height ?? 56.h,
             decoration: ShapeDecoration(

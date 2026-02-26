@@ -103,6 +103,8 @@ class AppColors {
   
   //* Border color — preferred gray for cards, chips, inputs
   static const Color borderColor = Color(0xFFF3F4F6); // rgb(243, 244, 246)
+  //* Dark theme border — subtle dark gray
+  static const Color borderColorDark = Color(0xFF374151); // rgb(55, 65, 81)
 
   //* ==================== Screen / Form Backgrounds ====================
   //* Form background — neutral grey (add product, forms) #F9FAFB

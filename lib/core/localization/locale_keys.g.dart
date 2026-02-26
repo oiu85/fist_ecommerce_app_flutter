@@ -226,6 +226,7 @@ abstract class  LocaleKeys {
   static const settings_title = 'settings.title';
   static const settings_language = 'settings.language';
   static const settings_theme = 'settings.theme';
+  static const settings_haptic = 'settings.haptic';
   static const settings_light = 'settings.light';
   static const settings_dark = 'settings.dark';
   static const settings_system = 'settings.system';

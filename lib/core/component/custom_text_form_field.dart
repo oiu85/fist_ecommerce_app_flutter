@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../localization/app_text.dart';
+import '../theme/app_color_extension.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -86,6 +87,11 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+    final appColors = theme.extension<AppColorExtension>();
+    //* Theme-aware fill: formBackground (light) / formBackgroundDark (dark)
+    final fillColor = appColors?.formBackground ?? colorScheme.surfaceContainerHighest;
+    final hintColor = colorScheme.onSurfaceVariant;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -120,7 +126,10 @@ class CustomTextFormField extends StatelessWidget {
             textCapitalization: textCapitalization,
             style:
                 textStyle ??
-                textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurface, fontWeight: FontWeight.w400),
+                textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                  fontWeight: FontWeight.w400,
+                ),
             validator: validator,
             onChanged: onChanged,
             onFieldSubmitted: onFieldSubmitted,
@@ -135,15 +144,18 @@ class CustomTextFormField extends StatelessWidget {
             autofillHints: autofillHints,
             decoration: InputDecoration(
             hintText: hintKey != null ? hintKey!.tr() : hint,
-            hintStyle: textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface, fontWeight: FontWeight.w400),
+            hintStyle: textTheme.bodySmall?.copyWith(
+              color: hintColor,
+              fontWeight: FontWeight.w400,
+            ),
             filled: true,
-            fillColor: theme.colorScheme.surfaceVariant,
+            fillColor: fillColor,
             prefixIcon: prefixIcon,
             prefixText: prefixText,
             prefixStyle: prefixText != null
                 ? (prefixStyle ??
                     textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: hintColor,
                       fontWeight: FontWeight.w500,
                     ))
                 : null,
@@ -182,7 +194,7 @@ class CustomTextFormField extends StatelessWidget {
             helperKey ?? helper!,
             translation: helperKey != null,
             maxLines: helperMaxLines ?? 2,
-            style: textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: textTheme.bodySmall?.copyWith(color: colorScheme.onSurfaceVariant),
           ),
         ],
       ],

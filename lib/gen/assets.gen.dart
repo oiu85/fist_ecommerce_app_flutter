@@ -287,9 +287,6 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/Plus.svg
   SvgGenImage get plus => const SvgGenImage('assets/images/icons/Plus.svg');
 
-  /// File path: assets/images/icons/Profile.svg
-  SvgGenImage get profile => const SvgGenImage('assets/images/icons/Profile.svg');
-
   /// File path: assets/images/icons/Scan.svg
   SvgGenImage get scan => const SvgGenImage('assets/images/icons/Scan.svg');
 
@@ -413,11 +410,17 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/lsit.svg
   SvgGenImage get lsit => const SvgGenImage('assets/images/icons/lsit.svg');
 
+  /// File path: assets/images/icons/profile.svg
+  SvgGenImage get profile => const SvgGenImage('assets/images/icons/profile.svg');
+
   /// File path: assets/images/icons/rooms.svg
   SvgGenImage get rooms => const SvgGenImage('assets/images/icons/rooms.svg');
 
   /// File path: assets/images/icons/sdollar.svg
   SvgGenImage get sdollar => const SvgGenImage('assets/images/icons/sdollar.svg');
+
+  /// File path: assets/images/icons/setting-2.svg
+  SvgGenImage get setting2 => const SvgGenImage('assets/images/icons/setting-2.svg');
 
   /// File path: assets/images/icons/shop.svg
   SvgGenImage get shop => const SvgGenImage('assets/images/icons/shop.svg');
@@ -507,7 +510,6 @@ class $AssetsImagesIconsGen {
     password,
     play,
     plus,
-    profile,
     scan,
     search,
     send,
@@ -549,8 +551,10 @@ class $AssetsImagesIconsGen {
     incresePlus,
     listRow,
     lsit,
+    profile,
     rooms,
     sdollar,
+    setting2,
     shop,
     syrianFlag,
     ukFlag,

@@ -11,6 +11,7 @@ class StorageKeys {
   static const String userName = 'user_name';
   static const String locale = 'locale';
   static const String themeMode = 'theme_mode';
+  static const String hapticEnabled = 'haptic_enabled';
 }
 
 abstract class AppStorageService {
@@ -35,6 +36,10 @@ abstract class AppStorageService {
   Future<ThemeMode?> getThemeMode();
 
   Future<void> setThemeMode(ThemeMode mode);
+
+  Future<bool> getHapticEnabled();
+
+  Future<void> setHapticEnabled(bool value);
 }
 
 //? SharedPreferences implementation of AppStorageService
@@ -116,6 +121,16 @@ class SharedPreferencesStorageService implements AppStorageService {
   @override
   Future<void> setThemeMode(ThemeMode mode) async {
     await _prefs.setInt(StorageKeys.themeMode, mode.index);
+  }
+
+  @override
+  Future<bool> getHapticEnabled() async {
+    return _prefs.getBool(StorageKeys.hapticEnabled) ?? true;
+  }
+
+  @override
+  Future<void> setHapticEnabled(bool value) async {
+    await _prefs.setBool(StorageKeys.hapticEnabled, value);
   }
 }
 

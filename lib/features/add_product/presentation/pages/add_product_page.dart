@@ -125,7 +125,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         maxLines: 5,
                         height: 150,
                       ),
-                      SizedBox(height: 24.h),
+                     
 
                       //* Category — row/grid with toggle (same as home page)
                       Padding(

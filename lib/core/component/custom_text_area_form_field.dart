@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../localization/app_text.dart';
+import '../theme/app_color_extension.dart';
 
 class CustomTextAreaFormField extends StatelessWidget {
   const CustomTextAreaFormField({
@@ -71,6 +72,11 @@ class CustomTextAreaFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+    final appColors = theme.extension<AppColorExtension>();
+    //* Theme-aware fill: formBackground (light) / formBackgroundDark (dark)
+    final fillColor = appColors?.formBackground ?? colorScheme.surfaceContainerHighest;
+    final hintColor = colorScheme.onSurfaceVariant;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -102,7 +108,7 @@ class CustomTextAreaFormField extends StatelessWidget {
             style:
                 textStyle ??
                 textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface,
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.w400,
                 ),
             validator: validator,
@@ -117,12 +123,12 @@ class CustomTextAreaFormField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hintKey != null ? hintKey!.tr() : hint,
               hintStyle: textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface,
+                color: hintColor,
                 fontWeight: FontWeight.w400,
               ),
               alignLabelWithHint: true,
               filled: true,
-              fillColor: theme.colorScheme.surfaceVariant,
+              fillColor: fillColor,
               contentPadding:
                   contentPadding ??
                   EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
@@ -174,7 +180,7 @@ class CustomTextAreaFormField extends StatelessWidget {
             translation: helperKey != null,
             maxLines: helperMaxLines ?? 2,
             style: textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ],

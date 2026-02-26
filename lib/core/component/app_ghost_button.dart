@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../haptic/app_haptic.dart';
 import '../localization/app_text.dart';
 
 //* Secondary button with background, no border — for Cancel / secondary actions.
@@ -41,28 +42,37 @@ class AppGhostButton extends StatelessWidget {
     final fg = foregroundColor ?? colorScheme.onSurface;
     final radius = BorderRadius.circular((borderRadius ?? 12).r);
 
-    return GestureDetector(
-      onTap: onPressed,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        width: width ?? double.infinity,
-        height: height ?? 52.h,
-        decoration: ShapeDecoration(
-          color: bg,
-          shape: RoundedRectangleBorder(
-            borderRadius: radius,
-          ),
-        ),
-        child: Center(
-          child: AppText(
-            labelKey ?? label ?? '',
-            translation: labelKey != null,
-            style: textTheme.labelLarge?.copyWith(
-              color: fg,
-              fontWeight: FontWeight.w500,
-              fontSize: 16.sp,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          AppHaptic.lightTap();
+          onPressed();
+        },
+        borderRadius: radius,
+        splashColor: fg.withValues(alpha: 0.12),
+        highlightColor: fg.withValues(alpha: 0.06),
+        hoverColor: fg.withValues(alpha: 0.12),
+        child: Ink(
+          width: width ?? double.infinity,
+          height: height ?? 52.h,
+          decoration: ShapeDecoration(
+            color: bg,
+            shape: RoundedRectangleBorder(
+              borderRadius: radius,
             ),
-            textAlign: TextAlign.center,
+          ),
+          child: Center(
+            child: AppText(
+              labelKey ?? label ?? '',
+              translation: labelKey != null,
+              style: textTheme.labelLarge?.copyWith(
+                color: fg,
+                fontWeight: FontWeight.w500,
+                fontSize: 16.sp,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ),

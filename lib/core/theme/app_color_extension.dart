@@ -72,11 +72,11 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     imageOverlayScrim: AppColors.imageOverlayScrim,
   );
 
-  //* Dark: dark surfaces for form/product screens
+  //* Dark: primary navy backgrounds, dark surfaces
   static const AppColorExtension dark = AppColorExtension(
     accentHover: AppColors.primaryColorHover,
     accentActive: AppColors.primaryColorActive,
-    surfacePanel: AppColors.darkSurfacePanel,
+    surfacePanel: AppColors.primaryNavyHover,
     surfacePanelHover: AppColors.greyDarkHover,
     strongBorder: AppColors.greyDark,
     shimmer: AppColors.greyDark,
@@ -84,10 +84,10 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     successBackground: AppColors.successGreenLight,
     warning: AppColors.warningAmber,
     warningBackground: AppColors.warningAmberLight,
-    componentBackground: AppColors.componentsBackground,
-    borderColor: AppColors.borderColor,
+    componentBackground: AppColors.greyDark,
+    borderColor: AppColors.borderColorDark,
     starRating: AppColors.starRatingYellow,
-    primaryNavy: AppColors.primaryNavy,
+    primaryNavy: AppColors.white,
     formBackground: AppColors.formBackgroundDark,
     productDetailsBackground: AppColors.productDetailsBackgroundDark,
     imageOverlayScrim: AppColors.imageOverlayScrim,

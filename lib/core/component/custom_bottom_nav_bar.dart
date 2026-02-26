@@ -114,6 +114,26 @@ class CustomBottomNavBar extends StatelessWidget {
                 ),
                 text: LocaleKeys.home_navAddProduct.tr(),
               ),
+              GButton(
+                icon: Icons.circle,
+                iconActiveColor: Colors.transparent,
+                iconColor: Colors.transparent,
+                leading: SizedBox(
+                  width: 22.r,
+                  height: 22.r,
+                  child: Assets.images.icons.setting2.svg(
+                    width: 22.r,
+                    height: 22.r,
+                    colorFilter: ColorFilter.mode(
+                      selectedIndex == 3
+                          ? colorScheme.primary
+                          : colorScheme.onSurface.withValues(alpha: 0.6),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                text: LocaleKeys.settings_title.tr(),
+              ),
             ],
           ),
         ),

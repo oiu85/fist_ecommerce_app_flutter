@@ -235,6 +235,7 @@
     "title": "Settings",
     "language": "Language",
     "theme": "Theme",
+    "haptic": "Haptic Feedback",
     "light": "Light",
     "dark": "Dark",
     "system": "System",

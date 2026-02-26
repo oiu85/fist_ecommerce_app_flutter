@@ -34,7 +34,7 @@ class ProductDetailsDescriptionQuantity extends StatelessWidget {
           description,
           translation: false,
           style: textTheme.bodyLarge?.copyWith(
-            color: appColors?.strongBorder ?? colorScheme.onSurfaceVariant,
+            color: appColors?.primaryNavy ?? colorScheme.onSurface,
             fontSize: 16.sp,
           ),
         ),
@@ -48,6 +48,7 @@ class ProductDetailsDescriptionQuantity extends StatelessWidget {
               LocaleKeys.product_quantity,
               translation: true,
               style: textTheme.titleMedium?.copyWith(
+                color: appColors?.primaryNavy ?? colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
                 fontSize: 14.sp,
               ),
@@ -59,7 +60,7 @@ class ProductDetailsDescriptionQuantity extends StatelessWidget {
               onIncrement: onIncrement,
               width: 170.w,
               height: 62.h,
-              backgroundColor: colorScheme.surface,
+              backgroundColor: colorScheme.surfaceContainerHighest,
             ),
           ],
         ),
