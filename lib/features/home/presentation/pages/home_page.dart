@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/animation/animation.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../mock_data/home_mock_data.dart';
@@ -96,7 +95,7 @@ class _HomePageState extends State<HomePage> {
           // ——— Category section: header (like products) + chips row or grid ———
           SliverToBoxAdapter(
             child: ColoredBox(
-              color: theme.colorScheme.surfaceContainerHighest,
+              color: theme.colorScheme.surface,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -114,23 +113,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ColoredBox(
                     color: theme.colorScheme.surface,
-                    child: AnimatedSection(
-                      sectionIndex: 0,
-                      child: AnimatedSwitcher(
-                        duration: AnimationConstants.standard,
-                        switchInCurve: AnimationConstants.entranceCurve,
-                        switchOutCurve: AnimationConstants.exitCurve,
-                        child: HomeCategorySection(
-                          key: ValueKey(_categoryLayout),
-                          categories: mockHomeCategories,
-                          selectedIndex: _selectedCategoryIndex,
-                          onCategorySelected: (index) {
-                            setState(() => _selectedCategoryIndex = index);
-                          },
-                          layoutStyle: _categoryLayout,
-                          //* Toggle lives in header; no inline button
-                          onLayoutToggle: null,
-                        ),
+                    //* Instant switch — AnimatedSwitcher caused lag/frame drops when morphing row↔grid
+                    child: RepaintBoundary(
+                      child: HomeCategorySection(
+                        key: ValueKey(_categoryLayout),
+                        categories: mockHomeCategories,
+                        selectedIndex: _selectedCategoryIndex,
+                        onCategorySelected: (index) {
+                          setState(() => _selectedCategoryIndex = index);
+                        },
+                        layoutStyle: _categoryLayout,
+                        onLayoutToggle: null,
                       ),
                     ),
                   ),
@@ -141,7 +134,7 @@ class _HomePageState extends State<HomePage> {
           // ——— Product section: header + grid or list ———
           SliverToBoxAdapter(
             child: ColoredBox(
-              color: theme.colorScheme.surfaceContainerHighest,
+              color: theme.colorScheme.surface,
               child: HomeProductViewHeader(
                 viewStyle: _productViewStyle,
                 onViewToggle: () {
