@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/home/presentation/pages/main_container_page.dart';
 import '../../features/product_details/presentation/pages/product_details_page.dart';
 import '../../mock_data/product_details_mock_data.dart';
@@ -42,6 +43,11 @@ class AppRouter {
           path: '/home',
           name: 'homeNamed',
           builder: (context, state) => const MainContainerPage(),
+        ),
+        GoRoute(
+          path: AppRoutes.login,
+          name: 'login',
+          builder: (context, state) => const LoginPage(),
         ),
         GoRoute(
           path: AppRoutes.productDetails,
