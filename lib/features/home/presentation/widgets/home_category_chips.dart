@@ -65,12 +65,7 @@ class HomeCategorySection extends StatelessWidget {
           children: [
             ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.only(
-                top: 4.h,
-                left: 20.w,
-                right: onLayoutToggle != null ? 52.w : 20.w,
-                bottom: 0,
-              ),
+              padding: EdgeInsets.only(top: 4.h, left: 20.w, right: onLayoutToggle != null ? 52.w : 20.w, bottom: 0),
               itemCount: categories.length,
               separatorBuilder: (_, __) => SizedBox(width: 12.w),
               itemBuilder: (context, index) {
@@ -93,17 +88,15 @@ class HomeCategorySection extends StatelessWidget {
                     AppHaptic.selection();
                     onLayoutToggle!();
                   },
-                  icon: (layoutStyle == CategoryLayoutStyle.row
-                          ? Assets.images.icons.category
-                          : Assets.images.icons.listRow)
-                      .svg(
-                    width: 22.r,
-                    height: 22.r,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface,
-                      BlendMode.srcIn,
-                    ),
-                  ),
+                  icon:
+                      (layoutStyle == CategoryLayoutStyle.row
+                              ? Assets.images.icons.category
+                              : Assets.images.icons.listRow)
+                          .svg(
+                            width: 22.r,
+                            height: 22.r,
+                            colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                          ),
                   style: IconButton.styleFrom(
                     minimumSize: Size(40.r, 40.r),
                     padding: EdgeInsets.zero,

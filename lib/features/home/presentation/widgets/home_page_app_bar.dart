@@ -48,12 +48,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
       height: preferredSize.height,
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        border: Border(
-          bottom: BorderSide(
-            width: 1,
-            color: appColors?.borderColor ?? colorScheme.outline,
-          ),
-        ),
+        border: Border(bottom: BorderSide(width: 1, color: appColors?.borderColor ?? colorScheme.outline)),
       ),
       child: SafeArea(
         bottom: false,
@@ -69,18 +64,13 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 position: Tween<Offset>(
                   begin: const Offset(0, -0.05),
                   end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: AnimationConstants.entranceCurve,
-                )),
+                ).animate(CurvedAnimation(parent: animation, curve: AnimationConstants.entranceCurve)),
                 child: child,
               ),
             ),
             child: KeyedSubtree(
               key: ValueKey(isSearchMode),
-              child: isSearchMode
-                  ? _buildSearchMode(context)
-                  : _buildNormalMode(context),
+              child: isSearchMode ? _buildSearchMode(context) : _buildNormalMode(context),
             ),
           ),
         ),
@@ -103,10 +93,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
           decoration: BoxDecoration(
             color: colorScheme.primary,
             borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(
-              color: appColors?.primaryNavy ?? colorScheme.onSurface,
-              width: 1,
-            ),
+            border: Border.all(color: appColors?.primaryNavy ?? colorScheme.onSurface, width: 1),
           ),
           child: Center(
             child: Assets.images.icons.shop.svg(

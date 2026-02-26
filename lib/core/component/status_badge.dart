@@ -38,15 +38,11 @@ class StatusBadge extends StatelessWidget {
 
     return Container(
       width: width,
-      padding: EdgeInsets.symmetric(
-        horizontal: horizontalPadding ?? 10.w,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding ?? 10.w),
       height: height ?? 29.h,
       decoration: ShapeDecoration(
         color: backgroundColor ?? colorScheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(8.r),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.circular(8.r)),
       ),
       child: Center(
         child: AppText(
@@ -63,4 +59,3 @@ class StatusBadge extends StatelessWidget {
     );
   }
 }
-

@@ -28,14 +28,14 @@ class TextWithHighlight extends StatelessWidget {
     final effectiveStyle = style ?? DefaultTextStyle.of(context).style;
     final theme = Theme.of(context);
     final highlightBg = theme.colorScheme.primary;
-    final effectiveHighlightStyle = highlightStyle ??
+    final effectiveHighlightStyle =
+        highlightStyle ??
         effectiveStyle.copyWith(
           fontWeight: FontWeight.w800,
           backgroundColor: highlightBg,
           color: theme.colorScheme.onPrimary,
           decoration: TextDecoration.none,
         );
-
 
     if (highlight.trim().isEmpty) {
       return AppText(
@@ -56,22 +56,13 @@ class TextWithHighlight extends StatelessWidget {
     while (start < text.length) {
       final matchIndex = lower.indexOf(query, start);
       if (matchIndex < 0) {
-        spans.add(TextSpan(
-          text: text.substring(start),
-          style: effectiveStyle,
-        ));
+        spans.add(TextSpan(text: text.substring(start), style: effectiveStyle));
         break;
       }
       if (matchIndex > start) {
-        spans.add(TextSpan(
-          text: text.substring(start, matchIndex),
-          style: effectiveStyle,
-        ));
+        spans.add(TextSpan(text: text.substring(start, matchIndex), style: effectiveStyle));
       }
-      spans.add(TextSpan(
-        text: text.substring(matchIndex, matchIndex + query.length),
-        style: effectiveHighlightStyle,
-      ));
+      spans.add(TextSpan(text: text.substring(matchIndex, matchIndex + query.length), style: effectiveHighlightStyle));
       start = matchIndex + query.length;
     }
 

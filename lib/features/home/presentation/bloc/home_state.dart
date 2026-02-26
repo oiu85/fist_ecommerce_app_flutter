@@ -32,24 +32,26 @@ class HomeState extends Equatable {
   final ProductViewStyle productViewStyle;
   final bool isSearchMode;
   final bool isRefreshing;
+
   /// Current search query for client-side filtering (no API).
   final String searchQuery;
+
   /// Main container bottom nav index: 0=Home, 1=Cart, 2=AddProduct, 3=Settings.
   final int selectedBottomNavIndex;
 
   factory HomeState.initial() => const HomeState(
-        status: BlocStatus.initial(),
-        products: null,
-        categories: null,
-        selectedCategory: null,
-        errorMessage: null,
-        categoryLayoutStyle: CategoryLayoutStyle.row,
-        productViewStyle: ProductViewStyle.grid,
-        isSearchMode: false,
-        isRefreshing: false,
-        searchQuery: '',
-        selectedBottomNavIndex: 0,
-      );
+    status: BlocStatus.initial(),
+    products: null,
+    categories: null,
+    selectedCategory: null,
+    errorMessage: null,
+    categoryLayoutStyle: CategoryLayoutStyle.row,
+    productViewStyle: ProductViewStyle.grid,
+    isSearchMode: false,
+    isRefreshing: false,
+    searchQuery: '',
+    selectedBottomNavIndex: 0,
+  );
 
   /// Status for UiHelperStatus / when pattern (exposes BlocStatus).
   BlocStatus get homeStatus => status;
@@ -67,33 +69,32 @@ class HomeState extends Equatable {
     String? searchQuery,
     int? selectedBottomNavIndex,
     bool clearErrorMessage = false,
-  }) =>
-      HomeState(
-        status: status ?? this.status,
-        products: products ?? this.products,
-        categories: categories ?? this.categories,
-        selectedCategory: selectedCategory ?? this.selectedCategory,
-        errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
-        categoryLayoutStyle: categoryLayoutStyle ?? this.categoryLayoutStyle,
-        productViewStyle: productViewStyle ?? this.productViewStyle,
-        isSearchMode: isSearchMode ?? this.isSearchMode,
-        isRefreshing: isRefreshing ?? this.isRefreshing,
-        searchQuery: searchQuery ?? this.searchQuery,
-        selectedBottomNavIndex: selectedBottomNavIndex ?? this.selectedBottomNavIndex,
-      );
+  }) => HomeState(
+    status: status ?? this.status,
+    products: products ?? this.products,
+    categories: categories ?? this.categories,
+    selectedCategory: selectedCategory ?? this.selectedCategory,
+    errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
+    categoryLayoutStyle: categoryLayoutStyle ?? this.categoryLayoutStyle,
+    productViewStyle: productViewStyle ?? this.productViewStyle,
+    isSearchMode: isSearchMode ?? this.isSearchMode,
+    isRefreshing: isRefreshing ?? this.isRefreshing,
+    searchQuery: searchQuery ?? this.searchQuery,
+    selectedBottomNavIndex: selectedBottomNavIndex ?? this.selectedBottomNavIndex,
+  );
 
   @override
   List<Object?> get props => [
-        status,
-        products,
-        categories,
-        selectedCategory,
-        errorMessage,
-        categoryLayoutStyle,
-        productViewStyle,
-        isSearchMode,
-        isRefreshing,
-        searchQuery,
-        selectedBottomNavIndex,
-      ];
+    status,
+    products,
+    categories,
+    selectedCategory,
+    errorMessage,
+    categoryLayoutStyle,
+    productViewStyle,
+    isSearchMode,
+    isRefreshing,
+    searchQuery,
+    selectedBottomNavIndex,
+  ];
 }

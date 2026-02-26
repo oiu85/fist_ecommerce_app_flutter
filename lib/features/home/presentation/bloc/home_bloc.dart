@@ -14,12 +14,10 @@ import 'home_state.dart';
 //? One-way flow: Event → BLoC → State. No setState in UI.
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc({
-    required GetProductsUseCase getProductsUseCase,
-    required GetCategoriesUseCase getCategoriesUseCase,
-  })  : _getProductsUseCase = getProductsUseCase,
-        _getCategoriesUseCase = getCategoriesUseCase,
-        super(HomeState.initial()) {
+  HomeBloc({required GetProductsUseCase getProductsUseCase, required GetCategoriesUseCase getCategoriesUseCase})
+    : _getProductsUseCase = getProductsUseCase,
+      _getCategoriesUseCase = getCategoriesUseCase,
+      super(HomeState.initial()) {
     on<LoadHome>(_onLoadHome);
     on<CategorySelected>(_onCategorySelected);
     on<RefreshHome>(_onRefreshHome);
@@ -38,10 +36,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await _loadHome(emit, selectedCategory: null, isRefreshing: false);
   }
 
-  Future<void> _onCategorySelected(
-    CategorySelected event,
-    Emitter<HomeState> emit,
-  ) async {
+  Future<void> _onCategorySelected(CategorySelected event, Emitter<HomeState> emit) async {
     await _loadHome(emit, selectedCategory: event.categoryName, isRefreshing: state.products != null);
   }
 
@@ -57,9 +52,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _onProductViewStyleToggled(ProductViewStyleToggled event, Emitter<HomeState> emit) {
-    final next = state.productViewStyle == ProductViewStyle.grid
-        ? ProductViewStyle.list
-        : ProductViewStyle.grid;
+    final next = state.productViewStyle == ProductViewStyle.grid ? ProductViewStyle.list : ProductViewStyle.grid;
     emit(state.copyWith(productViewStyle: next));
   }
 
@@ -84,11 +77,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required String? selectedCategory,
     required bool isRefreshing,
   }) async {
-    emit(state.copyWith(
-      status: const BlocStatus.loading(),
-      isRefreshing: isRefreshing,
-      clearErrorMessage: true,
-    ));
+    emit(state.copyWith(status: const BlocStatus.loading(), isRefreshing: isRefreshing, clearErrorMessage: true));
 
     //* Fetch categories only on initial load; reuse on refresh/category switch
     final isInitialLoad = state.categories == null;
@@ -97,36 +86,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       categoriesResult = await _getCategoriesUseCase();
     }
 
-    final productsResult = await _getProductsUseCase(
-      category: selectedCategory,
-    );
+    final productsResult = await _getProductsUseCase(category: selectedCategory);
 
     final categoriesList = categoriesResult != null
-        ? categoriesResult.fold(
-            (f) => state.categories ?? [],
-            (c) => c,
-          )
+        ? categoriesResult.fold((f) => state.categories ?? [], (c) => c)
         : (state.categories ?? []);
 
     productsResult.fold(
       (failure) {
-        emit(state.copyWith(
-          status: BlocStatus.fail(error: failure.message),
-          errorMessage: failure.message,
-          selectedCategory: selectedCategory,
-          categories: categoriesList,
-          isRefreshing: false,
-        ));
+        emit(
+          state.copyWith(
+            status: BlocStatus.fail(error: failure.message),
+            errorMessage: failure.message,
+            selectedCategory: selectedCategory,
+            categories: categoriesList,
+            isRefreshing: false,
+          ),
+        );
       },
       (products) {
-        emit(state.copyWith(
-          status: const BlocStatus.success(),
-          products: products,
-          categories: categoriesList,
-          selectedCategory: selectedCategory,
-          isRefreshing: false,
-          clearErrorMessage: true,
-        ));
+        emit(
+          state.copyWith(
+            status: const BlocStatus.success(),
+            products: products,
+            categories: categoriesList,
+            selectedCategory: selectedCategory,
+            isRefreshing: false,
+            clearErrorMessage: true,
+          ),
+        );
       },
     );
   }

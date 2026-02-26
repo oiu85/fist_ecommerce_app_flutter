@@ -14,12 +14,7 @@ import '../widgets/home_skeleton.dart';
 //* Home tab content; all logic in [HomeBloc]. Bloc provided by [MainContainerPage].
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    super.key,
-    this.cartCount = 0,
-    this.onSearchTap,
-    this.onCartTap,
-  });
+  const HomePage({super.key, this.cartCount = 0, this.onSearchTap, this.onCartTap});
 
   final int cartCount;
   final VoidCallback? onSearchTap;
@@ -51,16 +46,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeBloc, HomeState>(
-        listenWhen: (prev, curr) => prev.isSearchMode != curr.isSearchMode,
-        listener: (_, state) {
-          if (state.isSearchMode) {
-            _searchController.clear();
-            _searchFocusNode.requestFocus();
-          } else {
-            _searchController.clear();
-            _searchFocusNode.unfocus();
-          }
-        },
+      listenWhen: (prev, curr) => prev.isSearchMode != curr.isSearchMode,
+      listener: (_, state) {
+        if (state.isSearchMode) {
+          _searchController.clear();
+          _searchFocusNode.requestFocus();
+        } else {
+          _searchController.clear();
+          _searchFocusNode.unfocus();
+        }
+      },
       child: BlocBuilder<HomeBloc, HomeState>(
         buildWhen: (prev, curr) =>
             prev.status != curr.status ||
@@ -78,16 +73,13 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Theme.of(context).colorScheme.surface,
             appBar: HomePageAppBar(
               cartCount: widget.cartCount,
-              onSearchTap: widget.onSearchTap ??
-                  () => context.read<HomeBloc>().add(const SearchModeToggled()),
+              onSearchTap: widget.onSearchTap ?? () => context.read<HomeBloc>().add(const SearchModeToggled()),
               onCartTap: widget.onCartTap,
               isSearchMode: state.isSearchMode,
               searchController: _searchController,
               searchFocusNode: _searchFocusNode,
-              onSearchClosed: () =>
-                  context.read<HomeBloc>().add(const SearchClosed()),
-              onSearchQueryChanged: (query) =>
-                  context.read<HomeBloc>().add(SearchQueryChanged(query)),
+              onSearchClosed: () => context.read<HomeBloc>().add(const SearchClosed()),
+              onSearchQueryChanged: (query) => context.read<HomeBloc>().add(SearchQueryChanged(query)),
             ),
             body: state.status.when<Widget>(
               initial: () {
@@ -97,16 +89,13 @@ class _HomePageState extends State<HomePage> {
               loading: () => HomeSkeleton(status: state.status),
               success: () {
                 if (state.isRefreshing) {
-                  return HomeSkeleton(
-                    status: const BlocStatus.loading(),
-                  );
+                  return HomeSkeleton(status: const BlocStatus.loading());
                 }
                 return HomeContent(state: state);
               },
               error: (_) => UiHelperStatus(
                 state: state.homeStatus,
-                onRetry: () =>
-                    context.read<HomeBloc>().add(const RefreshHome()),
+                onRetry: () => context.read<HomeBloc>().add(const RefreshHome()),
               ),
             ),
           );
@@ -114,5 +103,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }

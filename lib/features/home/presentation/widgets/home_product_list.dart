@@ -18,46 +18,34 @@ Widget buildHomeProductListSliver(
   final spacing = itemSpacing ?? 12.h;
 
   return SliverPadding(
-    padding: padding ??
-        EdgeInsets.only(
-          left: 20.w,
-          right: 20.w,
-          top: 8.h,
-          bottom: bottomPadding,
-        ),
+    padding: padding ?? EdgeInsets.only(left: 20.w, right: 20.w, top: 8.h, bottom: bottomPadding),
     sliver: SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          final item = items[index];
-          void Function()? tapHandler;
-          if (onProductTapWithIndex != null) {
-            tapHandler = () => onProductTapWithIndex(item, index);
-          } else if (onProductTap != null) {
-            tapHandler = () => onProductTap(item);
-          }
-          final card = Padding(
-            padding: EdgeInsets.only(bottom: spacing),
-            child: ProductListCard(
-              imageUrl: item.imageUrl,
-              name: item.name,
-              rating: item.rating,
-              reviewCount: item.reviewCount,
-              priceFormatted: item.priceFormatted,
-              searchHighlight: searchHighlight,
-              onTap: tapHandler,
-            ),
-          );
-          final child = !AnimationConstants.shouldReduceMotion(context)
-              ? card.staggeredItem(index: index, scrollOptimized: true)
-              : card;
-          //* Stable key reduces element churn on scroll.
-          return KeyedSubtree(
-            key: ValueKey<int>(index),
-            child: child,
-          );
-        },
-        childCount: items.length,
-      ),
+      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+        final item = items[index];
+        void Function()? tapHandler;
+        if (onProductTapWithIndex != null) {
+          tapHandler = () => onProductTapWithIndex(item, index);
+        } else if (onProductTap != null) {
+          tapHandler = () => onProductTap(item);
+        }
+        final card = Padding(
+          padding: EdgeInsets.only(bottom: spacing),
+          child: ProductListCard(
+            imageUrl: item.imageUrl,
+            name: item.name,
+            rating: item.rating,
+            reviewCount: item.reviewCount,
+            priceFormatted: item.priceFormatted,
+            searchHighlight: searchHighlight,
+            onTap: tapHandler,
+          ),
+        );
+        final child = !AnimationConstants.shouldReduceMotion(context)
+            ? card.staggeredItem(index: index, scrollOptimized: true)
+            : card;
+        //* Stable key reduces element churn on scroll.
+        return KeyedSubtree(key: ValueKey<int>(index), child: child);
+      }, childCount: items.length),
     ),
   );
 }

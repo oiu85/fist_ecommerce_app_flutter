@@ -22,34 +22,24 @@ import 'home_product_view_header.dart';
 //? Extracted from HomePage for separation of concerns.
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({
-    super.key,
-    required this.state,
-  });
+  const HomeContent({super.key, required this.state});
 
   final HomeState state;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final categories = state.categories != null
-        ? categoriesFromApiWithAll(state.categories!)
-        : <HomeCategoryItem>[];
+    final categories = state.categories != null ? categoriesFromApiWithAll(state.categories!) : <HomeCategoryItem>[];
     final selectedIndex = _selectedIndexFromState(state, categories);
     //* Client-side search: filter by title, category, or description (no API).
-    final displayProducts = _filterProductsByQuery(
-      state.products ?? [],
-      state.searchQuery,
-    );
+    final displayProducts = _filterProductsByQuery(state.products ?? [], state.searchQuery);
     final productItems = displayProducts.map(productToGridItem).toList();
     final searchQuery = state.searchQuery.trim();
 
     return RefreshIndicator(
       onRefresh: () async {
         context.read<HomeBloc>().add(const RefreshHome());
-        await context.read<HomeBloc>().stream
-            .where((s) => !s.status.isLoading())
-            .first;
+        await context.read<HomeBloc>().stream.where((s) => !s.status.isLoading()).first;
       },
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -66,8 +56,7 @@ class HomeContent extends StatelessWidget {
                   children: [
                     HomeCategoryViewHeader(
                       layoutStyle: state.categoryLayoutStyle,
-                      onViewToggle: () =>
-                          context.read<HomeBloc>().add(const CategoryLayoutToggled()),
+                      onViewToggle: () => context.read<HomeBloc>().add(const CategoryLayoutToggled()),
                     ),
                     ColoredBox(
                       color: theme.colorScheme.surface,
@@ -78,11 +67,7 @@ class HomeContent extends StatelessWidget {
                           selectedIndex: selectedIndex,
                           onCategorySelected: (index) {
                             final categoryId = categories[index].id;
-                            context.read<HomeBloc>().add(
-                                  CategorySelected(
-                                    categoryId == 'all' ? null : categoryId,
-                                  ),
-                                );
+                            context.read<HomeBloc>().add(CategorySelected(categoryId == 'all' ? null : categoryId));
                           },
                           layoutStyle: state.categoryLayoutStyle,
                           onLayoutToggle: null,
@@ -102,8 +87,7 @@ class HomeContent extends StatelessWidget {
                 sectionIndex: 1,
                 child: HomeProductViewHeader(
                   viewStyle: state.productViewStyle,
-                  onViewToggle: () =>
-                      context.read<HomeBloc>().add(const ProductViewStyleToggled()),
+                  onViewToggle: () => context.read<HomeBloc>().add(const ProductViewStyleToggled()),
                 ),
               ),
             ),
@@ -124,10 +108,7 @@ class HomeContent extends StatelessWidget {
               searchHighlight: searchQuery.isEmpty ? null : searchQuery,
               onProductTapWithIndex: (item, index) {
                 final product = displayProducts[index];
-                context.push(
-                  AppRoutes.productDetails,
-                  extra: payloadFromProduct(product),
-                );
+                context.push(AppRoutes.productDetails, extra: payloadFromProduct(product));
               },
             )
           else
@@ -137,10 +118,7 @@ class HomeContent extends StatelessWidget {
               searchHighlight: searchQuery.isEmpty ? null : searchQuery,
               onProductTapWithIndex: (item, index) {
                 final product = displayProducts[index];
-                context.push(
-                  AppRoutes.productDetails,
-                  extra: payloadFromProduct(product),
-                );
+                context.push(AppRoutes.productDetails, extra: payloadFromProduct(product));
               },
             ),
         ],
@@ -148,10 +126,7 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  static int _selectedIndexFromState(
-    HomeState state,
-    List<HomeCategoryItem> categories,
-  ) {
+  static int _selectedIndexFromState(HomeState state, List<HomeCategoryItem> categories) {
     if (state.selectedCategory == null || state.selectedCategory == 'all') {
       return 0;
     }
@@ -160,10 +135,7 @@ class HomeContent extends StatelessWidget {
   }
 
   /// Filters products by query (title, category, description); case-insensitive.
-  static List<Product> _filterProductsByQuery(
-    List<Product> products,
-    String query,
-  ) {
+  static List<Product> _filterProductsByQuery(List<Product> products, String query) {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return products;
     return products
@@ -177,11 +149,7 @@ class HomeContent extends StatelessWidget {
   }
 
   /// Wraps [child] with section entrance animation when animations are enabled.
-  static Widget _wrapSectionEntrance(
-    BuildContext context, {
-    required int sectionIndex,
-    required Widget child,
-  }) {
+  static Widget _wrapSectionEntrance(BuildContext context, {required int sectionIndex, required Widget child}) {
     if (AnimationConstants.shouldReduceMotion(context)) return child;
     return child.sectionEntrance(sectionIndex: sectionIndex);
   }

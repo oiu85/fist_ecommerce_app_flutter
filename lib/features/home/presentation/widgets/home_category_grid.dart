@@ -68,17 +68,15 @@ class HomeCategoryGrid extends StatelessWidget {
                   AppHaptic.selection();
                   onLayoutToggle!();
                 },
-                icon: (layoutStyle == CategoryLayoutStyle.row
-                        ? Assets.images.icons.category
-                        : Assets.images.icons.listRow)
-                    .svg(
-                  width: 22.r,
-                  height: 22.r,
-                  colorFilter: ColorFilter.mode(
-                    colorScheme.onSurface,
-                    BlendMode.srcIn,
-                  ),
-                ),
+                icon:
+                    (layoutStyle == CategoryLayoutStyle.row
+                            ? Assets.images.icons.category
+                            : Assets.images.icons.listRow)
+                        .svg(
+                          width: 22.r,
+                          height: 22.r,
+                          colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                        ),
                 style: IconButton.styleFrom(
                   minimumSize: Size(40.r, 40.r),
                   padding: EdgeInsets.zero,

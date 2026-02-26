@@ -29,7 +29,6 @@ class ProductCard extends StatelessWidget {
   final int reviewCount;
   final String priceFormatted;
   final double? width;
-  /// When set, highlights matching text in [name] (e.g. search results).
   final String? searchHighlight;
 
   final VoidCallback? onTap;
@@ -73,66 +72,66 @@ class ProductCard extends StatelessWidget {
               width: width ?? 163.5.w,
               height: 283.5.h,
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ProductCardImage(
-                imageUrl: imageUrl,
-                size: ((width ?? 163.5.w) - 2).clamp(0.0, double.infinity),
-                borderColor: appColors?.borderColor ?? colorScheme.outline,
-                backgroundColor: colorScheme.surfaceContainer,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(8.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      searchHighlight != null && searchHighlight!.isNotEmpty
-                          ? TextWithHighlight(
-                              text: name,
-                              highlight: searchHighlight!,
-                              style: textTheme.titleMedium?.copyWith(
-                                color: appColors?.primaryNavy ?? colorScheme.onSurface,
-                              ),
-                              maxLines: 2,
-                            )
-                          : AppText(
-                              name,
-                              translation: false,
-                              style: textTheme.titleMedium?.copyWith(
-                                color: appColors?.primaryNavy ?? colorScheme.onSurface,
-                              ),
-                              maxLines: 2,
-                              isAutoScale: true,
-                            ),
-                      SizedBox(height: 8.h),
-                      StarRatingRow(
-                        rating: rating,
-                        reviewCount: reviewCount,
-                        starColor: appColors?.starRating ?? colorScheme.tertiary,
-                        textStyle: textTheme.bodySmall?.copyWith(
-                          color: appColors?.primaryNavy ?? colorScheme.onSurface,
-                        ),
-                      ),
-                      const Spacer(),
-                      AppText(
-                        priceFormatted,
-                        translation: false,
-                        maxLines: 1,
-                        isAutoScale: true,
-                        style: textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                    ],
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ProductCardImage(
+                    imageUrl: imageUrl,
+                    size: ((width ?? 163.5.w) - 2).clamp(0.0, double.infinity),
+                    borderColor: appColors?.borderColor ?? colorScheme.outline,
+                    backgroundColor: colorScheme.surfaceContainer,
                   ),
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          searchHighlight != null && searchHighlight!.isNotEmpty
+                              ? TextWithHighlight(
+                                  text: name,
+                                  highlight: searchHighlight!,
+                                  style: textTheme.titleMedium?.copyWith(
+                                    color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                                  ),
+                                  maxLines: 2,
+                                )
+                              : AppText(
+                                  name,
+                                  translation: false,
+                                  style: textTheme.titleMedium?.copyWith(
+                                    color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                                  ),
+                                  maxLines: 2,
+                                  isAutoScale: true,
+                                ),
+                          SizedBox(height: 8.h),
+                          StarRatingRow(
+                            rating: rating,
+                            reviewCount: reviewCount,
+                            starColor: appColors?.starRating ?? colorScheme.tertiary,
+                            textStyle: textTheme.bodySmall?.copyWith(
+                              color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                            ),
+                          ),
+                          const Spacer(),
+                          AppText(
+                            priceFormatted,
+                            translation: false,
+                            maxLines: 1,
+                            isAutoScale: true,
+                            style: textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
             ),
           ),
         ),

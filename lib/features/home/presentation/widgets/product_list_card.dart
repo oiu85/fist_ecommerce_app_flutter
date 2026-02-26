@@ -10,8 +10,6 @@ import '../../../../core/theme/app_color_extension.dart';
 
 import 'product_card_image.dart';
 
-/// Horizontal list card for product display — image left, details right.
-/// Use in [SliverList] for list view mode; complements [ProductCard] (grid).
 class ProductListCard extends StatelessWidget {
   const ProductListCard({
     super.key,
@@ -29,11 +27,8 @@ class ProductListCard extends StatelessWidget {
   final double rating;
   final int reviewCount;
   final String priceFormatted;
-  /// When set, highlights matching text in [name] (e.g. search results).
   final String? searchHighlight;
   final VoidCallback? onTap;
-
-  /// Image size for list layout (square).
   static const double kImageSize = 96;
 
   @override
@@ -59,9 +54,7 @@ class ProductListCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 0.5,
-              color: appColors?.primaryNavy != null
-                  ? appColors!.primaryNavy.withValues(alpha: 0.25)
-                  : borderColor,
+              color: appColors?.primaryNavy != null ? appColors!.primaryNavy.withValues(alpha: 0.25) : borderColor,
             ),
             borderRadius: BorderRadius.circular(16.r),
           ),

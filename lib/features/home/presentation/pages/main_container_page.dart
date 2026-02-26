@@ -45,11 +45,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
   void _onTabChange(BuildContext context, int index) {
     AppHaptic.selection();
     context.read<HomeBloc>().add(BottomNavIndexChanged(index));
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   @override
@@ -59,8 +55,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
     return BlocProvider<HomeBloc>(
       create: (_) => getIt<HomeBloc>()..add(const LoadHome()),
       child: BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (prev, curr) =>
-            prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
+        buildWhen: (prev, curr) => prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
         builder: (context, state) {
           return AppScaffold.clean(
             backgroundColor: theme.colorScheme.surface,
@@ -89,7 +84,6 @@ class _MainContainerPageState extends State<MainContainerPage> {
   }
 }
 
-
 class _KeepAlivePage extends StatefulWidget {
   const _KeepAlivePage({required this.child});
 
@@ -99,8 +93,7 @@ class _KeepAlivePage extends StatefulWidget {
   State<_KeepAlivePage> createState() => _KeepAlivePageState();
 }
 
-class _KeepAlivePageState extends State<_KeepAlivePage>
-    with AutomaticKeepAliveClientMixin {
+class _KeepAlivePageState extends State<_KeepAlivePage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -110,4 +103,3 @@ class _KeepAlivePageState extends State<_KeepAlivePage>
     return widget.child;
   }
 }
-
