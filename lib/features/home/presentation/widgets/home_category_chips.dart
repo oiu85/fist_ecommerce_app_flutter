@@ -49,7 +49,7 @@ class HomeCategorySection extends StatelessWidget {
           );
   }
 
-  /// Row layout: horizontal scroll of chips with optional layout toggle.
+  /// Row layout: horizontal scroll of chips with layout toggle as overlay.
   Widget _buildRowLayout(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -59,36 +59,54 @@ class HomeCategorySection extends StatelessWidget {
       color: colorScheme.surface,
       child: SizedBox(
         height: 55.h,
-        child: Row(
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            Expanded(
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.only(top: 4.h, right: onLayoutToggle != null ? 8.w : 20.w, left: 20.w, bottom: 0),
-                itemCount: categories.length,
-                separatorBuilder: (_, __) => SizedBox(width: 12.w),
-                itemBuilder: (context, index) {
-                  final category = categories[index];
-                  final isSelected = index == selectedIndex;
-                  return CategoryChip(
-                    label: category.label,
-                    labelIsLocaleKey: category.labelIsLocaleKey,
-                    selected: isSelected,
-                    onTap: () => onCategorySelected(index),
-                  );
-                },
+            ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.only(
+                top: 4.h,
+                left: 20.w,
+                right: onLayoutToggle != null ? 52.w : 20.w,
+                bottom: 0,
               ),
+              itemCount: categories.length,
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                final isSelected = index == selectedIndex;
+                return CategoryChip(
+                  label: category.label,
+                  labelIsLocaleKey: category.labelIsLocaleKey,
+                  selected: isSelected,
+                  onTap: () => onCategorySelected(index),
+                );
+              },
             ),
             if (onLayoutToggle != null)
-              IconButton(
-                icon: (layoutStyle == CategoryLayoutStyle.row
-                        ? Assets.images.icons.category
-                        : Assets.images.icons.listRow)
-                    .svg(width: 22.r, height: 22.r),
-                onPressed: onLayoutToggle,
-                style: IconButton.styleFrom(minimumSize: Size(40.r, 40.r), padding: EdgeInsets.zero),
+              Positioned(
+                top: 0,
+                right: 12.w,
+                child: IconButton(
+                  icon: (layoutStyle == CategoryLayoutStyle.row
+                          ? Assets.images.icons.category
+                          : Assets.images.icons.listRow)
+                      .svg(
+                    width: 22.r,
+                    height: 22.r,
+                    colorFilter: ColorFilter.mode(
+                      colorScheme.onSurface,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  onPressed: onLayoutToggle,
+                  style: IconButton.styleFrom(
+                    minimumSize: Size(40.r, 40.r),
+                    padding: EdgeInsets.zero,
+                    backgroundColor: colorScheme.surface,
+                  ),
+                ),
               ),
-            if (onLayoutToggle != null) SizedBox(width: 12.w),
           ],
         ),
       ),

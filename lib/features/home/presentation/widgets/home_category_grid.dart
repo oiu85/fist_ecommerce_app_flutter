@@ -27,50 +27,60 @@ class HomeCategoryGrid extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    final horizontalPadding = 20.w;
     return Container(
       width: double.infinity,
       color: colorScheme.surface,
-      padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 8.h, bottom: 12.h),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      padding: EdgeInsets.only(left: horizontalPadding, right: horizontalPadding, top: 4.h, bottom: 12.h),
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          if (onLayoutToggle != null)
-            Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    icon: (layoutStyle == CategoryLayoutStyle.row
-                            ? Assets.images.icons.category
-                            : Assets.images.icons.listRow)
-                        .svg(width: 22.r, height: 22.r),
-                    onPressed: onLayoutToggle,
-                    style: IconButton.styleFrom(minimumSize: Size(40.r, 40.r), padding: EdgeInsets.zero),
+          Padding(
+            padding: EdgeInsets.only(top: onLayoutToggle != null ? 8.h : 0),
+            child: Wrap(
+              spacing: 12.w,
+              runSpacing: 12.h,
+              children: List.generate(categories.length, (index) {
+                final category = categories[index];
+                final cardWidth = (MediaQuery.sizeOf(context).width - horizontalPadding * 2 - 12.w) / 2;
+                return SizedBox(
+                  width: cardWidth,
+                  child: CategoryCard(
+                    label: category.label,
+                    labelIsLocaleKey: category.labelIsLocaleKey,
+                    selected: index == selectedIndex,
+                    width: cardWidth,
+                    height: 72.h,
+                    onTap: () => onCategorySelected(index),
                   ),
-                ],
+                );
+              }),
+            ),
+          ),
+          if (onLayoutToggle != null)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                icon: (layoutStyle == CategoryLayoutStyle.row
+                        ? Assets.images.icons.category
+                        : Assets.images.icons.listRow)
+                    .svg(
+                  width: 22.r,
+                  height: 22.r,
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.onSurface,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                onPressed: onLayoutToggle,
+                style: IconButton.styleFrom(
+                  minimumSize: Size(40.r, 40.r),
+                  padding: EdgeInsets.zero,
+                  backgroundColor: colorScheme.surface,
+                ),
               ),
             ),
-          Wrap(
-            spacing: 12.w,
-            runSpacing: 12.h,
-            children: List.generate(categories.length, (index) {
-              final category = categories[index];
-              final cardWidth = (MediaQuery.sizeOf(context).width - 20.w * 2 - 12.w) / 2;
-              return SizedBox(
-                width: cardWidth,
-                child: CategoryCard(
-                  label: category.label,
-                  labelIsLocaleKey: category.labelIsLocaleKey,
-                  selected: index == selectedIndex,
-                  width: cardWidth,
-                  height: 72.h,
-                  onTap: () => onCategorySelected(index),
-                ),
-              );
-            }),
-          ),
         ],
       ),
     );
