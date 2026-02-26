@@ -4,11 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
 
+/// Category card — label only, no icons. Matches API format
+/// (e.g. ["electronics", "jewelery", "men's clothing", "women's clothing"]).
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     super.key,
     required this.label,
-    this.icon,
     this.labelIsLocaleKey = false,
     this.selected = false,
     this.width,
@@ -17,7 +18,6 @@ class CategoryCard extends StatelessWidget {
   });
 
   final String label;
-  final IconData? icon;
   final bool labelIsLocaleKey;
   final bool selected;
   final double? width;
@@ -37,11 +37,7 @@ class CategoryCard extends StatelessWidget {
         : colorScheme.surface;
 
     final cardWidth = width ?? 88.w;
-    final cardHeight = height ?? 104.h;
-    final iconSize = 32.r;
-    final iconColor = selected
-        ? colorScheme.onPrimaryContainer
-        : colorScheme.primary;
+    final cardHeight = height ?? 72.h;
 
     final child = RepaintBoundary(
       child: Container(
@@ -55,38 +51,23 @@ class CategoryCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.r),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //* Icon area — uses Material icon or default category icon.
-            SizedBox(
-              width: 48.w,
-              height: 48.h,
-              child: Icon(
-                icon ?? Icons.category_outlined,
-                size: iconSize,
-                color: iconColor,
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: AppText(
+              label,
+              translation: labelIsLocaleKey,
+              style: textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: selected
+                    ? colorScheme.onPrimaryContainer
+                    : colorScheme.onSurface,
               ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              isAutoScale: true,
             ),
-            SizedBox(height: 8.h),
-            //* Label — theme bodySmall, centered, max 2 lines.
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.w),
-              child: AppText(
-                label,
-                translation: labelIsLocaleKey,
-                style: textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: selected
-                      ? colorScheme.onPrimaryContainer
-                      : colorScheme.onSurface,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                isAutoScale: true,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

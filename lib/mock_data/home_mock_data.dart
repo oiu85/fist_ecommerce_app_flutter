@@ -4,26 +4,19 @@ import '../features/home/presentation/widgets/home_product_grid.dart';
 
 //* ==================== Category Mock Data ====================
 
-/// Mock category list for home screen (All, Electronics, Jewelery, etc.).
+/// Mock category list for home (i18n via locale keys).
 List<HomeCategoryItem> get mockHomeCategories => const <HomeCategoryItem>[
-  HomeCategoryItem(id: 'all', labelLocaleKey: LocaleKeys.home_categoryAll),
-  HomeCategoryItem(
-    id: 'electronics',
-    labelLocaleKey: LocaleKeys.home_categoryElectronics,
-  ),
-  HomeCategoryItem(
-    id: 'jewelery',
-    labelLocaleKey: LocaleKeys.home_categoryJewelery,
-  ),
-  HomeCategoryItem(
-    id: 'mens_clothing',
-    labelLocaleKey: LocaleKeys.home_categoryMensClothing,
-  ),
-  HomeCategoryItem(
-    id: 'womens_clothing',
-    labelLocaleKey: LocaleKeys.home_categoryWomensClothing,
-  ),
+  HomeCategoryItem(id: 'all', label: LocaleKeys.home_categoryAll, labelIsLocaleKey: true),
+  HomeCategoryItem(id: 'electronics', label: LocaleKeys.home_categoryElectronics, labelIsLocaleKey: true),
+  HomeCategoryItem(id: 'jewelery', label: LocaleKeys.home_categoryJewelery, labelIsLocaleKey: true),
+  HomeCategoryItem(id: 'mens_clothing', label: LocaleKeys.home_categoryMensClothing, labelIsLocaleKey: true),
+  HomeCategoryItem(id: 'womens_clothing', label: LocaleKeys.home_categoryWomensClothing, labelIsLocaleKey: true),
 ];
+
+/// Build categories from API response. API returns e.g.:
+/// ["electronics", "jewelery", "men's clothing", "women's clothing"] — no icons.
+List<HomeCategoryItem> categoriesFromApi(List<String> apiCategories) =>
+    apiCategories.map((s) => HomeCategoryItem(id: s, label: s, labelIsLocaleKey: false)).toList();
 
 //* ==================== Product Mock Data ====================
 

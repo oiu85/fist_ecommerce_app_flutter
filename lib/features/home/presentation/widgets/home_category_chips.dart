@@ -15,31 +15,13 @@ enum CategoryLayoutStyle {
 class HomeCategoryItem {
   const HomeCategoryItem({
     required this.id,
-    required this.labelLocaleKey,
-    this.icon,
+    required this.label,
+    this.labelIsLocaleKey = false,
   });
 
   final String id;
-  final String labelLocaleKey;
-  /// Optional Material icon for grid card display. Defaults per category if null.
-  final IconData? icon;
-
-  IconData get effectiveIcon => icon ?? _iconForCategoryId(id);
-
-  static IconData _iconForCategoryId(String id) {
-    switch (id) {
-      case 'electronics':
-        return Icons.devices_outlined;
-      case 'jewelery':
-        return Icons.diamond_outlined;
-      case 'mens_clothing':
-        return Icons.checkroom_outlined;
-      case 'womens_clothing':
-        return Icons.dry_cleaning_outlined;
-      default:
-        return Icons.category_outlined;
-    }
-  }
+  final String label;
+  final bool labelIsLocaleKey;
 }
 
 class HomeCategorySection extends StatelessWidget {
@@ -56,7 +38,6 @@ class HomeCategorySection extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onCategorySelected;
   final CategoryLayoutStyle layoutStyle;
-  /// Optional callback to toggle layout (row ↔ grid). If provided, a toggle
   /// button is shown in the section header.
   final VoidCallback? onLayoutToggle;
 
@@ -100,8 +81,8 @@ class HomeCategorySection extends StatelessWidget {
                   final category = categories[index];
                   final isSelected = index == selectedIndex;
                   return CategoryChip(
-                    label: category.labelLocaleKey,
-                    labelIsLocaleKey: true,
+                    label: category.label,
+                    labelIsLocaleKey: category.labelIsLocaleKey,
                     selected: isSelected,
                     onTap: () => onCategorySelected(index),
                   );
@@ -130,7 +111,6 @@ class HomeCategorySection extends StatelessWidget {
   }
 }
 
-/// Legacy name alias — use [HomeCategorySection] with [CategoryLayoutStyle.row].
 @Deprecated('Use HomeCategorySection with layoutStyle: CategoryLayoutStyle.row')
 class HomeCategoryChips extends StatelessWidget {
   const HomeCategoryChips({

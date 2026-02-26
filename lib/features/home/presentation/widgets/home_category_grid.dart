@@ -77,12 +77,11 @@ class HomeCategoryGrid extends StatelessWidget {
               return SizedBox(
                 width: cardWidth,
                 child: CategoryCard(
-                  label: category.labelLocaleKey,
-                  labelIsLocaleKey: true,
-                  icon: category.effectiveIcon,
+                  label: category.label,
+                  labelIsLocaleKey: category.labelIsLocaleKey,
                   selected: isSelected,
                   width: cardWidth,
-                  height: 104.h,
+                  height: 72.h,
                   onTap: () => onCategorySelected(index),
                 ),
               );
