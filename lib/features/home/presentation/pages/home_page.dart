@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/shared/app_scaffold.dart';
+import '../../../../mock_data/home_mock_data.dart';
 import '../widgets/home_category_chips.dart';
 import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_product_grid.dart';
@@ -24,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedCategoryIndex = 0;
+  CategoryLayoutStyle _categoryLayout = CategoryLayoutStyle.row;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,19 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          HomeCategoryChips(
+          HomeCategorySection(
             categories: mockHomeCategories,
             selectedIndex: _selectedCategoryIndex,
             onCategorySelected: (index) {
               setState(() => _selectedCategoryIndex = index);
+            },
+            layoutStyle: _categoryLayout,
+            onLayoutToggle: () {
+              setState(() {
+                _categoryLayout = _categoryLayout == CategoryLayoutStyle.row
+                    ? CategoryLayoutStyle.grid
+                    : CategoryLayoutStyle.row;
+              });
             },
           ),
           Expanded(

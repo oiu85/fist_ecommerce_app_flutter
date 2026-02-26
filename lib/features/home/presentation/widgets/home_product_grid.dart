@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'product_card.dart';
 
-const String kHomeProductPlaceholderAsset = 'assets/images/png/prototype1.png';
+/// Placeholder image asset for product cards (default when imageUrl not provided).
+const String kHomeProductPlaceholderAsset =
+    'assets/images/png/prototype1.png';
+
 @immutable
 class HomeProductGridItem {
   const HomeProductGridItem({
@@ -45,10 +48,18 @@ class HomeProductGrid extends StatelessWidget {
     final crossSpacing = crossAxisSpacing ?? 16.w;
     final mainSpacing = mainAxisSpacing ?? 16.h;
 
+    //* Bottom padding to prevent last rows from hiding behind the nav bar.
+    final bottomPadding = MediaQuery.of(context).viewPadding.bottom + 90.h;
+
     return ColoredBox(
       color: surfaceColor,
       child: GridView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+        padding: EdgeInsets.only(
+          left: 20.w,
+          right: 20.w,
+          top: 8.h,
+          bottom: bottomPadding,
+        ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: mainSpacing,
@@ -73,56 +84,3 @@ class HomeProductGrid extends StatelessWidget {
     );
   }
 }
-
-/// Default list of placeholder products for the home grid (Figma/spec).
-List<HomeProductGridItem> get defaultHomeProductGridItems =>
-    <HomeProductGridItem>[
-      const HomeProductGridItem(
-        name: 'Wireless Bluetooth ',
-        rating: 4,
-        reviewCount: 124,
-        priceFormatted: r'$89.99',
-      ),
-      const HomeProductGridItem(
-        name: 'Gold Plated Chain Necklace',
-        rating: 4,
-        reviewCount: 89,
-        priceFormatted: r'$45.50',
-      ),
-      const HomeProductGridItem(
-        name: 'Classic Denim Jacket for Men',
-        rating: 4,
-        reviewCount: 203,
-        priceFormatted: r'$79.00',
-      ),
-      const HomeProductGridItem(
-        name: 'Floral Summer Dress',
-        rating: 4,
-        reviewCount: 156,
-        priceFormatted: r'$54.99',
-      ),
-      const HomeProductGridItem(
-        name: 'Smart Fitness Watch Pro',
-        rating: 4,
-        reviewCount: 342,
-        priceFormatted: r'$199.99',
-      ),
-      const HomeProductGridItem(
-        name: 'Sterling Silver Bracelet',
-        rating: 4,
-        reviewCount: 67,
-        priceFormatted: r'$129.00',
-      ),
-      const HomeProductGridItem(
-        name: "Men's Casual Sneakers",
-        rating: 4,
-        reviewCount: 278,
-        priceFormatted: r'$69.99',
-      ),
-      const HomeProductGridItem(
-        name: 'Leather Crossbody Bag',
-        rating: 4,
-        reviewCount: 192,
-        priceFormatted: r'$149.00',
-      ),
-    ];

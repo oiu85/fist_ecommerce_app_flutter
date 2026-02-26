@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../gen/fonts.gen.dart';
 import '../localization/locale_keys.g.dart';
 import '../theme/app_color_extension.dart';
+
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
@@ -23,45 +25,69 @@ class CustomBottomNavBar extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final appColors = theme.extension<AppColorExtension>();
+    final textTheme = theme.textTheme;
 
     final bg = backgroundColor ?? colorScheme.surface;
-    final inactiveColor = colorScheme.onSurface.withValues(alpha: 0.7);
+    final inactiveColor = colorScheme.onSurface.withValues(alpha: 0.6);
     final activeColor = colorScheme.primary;
-    final tabBg = colorScheme.primaryContainer.withValues(alpha: 0.3);
+    final tabBg = colorScheme.primaryContainer.withValues(alpha: 0.35);
     final borderColor = appColors?.borderColor ?? colorScheme.outline;
+    final rippleHover = colorScheme.surfaceContainerHighest;
 
     return Container(
       decoration: BoxDecoration(
         color: bg,
+        border: Border(
+          top: BorderSide(
+            width: 1,
+            color: borderColor.withValues(alpha: 0.3),
+          ),
+        ),
         boxShadow: [
           BoxShadow(
-            blurRadius: 20.r,
-            color: theme.shadowColor.withValues(alpha: 0.1),
+            offset: Offset(0, -4.h),
+            blurRadius: 12.r,
+            color: theme.shadowColor.withValues(alpha: 0.08),
           ),
         ],
       ),
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
           child: GNav(
             selectedIndex: selectedIndex,
             onTabChange: onTabChange,
-            rippleColor: colorScheme.surfaceContainerHighest,
-            hoverColor: colorScheme.surfaceContainerHighest,
-            gap: 8.w,
+            rippleColor: rippleHover,
+            hoverColor: rippleHover,
+            haptic: false,
+            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 300),
+            gap: 5.w,
             activeColor: activeColor,
             color: inactiveColor,
-            iconSize: 24.r,
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-            duration: const Duration(milliseconds: 400),
+            iconSize: 22.r,
+            textSize: 11.sp,
+            textStyle: textTheme.labelSmall?.copyWith(
+              fontFamily: FontFamily.sora,
+              fontWeight: FontWeight.w600,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+            tabMargin: EdgeInsets.symmetric(horizontal: 2.w),
             tabBackgroundColor: tabBg,
-            tabBorderRadius: 12.r,
-            tabBorder: Border.all(color: borderColor.withValues(alpha: 0.3)),
-            tabActiveBorder: Border.all(color: borderColor),
+            tabBorderRadius: 24.r,
             tabs: [
-              GButton(icon: Icons.home_outlined, text: LocaleKeys.home_navHome.tr()),
-              GButton(icon: Icons.shopping_cart_outlined, text: LocaleKeys.home_navCart.tr()),
-              GButton(icon: Icons.add_box_outlined, text: LocaleKeys.home_navAddProduct.tr()),
+              GButton(
+                icon: Icons.home_outlined,
+                text: LocaleKeys.home_navHome.tr(),
+              ),
+              GButton(
+                icon: Icons.shopping_cart_outlined,
+                text: LocaleKeys.home_navCart.tr(),
+              ),
+              GButton(
+                icon: Icons.add_box_outlined,
+                text: LocaleKeys.home_navAddProduct.tr(),
+              ),
             ],
           ),
         ),
