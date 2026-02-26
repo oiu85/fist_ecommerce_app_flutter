@@ -8,7 +8,6 @@ import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
 import '../../../../gen/assets.gen.dart';
 
-/// Profile header with circular avatar (placeholder or network image) and username.
 class SettingsProfileSection extends StatelessWidget {
   const SettingsProfileSection({
     super.key,

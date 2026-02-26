@@ -294,6 +294,7 @@
   },
   "home": {
     "appBarTitle": "Fist E-commerce",
+    "categories": "Categories",
     "products": "Products",
     "navHome": "Home",
     "navCart": "Cart",

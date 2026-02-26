@@ -7,6 +7,7 @@ import '../../../../core/shared/app_scaffold.dart';
 import '../../../../mock_data/home_mock_data.dart';
 import '../../../../mock_data/product_details_mock_data.dart';
 import '../widgets/home_category_chips.dart';
+import '../widgets/home_category_view_header.dart';
 import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_product_grid.dart';
 import '../widgets/home_product_list.dart';
@@ -92,25 +93,17 @@ class _HomePageState extends State<HomePage> {
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          // ——— Category section: chips row or grid, surface background ———
+          // ——— Category section: header (like products) + chips row or grid ———
           SliverToBoxAdapter(
             child: ColoredBox(
-              color: theme.colorScheme.surface,
-              child: AnimatedSection(
-                sectionIndex: 0,
-                child: AnimatedSwitcher(
-                  duration: AnimationConstants.standard,
-                  switchInCurve: AnimationConstants.entranceCurve,
-                  switchOutCurve: AnimationConstants.exitCurve,
-                  child: HomeCategorySection(
-                    key: ValueKey(_categoryLayout),
-                    categories: mockHomeCategories,
-                    selectedIndex: _selectedCategoryIndex,
-                    onCategorySelected: (index) {
-                      setState(() => _selectedCategoryIndex = index);
-                    },
+              color: theme.colorScheme.surfaceContainerHighest,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  HomeCategoryViewHeader(
                     layoutStyle: _categoryLayout,
-                    onLayoutToggle: () {
+                    onViewToggle: () {
                       setState(() {
                         _categoryLayout =
                             _categoryLayout == CategoryLayoutStyle.row
@@ -119,7 +112,29 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                   ),
-                ),
+                  ColoredBox(
+                    color: theme.colorScheme.surface,
+                    child: AnimatedSection(
+                      sectionIndex: 0,
+                      child: AnimatedSwitcher(
+                        duration: AnimationConstants.standard,
+                        switchInCurve: AnimationConstants.entranceCurve,
+                        switchOutCurve: AnimationConstants.exitCurve,
+                        child: HomeCategorySection(
+                          key: ValueKey(_categoryLayout),
+                          categories: mockHomeCategories,
+                          selectedIndex: _selectedCategoryIndex,
+                          onCategorySelected: (index) {
+                            setState(() => _selectedCategoryIndex = index);
+                          },
+                          layoutStyle: _categoryLayout,
+                          //* Toggle lives in header; no inline button
+                          onLayoutToggle: null,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

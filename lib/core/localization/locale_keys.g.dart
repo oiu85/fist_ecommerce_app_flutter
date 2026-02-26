@@ -279,6 +279,7 @@ abstract class  LocaleKeys {
   static const addProduct_validation_urlInvalid = 'addProduct.validation_urlInvalid';
   static const addProduct = 'addProduct';
   static const home_appBarTitle = 'home.appBarTitle';
+  static const home_categories = 'home.categories';
   static const home_products = 'home.products';
   static const home_navHome = 'home.navHome';
   static const home_navCart = 'home.navCart';
