@@ -1,4 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
+import '../localization/app_text.dart';
 
 //* Renders text with matching substrings highlighted (e.g. search results).
 //? Case-insensitive; uses [highlightStyle] for matches, [style] for the rest.
@@ -9,7 +12,7 @@ class TextWithHighlight extends StatelessWidget {
     required this.highlight,
     this.style,
     this.highlightStyle,
-    this.maxLines,
+    this.maxLines = 2,
     this.overflow = TextOverflow.ellipsis,
   });
 
@@ -24,19 +27,23 @@ class TextWithHighlight extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveStyle = style ?? DefaultTextStyle.of(context).style;
     final theme = Theme.of(context);
-    final highlightColor = theme.colorScheme.primaryContainer;
+    final highlightBg = theme.colorScheme.primary;
     final effectiveHighlightStyle = highlightStyle ??
         effectiveStyle.copyWith(
-          fontWeight: FontWeight.w700,
-          backgroundColor: highlightColor,
-          color: theme.colorScheme.onPrimaryContainer,
+          fontWeight: FontWeight.w800,
+          backgroundColor: highlightBg,
+          color: theme.colorScheme.onPrimary,
+          decoration: TextDecoration.none,
         );
 
+
     if (highlight.trim().isEmpty) {
-      return Text(
+      return AppText(
         text,
+        translation: false,
+        isAutoScale: true,
+        maxLines: maxLines ?? 2,
         style: effectiveStyle,
-        maxLines: maxLines,
         overflow: overflow,
       );
     }
@@ -68,10 +75,11 @@ class TextWithHighlight extends StatelessWidget {
       start = matchIndex + query.length;
     }
 
-    return RichText(
-      maxLines: maxLines,
+    return AutoSizeText.rich(
+      TextSpan(style: effectiveStyle, children: spans),
+      maxLines: maxLines ?? 2,
       overflow: overflow,
-      text: TextSpan(style: effectiveStyle, children: spans),
+      style: effectiveStyle,
     );
   }
 }
