@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../localization/app_text.dart';
 import '../theme/app_color_extension.dart';
 
-
 class CategoryChip extends StatelessWidget {
   const CategoryChip({
     super.key,
@@ -38,36 +37,34 @@ class CategoryChip extends StatelessWidget {
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
 
-    final effectiveBg = backgroundColor ??
-        (selected ? colorScheme.primaryContainer : colorScheme.surfaceContainerHighest);
-    final effectiveBorder = borderColor ?? appColors?.borderColor ?? colorScheme.outline;
-    final effectiveTextStyle = textStyle ??
-        textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-          color: selected ? colorScheme.onPrimaryContainer : colorScheme.onSurface,
-        );
-
-    final chipWidth = width ?? 106.w;
-    final chipHeight = height ?? 42.h;
-    final paddingH = horizontalPadding ?? 18.w;
-
     final child = Container(
-      width: chipWidth,
-      height: chipHeight,
+      width: width ?? 106.w,
+      height: height ?? 42.h,
       decoration: ShapeDecoration(
-        color: effectiveBg,
+        color: backgroundColor ?? (selected ? colorScheme.primaryContainer : colorScheme.surfaceContainerHighest),
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: effectiveBorder),
+          side: selected
+              ? BorderSide.none
+              : BorderSide(
+                  color: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
+                ),
           borderRadius: BorderRadius.circular(9999.r),
         ),
       ),
       child: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: paddingH),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding ?? 18.w),
           child: AppText(
             label,
             translation: labelIsLocaleKey,
-            style: effectiveTextStyle,
+            style:
+                textStyle ??
+                textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: selected && appColors?.primaryNavy != null
+                      ? appColors!.primaryNavy
+                      : (selected ? colorScheme.onPrimaryContainer : colorScheme.onSurface),
+                ),
             textAlign: TextAlign.center,
             isAutoScale: true,
             maxLines: 1,
@@ -77,11 +74,7 @@ class CategoryChip extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: child,
-      );
+      return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: child);
     }
 
     return child;

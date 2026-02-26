@@ -7,7 +7,6 @@ import '../../../../core/theme/app_color_extension.dart';
 
 import 'product_card_image.dart';
 
-
 /// Displays product image, name, star rating, review count, and price.
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -20,7 +19,6 @@ class ProductCard extends StatelessWidget {
     this.width,
     this.onTap,
   });
-
 
   final String imageUrl;
   final String name;
@@ -37,23 +35,23 @@ class ProductCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
-    final borderColor = appColors?.borderColor ?? colorScheme.outline;
-    final starColor = appColors?.starRating ?? colorScheme.tertiary;
-
-    final cardWidth = width ?? 163.5.w;
-    final imageSize = (cardWidth - 2).clamp(0.0, double.infinity);
 
     return RepaintBoundary(
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: cardWidth,
+          width: width ?? 163.5.w,
           height: 283.5.h,
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: colorScheme.surface,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: borderColor),
+              side: BorderSide(
+                width: 0.5,
+                color: appColors?.primaryNavy != null
+                    ? appColors!.primaryNavy.withValues(alpha: 0.25)
+                    : (appColors?.borderColor ?? colorScheme.outline),
+              ),
               borderRadius: BorderRadius.circular(12.r),
             ),
           ),
@@ -63,8 +61,8 @@ class ProductCard extends StatelessWidget {
             children: [
               ProductCardImage(
                 imageUrl: imageUrl,
-                size: imageSize,
-                borderColor: borderColor,
+                size: ((width ?? 163.5.w) - 2).clamp(0.0, double.infinity),
+                borderColor: appColors?.borderColor ?? colorScheme.outline,
                 backgroundColor: colorScheme.surfaceContainerHighest,
               ),
               Expanded(
@@ -74,11 +72,10 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      //? Product name — theme titleMedium, max 2 lines.
                       AppText(
                         name,
                         translation: false,
-                        style: textTheme.titleMedium,
+                        style: textTheme.titleMedium?.copyWith(color: appColors?.primaryNavy ?? colorScheme.onSurface),
                         maxLines: 2,
                         isAutoScale: true,
                       ),
@@ -86,12 +83,12 @@ class ProductCard extends StatelessWidget {
                       StarRatingRow(
                         rating: rating,
                         reviewCount: reviewCount,
-                        starColor: starColor,
+                        starColor: appColors?.starRating ?? colorScheme.tertiary,
                         textStyle: textTheme.bodySmall?.copyWith(
+                          color: appColors?.primaryNavy ?? colorScheme.onSurface,
                         ),
                       ),
                       const Spacer(),
-                      //? Price — theme headlineSmall with primary color and bold.
                       AppText(
                         priceFormatted,
                         translation: false,

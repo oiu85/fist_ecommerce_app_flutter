@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'product_card.dart';
 
 /// Placeholder image asset for product cards (default when imageUrl not provided).
-const String kHomeProductPlaceholderAsset =
-    'assets/images/png/prototype1.png';
+const String kHomeProductPlaceholderAsset = 'assets/images/png/prototype1.png';
 
 @immutable
 class HomeProductGridItem {
@@ -33,41 +32,28 @@ Widget buildHomeProductGridSliver(
   double? mainAxisSpacing,
   void Function(HomeProductGridItem item)? onProductTap,
 }) {
-  final crossSpacing = crossAxisSpacing ?? 16.w;
-  final mainSpacing = mainAxisSpacing ?? 16.h;
-  final bottomPadding = MediaQuery.of(context).viewPadding.bottom + 90.h;
-  final edgePadding = EdgeInsets.only(
-    left: 20.w,
-    right: 20.w,
-    top: 8.h,
-    bottom: bottomPadding,
-  );
-  final resolvedPadding = padding ?? edgePadding;
-  final onTap = onProductTap;
-
   return SliverPadding(
-    padding: resolvedPadding,
+    padding:
+        padding ??
+        EdgeInsets.only(left: 20.w, right: 20.w, top: 8.h, bottom: MediaQuery.of(context).viewPadding.bottom + 90.h),
     sliver: SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: mainSpacing,
-        crossAxisSpacing: crossSpacing,
+        mainAxisSpacing: mainAxisSpacing ?? 16.h,
+        crossAxisSpacing: crossAxisSpacing ?? 16.w,
         childAspectRatio: 163.5 / 283.5,
       ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final item = items[index];
-          return ProductCard(
-            imageUrl: item.imageUrl,
-            name: item.name,
-            rating: item.rating,
-            reviewCount: item.reviewCount,
-            priceFormatted: item.priceFormatted,
-            onTap: onTap != null ? () => onTap(item) : null,
-          );
-        },
-        childCount: items.length,
-      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final item = items[index];
+        return ProductCard(
+          imageUrl: item.imageUrl,
+          name: item.name,
+          rating: item.rating,
+          reviewCount: item.reviewCount,
+          priceFormatted: item.priceFormatted,
+          onTap: onProductTap != null ? () => onProductTap!(item) : null,
+        );
+      }, childCount: items.length),
     ),
   );
 }
@@ -91,9 +77,9 @@ class HomeProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final surfaceColor = theme.colorScheme.surfaceContainerHighest;
+
     return ColoredBox(
-      color: surfaceColor,
+      color: theme.colorScheme.surfaceContainerHighest,
       child: CustomScrollView(
         slivers: [
           buildHomeProductGridSliver(

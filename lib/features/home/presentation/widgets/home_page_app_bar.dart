@@ -6,13 +6,7 @@ import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/theme/app_color_extension.dart';
 
 class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomePageAppBar({
-    super.key,
-    this.title,
-    this.cartCount = 0,
-    this.onSearchTap,
-    this.onCartTap,
-  });
+  const HomePageAppBar({super.key, this.title, this.cartCount = 0, this.onSearchTap, this.onCartTap});
 
   final String? title;
   final int cartCount;
@@ -28,22 +22,12 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
-    final borderColor = appColors?.borderColor ?? colorScheme.outline;
-
-    final useTitleKey = title == null;
-    final effectiveTitle = title ?? LocaleKeys.home_appBarTitle;
-    final titleStyle = textTheme.headlineSmall?.copyWith(
-      fontWeight: FontWeight.w700,
-      color: colorScheme.onSurface,
-    );
 
     return Container(
       height: preferredSize.height,
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        border: Border(
-          bottom: BorderSide(width: 1, color: borderColor),
-        ),
+        border: Border(bottom: BorderSide(width: 1, color: appColors?.borderColor ?? colorScheme.outline)),
       ),
       child: SafeArea(
         bottom: false,
@@ -57,23 +41,19 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 decoration: BoxDecoration(
                   color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(
-                    color: borderColor,
-                    width: 1,
-                  ),
+                  border: Border.all(color: appColors?.primaryNavy ?? colorScheme.onSurface, width: 1),
                 ),
-                child: Icon(
-                  Icons.store_outlined,
-                  size: 18.r,
-                  color: colorScheme.onPrimary,
-                ),
+                child: Icon(Icons.store_outlined, size: 18.r, color: colorScheme.onPrimary),
               ),
               SizedBox(width: 8.w),
               Expanded(
                 child: AppText(
-                  effectiveTitle,
-                  translation: useTitleKey,
-                  style: titleStyle,
+                  title ?? LocaleKeys.home_appBarTitle,
+                  translation: title == null,
+                  style: textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                  ),
                   maxLines: 1,
                   isAutoScale: true,
                 ),
@@ -81,11 +61,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
               SizedBox(width: 8.w),
               IconButton(
                 onPressed: onSearchTap,
-                icon: Icon(
-                  Icons.search,
-                  size: 24.r,
-                  color: colorScheme.onSurface,
-                ),
+                icon: Icon(Icons.search, size: 24.r, color: colorScheme.onSurface),
                 style: IconButton.styleFrom(
                   minimumSize: Size(40.r, 40.r),
                   padding: EdgeInsets.zero,
@@ -100,11 +76,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                 textColor: colorScheme.onPrimary,
                 child: IconButton(
                   onPressed: onCartTap,
-                  icon: Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 24.r,
-                    color: colorScheme.onSurface,
-                  ),
+                  icon: Icon(Icons.shopping_cart_outlined, size: 24.r, color: colorScheme.onSurface),
                   style: IconButton.styleFrom(
                     minimumSize: Size(40.r, 40.r),
                     padding: EdgeInsets.zero,

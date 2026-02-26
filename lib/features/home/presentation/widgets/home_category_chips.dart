@@ -6,18 +6,11 @@ import '../../../../core/component/category_chip.dart';
 import 'home_category_grid.dart';
 
 //* Layout mode for category display: row (horizontal chips) or grid (cards).
-enum CategoryLayoutStyle {
-  row,
-  grid,
-}
+enum CategoryLayoutStyle { row, grid }
 
 @immutable
 class HomeCategoryItem {
-  const HomeCategoryItem({
-    required this.id,
-    required this.label,
-    this.labelIsLocaleKey = false,
-  });
+  const HomeCategoryItem({required this.id, required this.label, this.labelIsLocaleKey = false});
 
   final String id;
   final String label;
@@ -38,6 +31,7 @@ class HomeCategorySection extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onCategorySelected;
   final CategoryLayoutStyle layoutStyle;
+
   /// button is shown in the section header.
   final VoidCallback? onLayoutToggle;
 
@@ -56,25 +50,20 @@ class HomeCategorySection extends StatelessWidget {
 
   /// Row layout: horizontal scroll of chips with optional layout toggle.
   Widget _buildRowLayout(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    const double rowHeight = 55;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Container(
       width: double.infinity,
       color: colorScheme.surface,
       child: SizedBox(
-        height: rowHeight,
+        height: 55.h,
         child: Row(
           children: [
             Expanded(
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.only(
-                  top: 4.h,
-                  right: onLayoutToggle != null ? 8.w : 20.w,
-                  left: 20.w,
-                  bottom: 0,
-                ),
+                padding: EdgeInsets.only(top: 4.h, right: onLayoutToggle != null ? 8.w : 20.w, left: 20.w, bottom: 0),
                 itemCount: categories.length,
                 separatorBuilder: (_, __) => SizedBox(width: 12.w),
                 itemBuilder: (context, index) {
@@ -92,16 +81,11 @@ class HomeCategorySection extends StatelessWidget {
             if (onLayoutToggle != null)
               IconButton(
                 icon: Icon(
-                  layoutStyle == CategoryLayoutStyle.row
-                      ? Icons.grid_view_rounded
-                      : Icons.view_agenda_rounded,
+                  layoutStyle == CategoryLayoutStyle.row ? Icons.grid_view_rounded : Icons.view_agenda_rounded,
                   size: 22.r,
                 ),
                 onPressed: onLayoutToggle,
-                style: IconButton.styleFrom(
-                  minimumSize: Size(40.r, 40.r),
-                  padding: EdgeInsets.zero,
-                ),
+                style: IconButton.styleFrom(minimumSize: Size(40.r, 40.r), padding: EdgeInsets.zero),
               ),
             if (onLayoutToggle != null) SizedBox(width: 12.w),
           ],
@@ -126,9 +110,9 @@ class HomeCategoryChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => HomeCategorySection(
-        categories: categories,
-        selectedIndex: selectedIndex,
-        onCategorySelected: onCategorySelected,
-        layoutStyle: CategoryLayoutStyle.row,
-      );
+    categories: categories,
+    selectedIndex: selectedIndex,
+    onCategorySelected: onCategorySelected,
+    layoutStyle: CategoryLayoutStyle.row,
+  );
 }

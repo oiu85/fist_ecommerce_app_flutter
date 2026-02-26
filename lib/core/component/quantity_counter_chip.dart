@@ -39,47 +39,27 @@ class QuantityCounterChip extends StatelessWidget {
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
 
-    final effectiveBg = backgroundColor ?? colorScheme.surfaceContainerHighest;
-    final effectiveBorder = borderColor ?? appColors?.borderColor ?? colorScheme.outline;
-    final effectiveIconColor = iconColor ?? colorScheme.onSurface;
-    final effectiveTextStyle = textStyle ??
-        textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-          fontSize: 16.sp,
-          height: 1.5,
-          letterSpacing: -0.5,
-          color: colorScheme.onSurface,
-        );
-
-    final canDecrement = value > minValue;
-    final canIncrement = maxValue == null || value < maxValue!;
-
-    final chipWidth = width ?? 112.w;
-    final chipHeight = height ?? 40.h;
-    final buttonSize = 32.r;
-    final inset = 4.r;
-
     return Container(
-      width: chipWidth,
-      height: chipHeight,
+      width: width ?? 112.w,
+      height: height ?? 40.h,
       decoration: ShapeDecoration(
-        color: effectiveBg,
+        color: backgroundColor ?? colorScheme.surfaceContainerHighest,
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: effectiveBorder),
+          side: BorderSide(color: borderColor ?? appColors?.borderColor ?? colorScheme.outline),
           borderRadius: BorderRadius.circular(9999.r),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: inset),
+        padding: EdgeInsets.symmetric(horizontal: 4.r),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _CounterButton(
               icon: Icons.remove,
-              iconColor: effectiveIconColor,
-              borderColor: effectiveBorder,
-              size: buttonSize,
-              onTap: canDecrement ? onDecrement : null,
+              iconColor: iconColor ?? colorScheme.onSurface,
+              borderColor: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
+              size: 32.r,
+              onTap: value > minValue ? onDecrement : null,
               iconSize: 12.r,
             ),
             Expanded(
@@ -87,17 +67,25 @@ class QuantityCounterChip extends StatelessWidget {
                 child: AppText(
                   '$value',
                   translation: false,
-                  style: effectiveTextStyle,
+                  style:
+                      textStyle ??
+                      textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.sp,
+                        height: 1.5,
+                        letterSpacing: -0.5,
+                        color: colorScheme.onSurface,
+                      ),
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
             _CounterButton(
               icon: Icons.add,
-              iconColor: effectiveIconColor,
-              borderColor: effectiveBorder,
-              size: buttonSize,
-              onTap: canIncrement ? onIncrement : null,
+              iconColor: iconColor ?? colorScheme.onSurface,
+              borderColor: borderColor ?? appColors?.borderColor ?? colorScheme.outline,
+              size: 32.r,
+              onTap: maxValue == null || value < maxValue! ? onIncrement : null,
               iconSize: 12.r,
             ),
           ],
@@ -138,11 +126,7 @@ class _CounterButton extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Icon(
-          icon,
-          size: iconSize,
-          color: onTap != null ? iconColor : iconColor.withValues(alpha: 0.4),
-        ),
+        child: Icon(icon, size: iconSize, color: onTap != null ? iconColor : iconColor.withValues(alpha: 0.4)),
       ),
     );
 

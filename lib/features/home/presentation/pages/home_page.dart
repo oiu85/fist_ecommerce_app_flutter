@@ -7,12 +7,7 @@ import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_product_grid.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    super.key,
-    this.cartCount = 0,
-    this.onSearchTap,
-    this.onCartTap,
-  });
+  const HomePage({super.key, this.cartCount = 0, this.onSearchTap, this.onCartTap});
 
   final int cartCount;
   final VoidCallback? onSearchTap;
@@ -29,22 +24,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final surfaceColor = theme.colorScheme.surface;
-    final gridBackgroundColor = theme.colorScheme.surfaceContainerHighest;
 
     return AppScaffold.custom(
-      backgroundColor: gridBackgroundColor,
-      appBar: HomePageAppBar(
-        cartCount: widget.cartCount,
-        onSearchTap: widget.onSearchTap,
-        onCartTap: widget.onCartTap,
-      ),
+      backgroundColor: theme.colorScheme.surfaceContainerHighest,
+      appBar: HomePageAppBar(cartCount: widget.cartCount, onSearchTap: widget.onSearchTap, onCartTap: widget.onCartTap),
       body: CustomScrollView(
         slivers: <Widget>[
           // ——— Category section: chips row or grid, surface background ———
           SliverToBoxAdapter(
             child: ColoredBox(
-              color: surfaceColor,
+              color: theme.colorScheme.surface,
               child: HomeCategorySection(
                 categories: mockHomeCategories,
                 selectedIndex: _selectedCategoryIndex,
@@ -54,10 +43,9 @@ class _HomePageState extends State<HomePage> {
                 layoutStyle: _categoryLayout,
                 onLayoutToggle: () {
                   setState(() {
-                    _categoryLayout =
-                        _categoryLayout == CategoryLayoutStyle.row
-                            ? CategoryLayoutStyle.grid
-                            : CategoryLayoutStyle.row;
+                    _categoryLayout = _categoryLayout == CategoryLayoutStyle.row
+                        ? CategoryLayoutStyle.grid
+                        : CategoryLayoutStyle.row;
                   });
                 },
               ),

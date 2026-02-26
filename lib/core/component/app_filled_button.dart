@@ -20,10 +20,7 @@ class AppFilledButton extends StatelessWidget {
     this.height,
     this.borderRadius,
     this.borderColor,
-  }) : assert(
-          labelKey != null || (label != null && label.isNotEmpty),
-          'Either labelKey or label must be provided.',
-        );
+  }) : assert(labelKey != null || (label != null && label.isNotEmpty), 'Either labelKey or label must be provided.');
 
   final String? label;
   final String? labelKey;
@@ -46,75 +43,8 @@ class AppFilledButton extends StatelessWidget {
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
 
-    final resolvedBackground = backgroundColor ?? colorScheme.primary;
-    final resolvedForeground = foregroundColor ?? colorScheme.onPrimary;
-    final resolvedBorder = borderColor ?? appColors?.borderColor ?? colorScheme.outline;
-    final resolvedRadius = BorderRadius.circular((borderRadius ?? 16).r);
-    final shadowColor = theme.shadowColor.withValues(alpha: 0.1);
-
-    final buttonWidth = width ?? 335.w;
-    final buttonHeight = height ?? 56.h;
-
-    final textWidget = AppText(
-      labelKey ?? label ?? '',
-      translation: labelKey != null,
-      style: textTheme.labelLarge?.copyWith(
-        color: resolvedForeground,
-        fontWeight: FontWeight.w600,
-        fontSize: 16.sp,
-      ),
-      textAlign: TextAlign.center,
-    );
-
-    final effectiveIconSize = (iconSize ?? 20).r;
-    final effectiveIconSpacing = iconSpacing ?? 8.w;
-
-    final content = icon != null
-        ? Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconTheme(
-                data: IconThemeData(
-                  color: resolvedForeground,
-                  size: effectiveIconSize,
-                ),
-                child: icon!,
-              ),
-              SizedBox(width: effectiveIconSpacing),
-              Flexible(child: textWidget),
-            ],
-          )
-        : textWidget;
-
-    final decoration = ShapeDecoration(
-      color: resolvedBackground,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: resolvedBorder),
-        borderRadius: resolvedRadius,
-      ),
-      shadows: [
-        BoxShadow(
-          color: shadowColor,
-          blurRadius: 15.r,
-          offset: Offset(0, 10.h),
-          spreadRadius: 0,
-        ),
-        BoxShadow(
-          color: shadowColor,
-          blurRadius: 6.r,
-          offset: Offset(0, 4.h),
-          spreadRadius: 0,
-        ),
-      ],
-    );
-
-    final child = Container(
-      width: buttonWidth,
-      height: buttonHeight,
-      decoration: decoration,
-      child: Center(child: content),
-    );
+    final fg = foregroundColor ?? colorScheme.onPrimary;
+    final radius = BorderRadius.circular((borderRadius ?? 16).r);
 
     return Semantics(
       button: true,
@@ -124,10 +54,66 @@ class AppFilledButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: resolvedRadius,
-          splashColor: resolvedForeground.withValues(alpha: 0.26),
-          highlightColor: resolvedForeground.withValues(alpha: 0.13),
-          child: child,
+          borderRadius: radius,
+          splashColor: fg.withValues(alpha: 0.26),
+          highlightColor: fg.withValues(alpha: 0.13),
+          child: Container(
+            width: width ?? 335.w,
+            height: height ?? 56.h,
+            decoration: ShapeDecoration(
+              color: backgroundColor ?? colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: borderColor ?? appColors?.borderColor ?? colorScheme.outline),
+                borderRadius: radius,
+              ),
+              shadows: [
+                BoxShadow(
+                  color: theme.shadowColor.withValues(alpha: 0.1),
+                  blurRadius: 15.r,
+                  offset: Offset(0, 10.h),
+                  spreadRadius: 0,
+                ),
+                BoxShadow(
+                  color: theme.shadowColor.withValues(alpha: 0.1),
+                  blurRadius: 6.r,
+                  offset: Offset(0, 4.h),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Center(
+              child: icon != null
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconTheme(
+                          data: IconThemeData(color: fg, size: (iconSize ?? 20).r),
+                          child: icon!,
+                        ),
+                        SizedBox(width: iconSpacing ?? 8.w),
+                        Flexible(
+                          child: AppText(
+                            labelKey ?? label ?? '',
+                            translation: labelKey != null,
+                            style: textTheme.labelLarge?.copyWith(
+                              color: fg,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.sp,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    )
+                  : AppText(
+                      labelKey ?? label ?? '',
+                      translation: labelKey != null,
+                      style: textTheme.labelLarge?.copyWith(color: fg, fontWeight: FontWeight.w600, fontSize: 16.sp),
+                      textAlign: TextAlign.center,
+                    ),
+            ),
+          ),
         ),
       ),
     );

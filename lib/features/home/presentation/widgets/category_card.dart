@@ -31,23 +31,20 @@ class CategoryCard extends StatelessWidget {
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
 
-    final effectiveBorder = appColors?.borderColor ?? colorScheme.outline;
-    final effectiveBg = selected
-        ? colorScheme.primaryContainer
-        : colorScheme.surface;
-
-    final cardWidth = width ?? 88.w;
-    final cardHeight = height ?? 72.h;
-
     final child = RepaintBoundary(
       child: Container(
-        width: cardWidth,
-        height: cardHeight,
+        width: width ?? 88.w,
+        height: height ?? 72.h,
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
-          color: effectiveBg,
+          color: selected ? colorScheme.primaryContainer : colorScheme.surface,
           shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color: effectiveBorder),
+            side: BorderSide(
+              width: 1,
+              color: selected && appColors?.primaryNavy != null
+                  ? appColors!.primaryNavy
+                  : (appColors?.borderColor ?? colorScheme.outline),
+            ),
             borderRadius: BorderRadius.circular(12.r),
           ),
         ),
@@ -59,9 +56,9 @@ class CategoryCard extends StatelessWidget {
               translation: labelIsLocaleKey,
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: selected
-                    ? colorScheme.onPrimaryContainer
-                    : colorScheme.onSurface,
+                color: selected && appColors?.primaryNavy != null
+                    ? appColors!.primaryNavy
+                    : (selected ? colorScheme.onPrimaryContainer : colorScheme.onSurface),
               ),
               textAlign: TextAlign.center,
               maxLines: 2,
@@ -73,11 +70,7 @@ class CategoryCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: child,
-      );
+      return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: child);
     }
 
     return child;

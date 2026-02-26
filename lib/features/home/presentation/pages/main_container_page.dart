@@ -32,11 +32,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
   }
 
   void _onTabChange(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   @override
@@ -51,17 +47,10 @@ class _MainContainerPageState extends State<MainContainerPage> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: _onPageChanged,
-          children: const [
-            HomePage(),
-            _CartPlaceholderPage(),
-            _AddProductPlaceholderPage(),
-          ],
+          children: const [HomePage(), _CartPlaceholderPage(), _AddProductPlaceholderPage()],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onTabChange: _onTabChange,
-      ),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: _selectedIndex, onTabChange: _onTabChange),
     );
   }
 }
@@ -73,12 +62,7 @@ class _ComingSoonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Center(
-      child: Text(
-        'Coming soon',
-        style: theme.textTheme.titleLarge?.copyWith(
-          color: theme.colorScheme.onSurface,
-        ),
-      ),
+      child: Text('Coming soon', style: theme.textTheme.titleLarge?.copyWith(color: theme.colorScheme.onSurface)),
     );
   }
 }

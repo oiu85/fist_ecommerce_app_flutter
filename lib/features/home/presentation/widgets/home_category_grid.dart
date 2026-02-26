@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'category_card.dart';
 import 'home_category_chips.dart';
 
-
 class HomeCategoryGrid extends StatelessWidget {
   const HomeCategoryGrid({
     super.key,
@@ -23,25 +22,13 @@ class HomeCategoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    const crossAxisCount = 2;
-    final crossSpacing = 12.w;
-    final mainSpacing = 12.h;
-    final horizontalPadding = 20.w;
-    final screenWidth = MediaQuery.sizeOf(context).width;
-    final totalHorizontalPadding = horizontalPadding * 2;
-    final availableWidth = screenWidth - totalHorizontalPadding - crossSpacing;
-    final cardWidth = availableWidth / crossAxisCount;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Container(
       width: double.infinity,
       color: colorScheme.surface,
-      padding: EdgeInsets.only(
-        left: horizontalPadding,
-        right: horizontalPadding,
-        top: 8.h,
-        bottom: 12.h,
-      ),
+      padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 8.h, bottom: 12.h),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,32 +41,27 @@ class HomeCategoryGrid extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: Icon(
-                      layoutStyle == CategoryLayoutStyle.row
-                          ? Icons.grid_view_rounded
-                          : Icons.view_agenda_rounded,
+                      layoutStyle == CategoryLayoutStyle.row ? Icons.grid_view_rounded : Icons.view_agenda_rounded,
                       size: 22.r,
                     ),
                     onPressed: onLayoutToggle,
-                    style: IconButton.styleFrom(
-                      minimumSize: Size(40.r, 40.r),
-                      padding: EdgeInsets.zero,
-                    ),
+                    style: IconButton.styleFrom(minimumSize: Size(40.r, 40.r), padding: EdgeInsets.zero),
                   ),
                 ],
               ),
             ),
           Wrap(
-            spacing: crossSpacing,
-            runSpacing: mainSpacing,
+            spacing: 12.w,
+            runSpacing: 12.h,
             children: List.generate(categories.length, (index) {
               final category = categories[index];
-              final isSelected = index == selectedIndex;
+              final cardWidth = (MediaQuery.sizeOf(context).width - 20.w * 2 - 12.w) / 2;
               return SizedBox(
                 width: cardWidth,
                 child: CategoryCard(
                   label: category.label,
                   labelIsLocaleKey: category.labelIsLocaleKey,
-                  selected: isSelected,
+                  selected: index == selectedIndex,
                   width: cardWidth,
                   height: 72.h,
                   onTap: () => onCategorySelected(index),

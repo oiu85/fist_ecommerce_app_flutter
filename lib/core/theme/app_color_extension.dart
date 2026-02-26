@@ -22,6 +22,8 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
   final Color borderColor;
   /// Star rating color for product cards, reviews.
   final Color starRating;
+  /// Second primary (navy) for headers, titles, and small accents.
+  final Color primaryNavy;
 
   const AppColorExtension({
     required this.accentHover,
@@ -37,6 +39,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     required this.componentBackground,
     required this.borderColor,
     required this.starRating,
+    required this.primaryNavy,
   });
 
   //* Light: primary (green) accent only — secondary color removed
@@ -54,6 +57,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     componentBackground: AppColors.componentsBackground,
     borderColor: AppColors.borderColor,
     starRating: AppColors.starRatingYellow,
+    primaryNavy: AppColors.primaryNavy,
   );
 
   //* Dark: same primary (green) accent — no secondary color
@@ -71,6 +75,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     componentBackground: AppColors.componentsBackground,
     borderColor: AppColors.borderColor,
     starRating: AppColors.starRatingYellow,
+    primaryNavy: AppColors.primaryNavy,
   );
 
   @override
@@ -88,6 +93,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
     Color? componentBackground,
     Color? borderColor,
     Color? starRating,
+    Color? primaryNavy,
   }) {
     return AppColorExtension(
       accentHover: accentHover ?? this.accentHover,
@@ -103,6 +109,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
       componentBackground: componentBackground ?? this.componentBackground,
       borderColor: borderColor ?? this.borderColor,
       starRating: starRating ?? this.starRating,
+      primaryNavy: primaryNavy ?? this.primaryNavy,
     );
   }
 
@@ -123,6 +130,7 @@ class AppColorExtension extends ThemeExtension<AppColorExtension> {
       componentBackground: Color.lerp(componentBackground, other.componentBackground, t)!,
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
       starRating: Color.lerp(starRating, other.starRating, t)!,
+      primaryNavy: Color.lerp(primaryNavy, other.primaryNavy, t)!,
     );
   }
 }

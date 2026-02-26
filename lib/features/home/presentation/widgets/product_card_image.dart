@@ -18,21 +18,16 @@ class ProductCardImage extends StatelessWidget {
   final Color backgroundColor;
   final bool formatUrl;
 
-  static bool isAssetPath(String url) =>
-      url.trim().toLowerCase().startsWith('assets/');
+  static bool isAssetPath(String url) => url.trim().toLowerCase().startsWith('assets/');
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       width: size,
       height: size,
       child: Center(
         child: Container(
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-            ),
-          ),
+          decoration: ShapeDecoration(shape: RoundedRectangleBorder()),
           clipBehavior: Clip.antiAlias,
           child: isAssetPath(imageUrl)
               ? Image.asset(
@@ -55,7 +50,6 @@ class ProductCardImage extends StatelessWidget {
   }
 
   Widget _defaultError(BuildContext context) {
-
     return Center(
       child: Icon(
         Icons.broken_image_outlined,
