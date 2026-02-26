@@ -300,6 +300,9 @@ abstract class  LocaleKeys {
   static const home_categoryJewelery = 'home.categoryJewelery';
   static const home_categoryMensClothing = 'home.categoryMensClothing';
   static const home_categoryWomensClothing = 'home.categoryWomensClothing';
+  static const home_noProductsFound = 'home.noProductsFound';
+  static const home_noSearchResults = 'home.noSearchResults';
+  static const home_noResultsFor = 'home.noResultsFor';
   static const home = 'home';
 
 }

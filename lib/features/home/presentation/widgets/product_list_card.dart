@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/animation/animation.dart';
 import '../../../../core/component/star_rating.dart';
+import '../../../../core/component/text_with_highlight.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
@@ -19,6 +20,7 @@ class ProductListCard extends StatelessWidget {
     required this.rating,
     required this.reviewCount,
     required this.priceFormatted,
+    this.searchHighlight,
     this.onTap,
   });
 
@@ -27,6 +29,8 @@ class ProductListCard extends StatelessWidget {
   final double rating;
   final int reviewCount;
   final String priceFormatted;
+  /// When set, highlights matching text in [name] (e.g. search results).
+  final String? searchHighlight;
   final VoidCallback? onTap;
 
   /// Image size for list layout (square).
@@ -89,16 +93,26 @@ class ProductListCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        AppText(
-                          name,
-                          translation: false,
-                          style: textTheme.titleMedium?.copyWith(
-                            color: appColors?.primaryNavy ?? colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          maxLines: 2,
-                          isAutoScale: true,
-                        ),
+                        searchHighlight != null && searchHighlight!.isNotEmpty
+                            ? TextWithHighlight(
+                                text: name,
+                                highlight: searchHighlight!,
+                                style: textTheme.titleMedium?.copyWith(
+                                  color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLines: 2,
+                              )
+                            : AppText(
+                                name,
+                                translation: false,
+                                style: textTheme.titleMedium?.copyWith(
+                                  color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxLines: 2,
+                                isAutoScale: true,
+                              ),
                         SizedBox(height: 6.h),
                         StarRatingRow(
                           rating: rating,

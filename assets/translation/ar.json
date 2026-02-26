@@ -314,6 +314,9 @@
     "categoryElectronics": "إلكترونيات",
     "categoryJewelery": "مجوهرات",
     "categoryMensClothing": "ملابس رجالية",
-    "categoryWomensClothing": "ملابس نسائية"
+    "categoryWomensClothing": "ملابس نسائية",
+    "noProductsFound": "لا توجد منتجات",
+    "noSearchResults": "لا توجد نتائج",
+    "noResultsFor": "لا توجد نتائج لـ \"{query}\""
   }
 }

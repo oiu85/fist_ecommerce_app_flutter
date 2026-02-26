@@ -5,13 +5,12 @@ import '../../../../core/animation/animation.dart';
 import 'home_product_grid.dart';
 import 'product_list_card.dart';
 
-/// Builds the product list as a sliver for use inside [CustomScrollView].
-/// Uses [ProductListCard] in a [SliverList] for horizontal-list layout.
 Widget buildHomeProductListSliver(
   BuildContext context, {
   required List<HomeProductGridItem> items,
   EdgeInsetsGeometry? padding,
   double? itemSpacing,
+  String? searchHighlight,
   void Function(HomeProductGridItem item)? onProductTap,
   void Function(HomeProductGridItem item, int index)? onProductTapWithIndex,
 }) {
@@ -44,6 +43,7 @@ Widget buildHomeProductListSliver(
               rating: item.rating,
               reviewCount: item.reviewCount,
               priceFormatted: item.priceFormatted,
+              searchHighlight: searchHighlight,
               onTap: tapHandler,
             ),
           );

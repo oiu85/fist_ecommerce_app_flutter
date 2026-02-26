@@ -368,6 +368,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/bag.svg
   SvgGenImage get bag => const SvgGenImage('assets/images/icons/bag.svg');
 
+  /// File path: assets/images/icons/bucket_empty.svg
+  SvgGenImage get bucketEmpty => const SvgGenImage('assets/images/icons/bucket_empty.svg');
+
   /// File path: assets/images/icons/calnder.svg
   SvgGenImage get calnder => const SvgGenImage('assets/images/icons/calnder.svg');
 
@@ -400,6 +403,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/eye.svg
   SvgGenImage get eye => const SvgGenImage('assets/images/icons/eye.svg');
+
+  /// File path: assets/images/icons/faill-search.svg
+  SvgGenImage get faillSearch => const SvgGenImage('assets/images/icons/faill-search.svg');
 
   /// File path: assets/images/icons/increse_plus.svg
   SvgGenImage get incresePlus => const SvgGenImage('assets/images/icons/increse_plus.svg');
@@ -546,6 +552,7 @@ class $AssetsImagesIconsGen {
     addSquare,
     addNew,
     bag,
+    bucketEmpty,
     calnder,
     cart,
     cartTransparent,
@@ -557,6 +564,7 @@ class $AssetsImagesIconsGen {
     dropDownIcon,
     editPen,
     eye,
+    faillSearch,
     incresePlus,
     listRow,
     lsit,

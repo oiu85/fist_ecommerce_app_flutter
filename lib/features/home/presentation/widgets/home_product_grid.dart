@@ -25,12 +25,14 @@ class HomeProductGridItem {
 }
 
 /// Builds the product grid as a sliver for use inside [CustomScrollView].
+/// [searchHighlight] when set highlights matching text in product names.
 Widget buildHomeProductGridSliver(
   BuildContext context, {
   required List<HomeProductGridItem> items,
   EdgeInsetsGeometry? padding,
   double? crossAxisSpacing,
   double? mainAxisSpacing,
+  String? searchHighlight,
   void Function(HomeProductGridItem item)? onProductTap,
   void Function(HomeProductGridItem item, int index)? onProductTapWithIndex,
 }) {
@@ -59,6 +61,7 @@ Widget buildHomeProductGridSliver(
           rating: item.rating,
           reviewCount: item.reviewCount,
           priceFormatted: item.priceFormatted,
+          searchHighlight: searchHighlight,
           onTap: tapHandler,
         );
         //* Staggered entrance + scroll-optimized (no delay on fast scroll)

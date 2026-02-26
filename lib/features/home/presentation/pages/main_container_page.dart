@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/component/custom_bottom_nav_bar.dart';
+import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../add_product/presentation/pages/add_product_page.dart';
 import '../../../cart/presentation/pages/cart_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
+import '../bloc/home_bloc.dart';
+import '../bloc/home_event.dart';
+import '../bloc/home_state.dart';
 import 'home_page.dart';
+
+//* Main container with bottom nav; all tab/page index logic in [HomeBloc].
+//? Each page is wrapped with [AutomaticKeepAlive] + [_KeepAlivePage] so state is preserved when switching tabs.
 
 class MainContainerPage extends StatefulWidget {
   const MainContainerPage({super.key});
@@ -17,12 +25,11 @@ class MainContainerPage extends StatefulWidget {
 
 class _MainContainerPageState extends State<MainContainerPage> {
   late final PageController _pageController;
-  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _selectedIndex);
+    _pageController = PageController(initialPage: 0);
   }
 
   @override
@@ -31,37 +38,76 @@ class _MainContainerPageState extends State<MainContainerPage> {
     super.dispose();
   }
 
-  void _onPageChanged(int index) {
-    setState(() => _selectedIndex = index);
+  void _onPageChanged(BuildContext context, int index) {
+    context.read<HomeBloc>().add(BottomNavIndexChanged(index));
   }
 
-  void _onTabChange(int index) {
+  void _onTabChange(BuildContext context, int index) {
     AppHaptic.selection();
-    _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    context.read<HomeBloc>().add(BottomNavIndexChanged(index));
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return AppScaffold.clean(
-      backgroundColor: theme.colorScheme.surface,
-      body: SafeArea(
-        bottom: false,
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          onPageChanged: _onPageChanged,
-          children: const [
-            HomePage(),
-            CartPage(),
-            AddProductPage(),
-            SettingsPage(),
-          ],
-        ),
+    return BlocProvider<HomeBloc>(
+      create: (_) => getIt<HomeBloc>()..add(const LoadHome()),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        buildWhen: (prev, curr) =>
+            prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
+        builder: (context, state) {
+          return AppScaffold.clean(
+            backgroundColor: theme.colorScheme.surface,
+            body: SafeArea(
+              bottom: false,
+              child: PageView(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                onPageChanged: (index) => _onPageChanged(context, index),
+                children: [
+                  AutomaticKeepAlive(child: _KeepAlivePage(child: const HomePage())),
+                  AutomaticKeepAlive(child: _KeepAlivePage(child: const CartPage())),
+                  AutomaticKeepAlive(child: _KeepAlivePage(child: const AddProductPage())),
+                  AutomaticKeepAlive(child: _KeepAlivePage(child: const SettingsPage())),
+                ],
+              ),
+            ),
+            bottomNavigationBar: CustomBottomNavBar(
+              selectedIndex: state.selectedBottomNavIndex,
+              onTabChange: (index) => _onTabChange(context, index),
+            ),
+          );
+        },
       ),
-      bottomNavigationBar: CustomBottomNavBar(selectedIndex: _selectedIndex, onTabChange: _onTabChange),
     );
+  }
+}
+
+
+class _KeepAlivePage extends StatefulWidget {
+  const _KeepAlivePage({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_KeepAlivePage> createState() => _KeepAlivePageState();
+}
+
+class _KeepAlivePageState extends State<_KeepAlivePage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }
 

@@ -44,7 +44,27 @@ class SearchModeToggled extends HomeEvent {
   const SearchModeToggled();
 }
 
-/// Close search mode.
+/// Close search mode (clears query and exits search).
 class SearchClosed extends HomeEvent {
   const SearchClosed();
+}
+
+/// User changed the search query (client-side filter; no API).
+class SearchQueryChanged extends HomeEvent {
+  const SearchQueryChanged(this.query);
+
+  final String query;
+
+  @override
+  List<Object?> get props => [query];
+}
+
+/// Bottom nav tab or page changed (tap or swipe). [index]: 0=Home, 1=Cart, 2=AddProduct, 3=Settings.
+class BottomNavIndexChanged extends HomeEvent {
+  const BottomNavIndexChanged(this.index);
+
+  final int index;
+
+  @override
+  List<Object?> get props => [index];
 }

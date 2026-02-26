@@ -19,6 +19,8 @@ class HomeState extends Equatable {
     this.productViewStyle = ProductViewStyle.grid,
     this.isSearchMode = false,
     this.isRefreshing = false,
+    this.searchQuery = '',
+    this.selectedBottomNavIndex = 0,
   });
 
   final BlocStatus status;
@@ -30,6 +32,10 @@ class HomeState extends Equatable {
   final ProductViewStyle productViewStyle;
   final bool isSearchMode;
   final bool isRefreshing;
+  /// Current search query for client-side filtering (no API).
+  final String searchQuery;
+  /// Main container bottom nav index: 0=Home, 1=Cart, 2=AddProduct, 3=Settings.
+  final int selectedBottomNavIndex;
 
   factory HomeState.initial() => const HomeState(
         status: BlocStatus.initial(),
@@ -41,6 +47,8 @@ class HomeState extends Equatable {
         productViewStyle: ProductViewStyle.grid,
         isSearchMode: false,
         isRefreshing: false,
+        searchQuery: '',
+        selectedBottomNavIndex: 0,
       );
 
   /// Status for UiHelperStatus / when pattern (exposes BlocStatus).
@@ -56,6 +64,8 @@ class HomeState extends Equatable {
     ProductViewStyle? productViewStyle,
     bool? isSearchMode,
     bool? isRefreshing,
+    String? searchQuery,
+    int? selectedBottomNavIndex,
     bool clearErrorMessage = false,
   }) =>
       HomeState(
@@ -68,6 +78,8 @@ class HomeState extends Equatable {
         productViewStyle: productViewStyle ?? this.productViewStyle,
         isSearchMode: isSearchMode ?? this.isSearchMode,
         isRefreshing: isRefreshing ?? this.isRefreshing,
+        searchQuery: searchQuery ?? this.searchQuery,
+        selectedBottomNavIndex: selectedBottomNavIndex ?? this.selectedBottomNavIndex,
       );
 
   @override
@@ -81,5 +93,7 @@ class HomeState extends Equatable {
         productViewStyle,
         isSearchMode,
         isRefreshing,
+        searchQuery,
+        selectedBottomNavIndex,
       ];
 }

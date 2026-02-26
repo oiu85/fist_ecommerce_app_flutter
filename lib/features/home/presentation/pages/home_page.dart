@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fsit_flutter_task_ecommerce/core/shared/app_scaffold.dart';
 
-import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/status/bloc_status.dart';
 import '../../../../core/status/ui_helper.dart';
 import '../bloc/home_bloc.dart';
@@ -12,7 +11,7 @@ import '../widgets/home_content.dart';
 import '../widgets/home_page_app_bar.dart';
 import '../widgets/home_skeleton.dart';
 
-//* Home page — pure UI; all logic in [HomeBloc]. No setState.
+//* Home tab content; all logic in [HomeBloc]. Bloc provided by [MainContainerPage].
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -51,9 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-      create: (_) => getIt<HomeBloc>()..add(const LoadHome()),
-      child: BlocListener<HomeBloc, HomeState>(
+    return BlocListener<HomeBloc, HomeState>(
         listenWhen: (prev, curr) => prev.isSearchMode != curr.isSearchMode,
         listener: (_, state) {
           if (state.isSearchMode) {
@@ -64,64 +61,58 @@ class _HomePageState extends State<HomePage> {
             _searchFocusNode.unfocus();
           }
         },
-        child: BlocBuilder<HomeBloc, HomeState>(
-          //* Rebuild only when body or app bar content actually changes.
-          buildWhen: (prev, curr) =>
-              prev.status != curr.status ||
-              prev.isRefreshing != curr.isRefreshing ||
-              prev.isSearchMode != curr.isSearchMode ||
-              prev.products != curr.products ||
-              prev.categories != curr.categories ||
-              prev.selectedCategory != curr.selectedCategory ||
-              prev.categoryLayoutStyle != curr.categoryLayoutStyle ||
-              prev.productViewStyle != curr.productViewStyle ||
-              (curr.status.isFail() &&
-                  prev.homeStatus != curr.homeStatus),
-          builder: (blocContext, state) {
-            return AppScaffold.custom(
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  appBar: HomePageAppBar(
-                    cartCount: widget.cartCount,
-                    onSearchTap: widget.onSearchTap ??
-                        () =>
-                            blocContext.read<HomeBloc>().add(const SearchModeToggled()),
-                    onCartTap: widget.onCartTap,
-                    isSearchMode: state.isSearchMode,
-                    searchController: _searchController,
-                    searchFocusNode: _searchFocusNode,
-                    onSearchClosed: () =>
-                        blocContext.read<HomeBloc>().add(const SearchClosed()),
-                    onSearchQueryChanged: _onSearchQueryChanged,
-                  ),
-                  body: state.status.when<Widget>(
-                    initial: () {
-                      blocContext.read<HomeBloc>().add(const LoadHome());
-                      return HomeSkeleton(status: state.status);
-                    },
-                    loading: () => HomeSkeleton(status: state.status),
-                    success: () {
-                      if (state.isRefreshing) {
-                        return HomeSkeleton(
-                          status: const BlocStatus.loading(),
-                        );
-                      }
-                      return HomeContent(state: state);
-                    },
-                    error: (_) => UiHelperStatus(
-                      state: state.homeStatus,
-                      onRetry: () =>
-                          blocContext.read<HomeBloc>().add(const RefreshHome()),
-                    ),
-                  ),
-                );
-          },
-        ),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        buildWhen: (prev, curr) =>
+            prev.status != curr.status ||
+            prev.isRefreshing != curr.isRefreshing ||
+            prev.isSearchMode != curr.isSearchMode ||
+            prev.searchQuery != curr.searchQuery ||
+            prev.products != curr.products ||
+            prev.categories != curr.categories ||
+            prev.selectedCategory != curr.selectedCategory ||
+            prev.categoryLayoutStyle != curr.categoryLayoutStyle ||
+            prev.productViewStyle != curr.productViewStyle ||
+            (curr.status.isFail() && prev.homeStatus != curr.homeStatus),
+        builder: (context, state) {
+          return AppScaffold.custom(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            appBar: HomePageAppBar(
+              cartCount: widget.cartCount,
+              onSearchTap: widget.onSearchTap ??
+                  () => context.read<HomeBloc>().add(const SearchModeToggled()),
+              onCartTap: widget.onCartTap,
+              isSearchMode: state.isSearchMode,
+              searchController: _searchController,
+              searchFocusNode: _searchFocusNode,
+              onSearchClosed: () =>
+                  context.read<HomeBloc>().add(const SearchClosed()),
+              onSearchQueryChanged: (query) =>
+                  context.read<HomeBloc>().add(SearchQueryChanged(query)),
+            ),
+            body: state.status.when<Widget>(
+              initial: () {
+                context.read<HomeBloc>().add(const LoadHome());
+                return HomeSkeleton(status: state.status);
+              },
+              loading: () => HomeSkeleton(status: state.status),
+              success: () {
+                if (state.isRefreshing) {
+                  return HomeSkeleton(
+                    status: const BlocStatus.loading(),
+                  );
+                }
+                return HomeContent(state: state);
+              },
+              error: (_) => UiHelperStatus(
+                state: state.homeStatus,
+                onRetry: () =>
+                    context.read<HomeBloc>().add(const RefreshHome()),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  //! TODO: implement search results when backend/API is ready
-  void _onSearchQueryChanged(String query) {
-    //* Search results handling - placeholder for future implementation
-  }
 }

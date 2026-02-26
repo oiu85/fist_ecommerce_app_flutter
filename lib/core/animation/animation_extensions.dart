@@ -161,11 +161,12 @@ extension WidgetAnimationExtensions on Widget {
     Duration? duration,
     bool scrollOptimized = false,
   }) {
-    //* Scroll-optimized: no delay, light fade — avoids lag when scrolling fast
+    //* Scroll-optimized: no delay, fade + slide up so entrance is visible without scroll lag
     if (scrollOptimized) {
-      return fadeInOnly(
+      return fadeInSlideUp(
         delay: Duration.zero,
-        duration: duration ?? const Duration(milliseconds: 200),
+        duration: duration ?? const Duration(milliseconds: 280),
+        offset: AnimationConstants.subtleSlideUp,
       );
     }
 

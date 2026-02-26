@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/animation/animation.dart';
+import '../../../../core/component/empty_state_widgets.dart';
+import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/routing/app_routes.dart';
-import '../../../../core/status/ui_helper.dart';
 import '../../../../mock_data/home_mock_data.dart';
+import '../../domain/entities/product.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
@@ -33,8 +36,13 @@ class HomeContent extends StatelessWidget {
         ? categoriesFromApiWithAll(state.categories!)
         : <HomeCategoryItem>[];
     final selectedIndex = _selectedIndexFromState(state, categories);
-    final productItems =
-        (state.products ?? []).map(productToGridItem).toList();
+    //* Client-side search: filter by title, category, or description (no API).
+    final displayProducts = _filterProductsByQuery(
+      state.products ?? [],
+      state.searchQuery,
+    );
+    final productItems = displayProducts.map(productToGridItem).toList();
+    final searchQuery = state.searchQuery.trim();
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -49,59 +57,73 @@ class HomeContent extends StatelessWidget {
           SliverToBoxAdapter(
             child: ColoredBox(
               color: theme.colorScheme.surface,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  HomeCategoryViewHeader(
-                    layoutStyle: state.categoryLayoutStyle,
-                    onViewToggle: () =>
-                        context.read<HomeBloc>().add(const CategoryLayoutToggled()),
-                  ),
-                  ColoredBox(
-                    color: theme.colorScheme.surface,
-                    child: RepaintBoundary(
-                      child: HomeCategorySection(
-                        key: ValueKey(state.categoryLayoutStyle),
-                        categories: categories,
-                        selectedIndex: selectedIndex,
-                        onCategorySelected: (index) {
-                          final categoryId = categories[index].id;
-                          context.read<HomeBloc>().add(
-                                CategorySelected(
-                                  categoryId == 'all' ? null : categoryId,
-                                ),
-                              );
-                        },
-                        layoutStyle: state.categoryLayoutStyle,
-                        onLayoutToggle: null,
+              child: _wrapSectionEntrance(
+                context,
+                sectionIndex: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    HomeCategoryViewHeader(
+                      layoutStyle: state.categoryLayoutStyle,
+                      onViewToggle: () =>
+                          context.read<HomeBloc>().add(const CategoryLayoutToggled()),
+                    ),
+                    ColoredBox(
+                      color: theme.colorScheme.surface,
+                      child: RepaintBoundary(
+                        child: HomeCategorySection(
+                          key: ValueKey(state.categoryLayoutStyle),
+                          categories: categories,
+                          selectedIndex: selectedIndex,
+                          onCategorySelected: (index) {
+                            final categoryId = categories[index].id;
+                            context.read<HomeBloc>().add(
+                                  CategorySelected(
+                                    categoryId == 'all' ? null : categoryId,
+                                  ),
+                                );
+                          },
+                          layoutStyle: state.categoryLayoutStyle,
+                          onLayoutToggle: null,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
           SliverToBoxAdapter(
             child: ColoredBox(
               color: theme.colorScheme.surface,
-              child: HomeProductViewHeader(
-                viewStyle: state.productViewStyle,
-                onViewToggle: () =>
-                    context.read<HomeBloc>().add(const ProductViewStyleToggled()),
+              child: _wrapSectionEntrance(
+                context,
+                sectionIndex: 1,
+                child: HomeProductViewHeader(
+                  viewStyle: state.productViewStyle,
+                  onViewToggle: () =>
+                      context.read<HomeBloc>().add(const ProductViewStyleToggled()),
+                ),
               ),
             ),
           ),
           if (productItems.isEmpty)
-            const SliverFillRemaining(
-              child: NoDataWidget(message: 'No products found'),
+            SliverFillRemaining(
+              child: searchQuery.isEmpty
+                  ? const EmptyHomeContentWidget()
+                  : EmptySearchResultWidget(
+                      messageKey: LocaleKeys.home_noResultsFor,
+                      namedArgs: {'query': searchQuery},
+                    ),
             )
           else if (state.productViewStyle == ProductViewStyle.grid)
             buildHomeProductGridSliver(
               context,
               items: productItems,
+              searchHighlight: searchQuery.isEmpty ? null : searchQuery,
               onProductTapWithIndex: (item, index) {
-                final product = state.products![index];
+                final product = displayProducts[index];
                 context.push(
                   AppRoutes.productDetails,
                   extra: payloadFromProduct(product),
@@ -112,8 +134,9 @@ class HomeContent extends StatelessWidget {
             buildHomeProductListSliver(
               context,
               items: productItems,
+              searchHighlight: searchQuery.isEmpty ? null : searchQuery,
               onProductTapWithIndex: (item, index) {
-                final product = state.products![index];
+                final product = displayProducts[index];
                 context.push(
                   AppRoutes.productDetails,
                   extra: payloadFromProduct(product),
@@ -134,5 +157,32 @@ class HomeContent extends StatelessWidget {
     }
     final idx = categories.indexWhere((c) => c.id == state.selectedCategory);
     return idx >= 0 ? idx : 0;
+  }
+
+  /// Filters products by query (title, category, description); case-insensitive.
+  static List<Product> _filterProductsByQuery(
+    List<Product> products,
+    String query,
+  ) {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) return products;
+    return products
+        .where(
+          (p) =>
+              p.title.toLowerCase().contains(q) ||
+              p.category.toLowerCase().contains(q) ||
+              p.description.toLowerCase().contains(q),
+        )
+        .toList();
+  }
+
+  /// Wraps [child] with section entrance animation when animations are enabled.
+  static Widget _wrapSectionEntrance(
+    BuildContext context, {
+    required int sectionIndex,
+    required Widget child,
+  }) {
+    if (AnimationConstants.shouldReduceMotion(context)) return child;
+    return child.sectionEntrance(sectionIndex: sectionIndex);
   }
 }

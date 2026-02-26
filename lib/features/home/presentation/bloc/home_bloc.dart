@@ -27,6 +27,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<ProductViewStyleToggled>(_onProductViewStyleToggled);
     on<SearchModeToggled>(_onSearchModeToggled);
     on<SearchClosed>(_onSearchClosed);
+    on<SearchQueryChanged>(_onSearchQueryChanged);
+    on<BottomNavIndexChanged>(_onBottomNavIndexChanged);
   }
 
   final GetProductsUseCase _getProductsUseCase;
@@ -66,7 +68,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _onSearchClosed(SearchClosed event, Emitter<HomeState> emit) {
-    emit(state.copyWith(isSearchMode: false));
+    emit(state.copyWith(isSearchMode: false, searchQuery: ''));
+  }
+
+  void _onSearchQueryChanged(SearchQueryChanged event, Emitter<HomeState> emit) {
+    emit(state.copyWith(searchQuery: event.query));
+  }
+
+  void _onBottomNavIndexChanged(BottomNavIndexChanged event, Emitter<HomeState> emit) {
+    emit(state.copyWith(selectedBottomNavIndex: event.index));
   }
 
   Future<void> _loadHome(
