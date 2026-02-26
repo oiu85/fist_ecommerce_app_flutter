@@ -82,12 +82,14 @@ class SettingsThemeTile extends StatelessWidget {
               children: [
                 _ThemeChip(
                   label: LocaleKeys.settings_light.tr(),
+                  icon: Assets.images.icons.sun,
                   selected: currentTheme == ThemeMode.light,
                   onTap: () => _selectTheme(context, ThemeMode.light),
                 ),
                 SizedBox(width: 12.w),
                 _ThemeChip(
                   label: LocaleKeys.settings_dark.tr(),
+                  icon: Assets.images.icons.moonIcon,
                   selected: currentTheme == ThemeMode.dark,
                   onTap: () => _selectTheme(context, ThemeMode.dark),
                 ),
@@ -95,6 +97,7 @@ class SettingsThemeTile extends StatelessWidget {
                 Expanded(
                   child: _ThemeChip(
                     label: LocaleKeys.settings_system.tr(),
+                    icon: Assets.images.icons.mobile,
                     selected: currentTheme == ThemeMode.system,
                     onTap: () => _selectTheme(context, ThemeMode.system),
                   ),
@@ -116,11 +119,13 @@ class SettingsThemeTile extends StatelessWidget {
 class _ThemeChip extends StatelessWidget {
   const _ThemeChip({
     required this.label,
+    required this.icon,
     required this.selected,
     required this.onTap,
   });
 
   final String label;
+  final SvgGenImage icon;
   final bool selected;
   final VoidCallback onTap;
 
@@ -129,12 +134,15 @@ class _ThemeChip extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final appColors = theme.extension<AppColorExtension>();
+    final iconColor = selected
+        ? (appColors?.primaryNavy ?? colorScheme.onPrimaryContainer)
+        : colorScheme.onSurface;
 
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
         decoration: ShapeDecoration(
           color: selected
               ? colorScheme.primaryContainer
@@ -148,19 +156,29 @@ class _ThemeChip extends StatelessWidget {
             borderRadius: BorderRadius.circular(9999.r),
           ),
         ),
-        child: Center(
-          child: AppText(
-            label,
-            translation: false,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: selected
-                  ? (appColors?.primaryNavy ?? colorScheme.onPrimaryContainer)
-                  : colorScheme.onSurface,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon.svg(
+              width: 18.r,
+              height: 18.r,
+              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+            SizedBox(width: 4.w),
+            Flexible(
+              child: AppText(
+                label,
+                translation: false,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: iconColor,
+                ),
+                maxLines: 1,
+                isAutoScale: true,
+              ),
+            ),
+          ],
         ),
       ),
     );

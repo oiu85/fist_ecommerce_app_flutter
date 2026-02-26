@@ -410,6 +410,12 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/lsit.svg
   SvgGenImage get lsit => const SvgGenImage('assets/images/icons/lsit.svg');
 
+  /// File path: assets/images/icons/mobile.svg
+  SvgGenImage get mobile => const SvgGenImage('assets/images/icons/mobile.svg');
+
+  /// File path: assets/images/icons/moon_icon.svg
+  SvgGenImage get moonIcon => const SvgGenImage('assets/images/icons/moon_icon.svg');
+
   /// File path: assets/images/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/images/icons/profile.svg');
 
@@ -424,6 +430,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/shop.svg
   SvgGenImage get shop => const SvgGenImage('assets/images/icons/shop.svg');
+
+  /// File path: assets/images/icons/sun.svg
+  SvgGenImage get sun => const SvgGenImage('assets/images/icons/sun.svg');
 
   /// File path: assets/images/icons/syrian_flag.svg
   SvgGenImage get syrianFlag => const SvgGenImage('assets/images/icons/syrian_flag.svg');
@@ -551,11 +560,14 @@ class $AssetsImagesIconsGen {
     incresePlus,
     listRow,
     lsit,
+    mobile,
+    moonIcon,
     profile,
     rooms,
     sdollar,
     setting2,
     shop,
+    sun,
     syrianFlag,
     ukFlag,
     users,
