@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/theme/app_color_extension.dart';
@@ -71,13 +72,17 @@ class CategoryCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
-        onTap: () {
-          AppHaptic.selection();
-          onTap!();
-        },
-        behavior: HitTestBehavior.opaque,
-        child: child,
+      return HoverAnimationWrapper(
+        scaleAmount: 1.02,
+        duration: AnimationConstants.fast,
+        child: GestureDetector(
+          onTap: () {
+            AppHaptic.selection();
+            onTap!();
+          },
+          behavior: HitTestBehavior.opaque,
+          child: child,
+        ),
       );
     }
 

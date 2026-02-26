@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/component/star_rating.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
@@ -38,7 +39,10 @@ class ProductCard extends StatelessWidget {
     final appColors = theme.extension<AppColorExtension>();
 
     return RepaintBoundary(
-      child: GestureDetector(
+      child: HoverAnimationWrapper(
+        scaleAmount: 1.02,
+        duration: AnimationConstants.fast,
+        child: GestureDetector(
         onTap: onTap != null
             ? () {
                 AppHaptic.selection();
@@ -111,6 +115,7 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
         ),
       ),
     );

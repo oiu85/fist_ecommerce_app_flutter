@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../mock_data/home_mock_data.dart';
@@ -90,20 +91,30 @@ class _HomePageState extends State<HomePage> {
           SliverToBoxAdapter(
             child: ColoredBox(
               color: theme.colorScheme.surface,
-              child: HomeCategorySection(
-                categories: mockHomeCategories,
-                selectedIndex: _selectedCategoryIndex,
-                onCategorySelected: (index) {
-                  setState(() => _selectedCategoryIndex = index);
-                },
-                layoutStyle: _categoryLayout,
-                onLayoutToggle: () {
-                  setState(() {
-                    _categoryLayout = _categoryLayout == CategoryLayoutStyle.row
-                        ? CategoryLayoutStyle.grid
-                        : CategoryLayoutStyle.row;
-                  });
-                },
+              child: AnimatedSection(
+                sectionIndex: 0,
+                child: AnimatedSwitcher(
+                  duration: AnimationConstants.standard,
+                  switchInCurve: AnimationConstants.entranceCurve,
+                  switchOutCurve: AnimationConstants.exitCurve,
+                  child: HomeCategorySection(
+                    key: ValueKey(_categoryLayout),
+                    categories: mockHomeCategories,
+                    selectedIndex: _selectedCategoryIndex,
+                    onCategorySelected: (index) {
+                      setState(() => _selectedCategoryIndex = index);
+                    },
+                    layoutStyle: _categoryLayout,
+                    onLayoutToggle: () {
+                      setState(() {
+                        _categoryLayout =
+                            _categoryLayout == CategoryLayoutStyle.row
+                                ? CategoryLayoutStyle.grid
+                                : CategoryLayoutStyle.row;
+                      });
+                    },
+                  ),
+                ),
               ),
             ),
           ),

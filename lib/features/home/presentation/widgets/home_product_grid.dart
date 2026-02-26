@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import 'product_card.dart';
 
 /// Placeholder image asset for product cards (default when imageUrl not provided).
@@ -45,14 +46,20 @@ Widget buildHomeProductGridSliver(
       ),
       delegate: SliverChildBuilderDelegate((context, index) {
         final item = items[index];
-        return ProductCard(
+        final tapCallback = onProductTap;
+        final card = ProductCard(
           imageUrl: item.imageUrl,
           name: item.name,
           rating: item.rating,
           reviewCount: item.reviewCount,
           priceFormatted: item.priceFormatted,
-          onTap: onProductTap != null ? () => onProductTap!(item) : null,
+          onTap: tapCallback != null ? () => tapCallback(item) : null,
         );
+        //* Staggered entrance + reduced-motion support
+        if (!AnimationConstants.shouldReduceMotion(context)) {
+          return card.staggeredItem(index: index);
+        }
+        return card;
       }, childCount: items.length),
     ),
   );

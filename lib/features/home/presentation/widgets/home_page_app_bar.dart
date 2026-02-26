@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/animation/animation.dart';
 import '../../../../core/component/search_field_with_filter.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
@@ -58,7 +59,30 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
         bottom: false,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: isSearchMode ? _buildSearchMode(context) : _buildNormalMode(context),
+          child: AnimatedSwitcher(
+            duration: AnimationConstants.standard,
+            switchInCurve: AnimationConstants.entranceCurve,
+            switchOutCurve: AnimationConstants.exitCurve,
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, -0.05),
+                  end: Offset.zero,
+                ).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: AnimationConstants.entranceCurve,
+                )),
+                child: child,
+              ),
+            ),
+            child: KeyedSubtree(
+              key: ValueKey(isSearchMode),
+              child: isSearchMode
+                  ? _buildSearchMode(context)
+                  : _buildNormalMode(context),
+            ),
+          ),
         ),
       ),
     );
