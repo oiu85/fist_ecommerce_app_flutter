@@ -21,9 +21,11 @@ class CartListContent extends StatelessWidget {
   const CartListContent({
     super.key,
     required this.items,
+    this.cartItemsKey,
   });
 
   final List<CartDisplayItem> items;
+  final GlobalKey? cartItemsKey;
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +73,13 @@ class CartListContent extends StatelessWidget {
                     maxQuantity: 99,
                   ),
                 );
+                final wrapped = index == 0 && cartItemsKey != null
+                    ? KeyedSubtree(key: cartItemsKey!, child: cartItem)
+                    : cartItem;
                 if (!AnimationConstants.shouldReduceMotion(context)) {
-                  return cartItem.staggeredItem(index: index);
+                  return wrapped.staggeredItem(index: index);
                 }
-                return cartItem;
+                return wrapped;
               },
               childCount: items.length,
             ),

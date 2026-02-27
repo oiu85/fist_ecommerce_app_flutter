@@ -13,9 +13,11 @@ class CartEmptyWidget extends StatelessWidget {
   const CartEmptyWidget({
     super.key,
     required this.isLoading,
+    this.cartItemsKey,
   });
 
   final bool isLoading;
+  final GlobalKey? cartItemsKey;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +42,10 @@ class CartEmptyWidget extends StatelessWidget {
         ),
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Center(
-            child: isLoading
+          child: _wrapWithKey(
+            cartItemsKey,
+            Center(
+              child: isLoading
                 ? const CircularProgressIndicator()
                 : Column(
                     mainAxisSize: MainAxisSize.min,
@@ -64,9 +68,15 @@ class CartEmptyWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+            ),
           ),
         ),
       ],
     );
+  }
+
+  Widget _wrapWithKey(GlobalKey? key, Widget child) {
+    if (key == null) return child;
+    return KeyedSubtree(key: key, child: child);
   }
 }

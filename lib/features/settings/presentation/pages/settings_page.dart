@@ -18,7 +18,16 @@ import '../widgets/settings_theme_tile.dart';
 import '../widgets/settings_tile.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({
+    super.key,
+    this.languageKey,
+    this.themeKey,
+    this.onShowTourAgain,
+  });
+
+  final GlobalKey? languageKey;
+  final GlobalKey? themeKey;
+  final VoidCallback? onShowTourAgain;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -76,7 +85,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       SizedBox(height: 24.h),
                       //* Language tile
-                      SettingsTile(
+                      _wrapWithKey(
+                        widget.languageKey,
+                        SettingsTile(
                         leading: Assets.images.icons.swap.svg(
                           width: 24.r,
                           height: 24.r,
@@ -93,13 +104,17 @@ class _SettingsPageState extends State<SettingsPage> {
                           ));
                         },
                       ),
+                      ),
                       SizedBox(height: 12.h),
                       //* Theme tile
-                      SettingsThemeTile(
+                      _wrapWithKey(
+                        widget.themeKey,
+                        SettingsThemeTile(
                         currentTheme: state.themeMode,
                         onThemeChanged: (mode) {
                           _bloc.add(SettingsThemeChanged(themeMode: mode));
                         },
+                      ),
                       ),
                       SizedBox(height: 12.h),
                       //* Haptic toggle tile
@@ -120,6 +135,21 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                         ),
                       ),
+                      if (widget.onShowTourAgain != null) ...[
+                        SizedBox(height: 12.h),
+                        SettingsTile(
+                          leading: Assets.images.icons.discovery.svg(
+                            width: 24.r,
+                            height: 24.r,
+                            colorFilter: ColorFilter.mode(
+                              colorScheme.primary,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          title: LocaleKeys.coachTour_showTourAgain.tr(),
+                          onTap: widget.onShowTourAgain,
+                        ),
+                      ],
                       if (state.isLoggedIn) ...[
                         SizedBox(height: 12.h),
                         SettingsTile(
@@ -151,5 +181,10 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+  Widget _wrapWithKey(GlobalKey? key, Widget child) {
+    if (key == null) return child;
+    return KeyedSubtree(key: key, child: child);
   }
 }

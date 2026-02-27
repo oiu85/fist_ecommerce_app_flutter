@@ -5,12 +5,14 @@ import '../../../../core/animation/animation.dart';
 import 'home_product_grid.dart';
 import 'product_list_card.dart';
 
+/// [firstItemKey] when set attaches to the first product card (e.g. for coach tour).
 Widget buildHomeProductListSliver(
   BuildContext context, {
   required List<HomeProductGridItem> items,
   EdgeInsetsGeometry? padding,
   double? itemSpacing,
   String? searchHighlight,
+  GlobalKey? firstItemKey,
   void Function(HomeProductGridItem item)? onProductTap,
   void Function(HomeProductGridItem item, int index)? onProductTapWithIndex,
 }) {
@@ -44,8 +46,10 @@ Widget buildHomeProductListSliver(
         final child = !AnimationConstants.shouldReduceMotion(context)
             ? card.staggeredItem(index: index, scrollOptimized: true)
             : card;
-        //* Stable key reduces element churn on scroll.
-        return KeyedSubtree(key: ValueKey<int>(index), child: child);
+        final key = index == 0 && firstItemKey != null
+            ? firstItemKey
+            : ValueKey<int>(index);
+        return KeyedSubtree(key: key, child: child);
       }, childCount: items.length),
     ),
   );

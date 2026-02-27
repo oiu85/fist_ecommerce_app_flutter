@@ -47,6 +47,18 @@ class ProductDetailsPayload {
   final int? productId;
 }
 
+/// Route extra for product details; [forCoachTour] enables tour-specific behavior (e.g. auto-scroll).
+@immutable
+class ProductDetailsRouteExtra {
+  const ProductDetailsRouteExtra({
+    required this.payload,
+    this.forCoachTour = false,
+  });
+
+  final ProductDetailsPayload payload;
+  final bool forCoachTour;
+}
+
 class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({
     super.key,
@@ -54,12 +66,18 @@ class ProductDetailsPage extends StatefulWidget {
     this.onBack,
     this.onFavourite,
     this.onAddToCart,
+    this.productDetailsKey,
+    this.scrollToAddToCartForTour = false,
   });
 
   final ProductDetailsPayload payload;
   final VoidCallback? onBack;
   final VoidCallback? onFavourite;
   final void Function(int quantity)? onAddToCart;
+  /// GlobalKey for coach tour target.
+  final GlobalKey? productDetailsKey;
+  /// When true, auto-scrolls to add-to-cart (tour mode only).
+  final bool scrollToAddToCartForTour;
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -80,6 +98,26 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     _scrollController = ScrollController();
     _bloc = ProductDetailsBloc(onAddToCart: widget.onAddToCart);
     _scrollController.addListener(_onScroll);
+    //* Tour mode only: scroll to add-to-cart after layout so spotlight is on the button
+    if (widget.scrollToAddToCartForTour) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        Future<void>.delayed(const Duration(milliseconds: 350), () {
+          if (!mounted) return;
+          _scrollToAddToCartForTour();
+        });
+      });
+    }
+  }
+
+  void _scrollToAddToCartForTour() {
+    if (!_scrollController.hasClients) return;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    _scrollController.animateTo(
+      maxScroll,
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   @override
@@ -147,31 +185,32 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           colorScheme: colorScheme,
                           payload: widget.payload,
                           quantity: state.quantity,
+                          productDetailsKey: widget.productDetailsKey,
                           onDecrement: () =>
-                              context.read<ProductDetailsBloc>().add(
-                                    const ProductDetailsQuantityDecremented(),
-                                  ),
-                          onIncrement: () =>
-                              context.read<ProductDetailsBloc>().add(
-                                    const ProductDetailsQuantityIncremented(),
-                                  ),
-                          onAddToCart: () {
-                            AuthGuard.requireAuth(context).then((ok) {
-                              if (!ok || !mounted) return;
-                              if (widget.onAddToCart != null) {
                                 context.read<ProductDetailsBloc>().add(
-                                      const ProductDetailsAddToCartRequested(),
-                                    );
-                              } else {
-                                //* Placeholder until cart integration
-                                AppSnackbar.showSuccess(
-                                  context,
-                                  LocaleKeys.app_success,
-                                  translation: true,
-                                );
-                              }
-                            });
-                          },
+                                      const ProductDetailsQuantityDecremented(),
+                                    ),
+                            onIncrement: () =>
+                                context.read<ProductDetailsBloc>().add(
+                                      const ProductDetailsQuantityIncremented(),
+                                    ),
+                            onAddToCart: () {
+                              AuthGuard.requireAuth(context).then((ok) {
+                                if (!ok || !mounted) return;
+                                if (widget.onAddToCart != null) {
+                                  context.read<ProductDetailsBloc>().add(
+                                        const ProductDetailsAddToCartRequested(),
+                                      );
+                                } else {
+                                  //* Placeholder until cart integration
+                                  AppSnackbar.showSuccess(
+                                    context,
+                                    LocaleKeys.app_success,
+                                    translation: true,
+                                  );
+                                }
+                              });
+                            },
                         ),
                       ),
                     ),
@@ -355,6 +394,7 @@ class _DetailsCard extends StatelessWidget {
     required this.onDecrement,
     required this.onIncrement,
     required this.onAddToCart,
+    this.productDetailsKey,
   });
 
   final ThemeData theme;
@@ -364,6 +404,13 @@ class _DetailsCard extends StatelessWidget {
   final VoidCallback onDecrement;
   final VoidCallback onIncrement;
   final VoidCallback? onAddToCart;
+  final GlobalKey? productDetailsKey;
+
+  static Widget _keyedAddToCart(GlobalKey? key, VoidCallback? onAddToCart) {
+    final button = AddToCartButton(onPressed: onAddToCart);
+    if (key == null) return button;
+    return KeyedSubtree(key: key, child: button);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -410,7 +457,7 @@ class _DetailsCard extends StatelessWidget {
             onIncrement: onIncrement,
           ),
           SizedBox(height: 32.h),
-          AddToCartButton(onPressed: onAddToCart),
+          _keyedAddToCart(productDetailsKey, onAddToCart),
           SizedBox(height: 32.h),
           ProductDetailsAdvantageRow(),
         ],

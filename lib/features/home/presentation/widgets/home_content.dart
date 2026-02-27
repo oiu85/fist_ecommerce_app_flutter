@@ -22,9 +22,16 @@ import 'home_product_view_header.dart';
 //? Extracted from HomePage for separation of concerns.
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({super.key, required this.state});
+  const HomeContent({
+    super.key,
+    required this.state,
+    this.categorySectionKey,
+    this.productAreaKey,
+  });
 
   final HomeState state;
+  final GlobalKey? categorySectionKey;
+  final GlobalKey? productAreaKey;
 
   @override
   Widget build(BuildContext context) {
@@ -58,22 +65,25 @@ class HomeContent extends StatelessWidget {
                       layoutStyle: state.categoryLayoutStyle,
                       onViewToggle: () => context.read<HomeBloc>().add(const CategoryLayoutToggled()),
                     ),
-                    ColoredBox(
-                      color: theme.colorScheme.surface,
-                      child: RepaintBoundary(
-                        child: HomeCategorySection(
-                          key: ValueKey(state.categoryLayoutStyle),
-                          categories: categories,
-                          selectedIndex: selectedIndex,
-                          onCategorySelected: (index) {
-                            final categoryId = categories[index].id;
-                            //* "All" → null so BLoC refetches all products without passing category to API.
-                            context.read<HomeBloc>().add(
-                                  CategorySelected(categoryId == 'all' ? null : categoryId),
-                                );
-                          },
-                          layoutStyle: state.categoryLayoutStyle,
-                          onLayoutToggle: null,
+                    _wrapWithKey(
+                      categorySectionKey,
+                      ColoredBox(
+                        color: theme.colorScheme.surface,
+                        child: RepaintBoundary(
+                          child: HomeCategorySection(
+                            key: ValueKey(state.categoryLayoutStyle),
+                            categories: categories,
+                            selectedIndex: selectedIndex,
+                            onCategorySelected: (index) {
+                              final categoryId = categories[index].id;
+                              //* "All" → null so BLoC refetches all products without passing category to API.
+                              context.read<HomeBloc>().add(
+                                    CategorySelected(categoryId == 'all' ? null : categoryId),
+                                  );
+                            },
+                            layoutStyle: state.categoryLayoutStyle,
+                            onLayoutToggle: null,
+                          ),
                         ),
                       ),
                     ),
@@ -109,6 +119,7 @@ class HomeContent extends StatelessWidget {
               context,
               items: productItems,
               searchHighlight: searchQuery.isEmpty ? null : searchQuery,
+              firstItemKey: productAreaKey,
               onProductTapWithIndex: (item, index) {
                 final product = displayProducts[index];
                 context.push(AppRoutes.productDetails, extra: payloadFromProduct(product));
@@ -119,6 +130,7 @@ class HomeContent extends StatelessWidget {
               context,
               items: productItems,
               searchHighlight: searchQuery.isEmpty ? null : searchQuery,
+              firstItemKey: productAreaKey,
               onProductTapWithIndex: (item, index) {
                 final product = displayProducts[index];
                 context.push(AppRoutes.productDetails, extra: payloadFromProduct(product));
@@ -149,6 +161,12 @@ class HomeContent extends StatelessWidget {
               p.description.toLowerCase().contains(q),
         )
         .toList();
+  }
+
+  /// Wraps [child] with KeyedSubtree when [key] is non-null (for coach tour).
+  static Widget _wrapWithKey(GlobalKey? key, Widget child) {
+    if (key == null) return child;
+    return KeyedSubtree(key: key, child: child);
   }
 
   /// Wraps [child] with section entrance animation when animations are enabled.

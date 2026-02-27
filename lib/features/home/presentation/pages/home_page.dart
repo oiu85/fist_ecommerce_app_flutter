@@ -14,11 +14,24 @@ import '../widgets/home_page_app_bar.dart';
 //* Home tab content; all logic in [HomeBloc]. Bloc provided by [MainContainerPage].
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, this.cartCount = 0, this.onSearchTap, this.onCartTap});
+  const HomePage({
+    super.key,
+    this.cartCount = 0,
+    this.onSearchTap,
+    this.onCartTap,
+    this.searchKey,
+    this.cartKey,
+    this.categorySectionKey,
+    this.productAreaKey,
+  });
 
   final int cartCount;
   final VoidCallback? onSearchTap;
   final VoidCallback? onCartTap;
+  final GlobalKey? searchKey;
+  final GlobalKey? cartKey;
+  final GlobalKey? categorySectionKey;
+  final GlobalKey? productAreaKey;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -80,6 +93,8 @@ class _HomePageState extends State<HomePage> {
               searchFocusNode: _searchFocusNode,
               onSearchClosed: () => context.read<HomeBloc>().add(const SearchClosed()),
               onSearchQueryChanged: (query) => context.read<HomeBloc>().add(SearchQueryChanged(query)),
+              searchKey: widget.searchKey,
+              cartKey: widget.cartKey,
             ),
             body: state.status.when<Widget>(
               //* MainContainerPage dispatches LoadHome on bloc creation; avoid duplicate fetch.
@@ -89,7 +104,11 @@ class _HomePageState extends State<HomePage> {
                 if (state.isRefreshing) {
                   return HomeSkeleton(status: const BlocStatus.loading());
                 }
-                return HomeContent(state: state);
+                return HomeContent(
+                  state: state,
+                  categorySectionKey: widget.categorySectionKey,
+                  productAreaKey: widget.productAreaKey,
+                );
               },
               error: (_) => UiHelperStatus(
                 state: state.homeStatus,

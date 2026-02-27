@@ -14,6 +14,8 @@ class StorageKeys {
   static const String locale = 'locale';
   static const String themeMode = 'theme_mode';
   static const String hapticEnabled = 'haptic_enabled';
+  //* Coach tour completed flag (first-launch tutorial)
+  static const String coachTourCompleted = 'coach_tour_completed';
 }
 
 abstract class AppStorageService {
@@ -46,6 +48,10 @@ abstract class AppStorageService {
   Future<bool> getHapticEnabled();
 
   Future<void> setHapticEnabled(bool value);
+
+  Future<bool> isCoachTourCompleted();
+
+  Future<void> setCoachTourCompleted(bool value);
 }
 
 //? SharedPreferences implementation of AppStorageService
@@ -147,6 +153,16 @@ class SharedPreferencesStorageService implements AppStorageService {
   @override
   Future<void> setHapticEnabled(bool value) async {
     await _prefs.setBool(StorageKeys.hapticEnabled, value);
+  }
+
+  @override
+  Future<bool> isCoachTourCompleted() async {
+    return _prefs.getBool(StorageKeys.coachTourCompleted) ?? false;
+  }
+
+  @override
+  Future<void> setCoachTourCompleted(bool value) async {
+    await _prefs.setBool(StorageKeys.coachTourCompleted, value);
   }
 }
 

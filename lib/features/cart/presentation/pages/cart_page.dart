@@ -22,7 +22,16 @@ import '../widgets/cart_total_section.dart';
 //? Product resolution from IProductRepository; persistence via SQLite.
 
 class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+  const CartPage({
+    super.key,
+    this.cartListKey,
+    this.cartItemsKey,
+    this.cartTotalKey,
+  });
+
+  final GlobalKey? cartListKey;
+  final GlobalKey? cartItemsKey;
+  final GlobalKey? cartTotalKey;
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +67,21 @@ class CartPage extends StatelessWidget {
             body: Column(
               children: [
                 Expanded(
-                  child: state.status.when<Widget>(
+                  child: _wrapWithKey(
+                    cartListKey,
+                    state.status.when<Widget>(
                     //* Same pattern as HomePage: skeleton + UiHelperStatus.
                     initial: () => CartSkeleton(status: state.status),
                     loading: () => CartSkeleton(status: state.status),
                     success: () => items.isEmpty
-                        ? CartEmptyWidget(isLoading: false)
-                        : CartListContent(items: items),
+                        ? CartEmptyWidget(
+                            isLoading: false,
+                            cartItemsKey: cartItemsKey,
+                          )
+                        : CartListContent(
+                            items: items,
+                            cartItemsKey: cartItemsKey,
+                          ),
                     error: (_) => UiHelperStatus(
                       state: state.cartStatus,
                       onRetry: () =>
@@ -72,11 +89,14 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                ),
                 AnimatedSection(
                   sectionIndex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 8.h, bottom: bottomPadding),
-                    child: CartTotalSection(
+                  child: _wrapWithKey(
+                    cartTotalKey,
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.h, bottom: bottomPadding),
+                      child: CartTotalSection(
                       subtotalFormatted: subtotalStr,
                       totalFormatted: totalStr,
                       onProceedToCheckout: () {
@@ -90,6 +110,7 @@ class CartPage extends StatelessWidget {
                       },
                       enabled: items.isNotEmpty && !isLoading,
                     ),
+                    ),
                   ),
                 ),
               ],
@@ -100,4 +121,8 @@ class CartPage extends StatelessWidget {
     );
   }
 
+  Widget _wrapWithKey(GlobalKey? key, Widget child) {
+    if (key == null) return child;
+    return KeyedSubtree(key: key, child: child);
+  }
 }

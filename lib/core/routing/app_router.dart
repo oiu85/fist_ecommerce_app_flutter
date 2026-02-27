@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/cart/presentation/bloc/cart_bloc.dart';
 import '../../features/cart/presentation/bloc/cart_event.dart';
+import '../../features/coach_tour/coach_tour.dart';
 import '../../features/home/presentation/pages/main_container_page.dart';
 import '../../features/product_details/presentation/pages/product_details_page.dart';
 import '../../mock_data/product_details_mock_data.dart';
@@ -58,10 +59,21 @@ class AppRouter {
           path: AppRoutes.productDetails,
           name: 'productDetails',
           builder: (context, state) {
-            final payload = state.extra as ProductDetailsPayload?;
-            final p = payload ?? mockProductDetailsPayload;
+            final extra = state.extra;
+            final ProductDetailsPayload p;
+            final bool isTourMode;
+            if (extra is ProductDetailsRouteExtra) {
+              p = extra.payload;
+              isTourMode = extra.forCoachTour;
+            } else {
+              p = (extra as ProductDetailsPayload?) ?? mockProductDetailsPayload;
+              isTourMode = false;
+            }
+            final keys = getIt<CoachTourTargetKeys>();
             return ProductDetailsPage(
               payload: p,
+              productDetailsKey: isTourMode ? keys.keyProductDetails : null,
+              scrollToAddToCartForTour: isTourMode,
               onBack: () => context.pop(),
               onAddToCart: p.productId != null
                   ? (q) {

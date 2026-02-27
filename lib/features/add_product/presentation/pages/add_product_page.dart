@@ -30,7 +30,14 @@ import '../widgets/cancel_button.dart';
 //? Uses AddProductBloc; navigates to product details on success.
 
 class AddProductPage extends StatefulWidget {
-  const AddProductPage({super.key});
+  const AddProductPage({
+    super.key,
+    this.addProductFormKey,
+    this.addProductNameKey,
+  });
+
+  final GlobalKey? addProductFormKey;
+  final GlobalKey? addProductNameKey;
 
   @override
   State<AddProductPage> createState() => _AddProductPageState();
@@ -148,18 +155,23 @@ class _AddProductPageState extends State<AddProductPage> {
                             horizontal: 20.w,
                             vertical: 24.h,
                           ),
-                          child: Form(
+                          child: _wrapWithKey(
+                            widget.addProductFormKey,
+                            Form(
                             key: _formKey,
                             child: AnimatedColumn(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                CustomTextFormField(
-                                  controller: _nameController,
-                                  labelKey: LocaleKeys.addProduct_productName,
-                                  hintKey:
-                                      LocaleKeys.addProduct_hintProductName,
-                                  textInputAction: TextInputAction.next,
-                                  validator: _productNameValidator.call,
+                                _wrapWithKey(
+                                  widget.addProductNameKey,
+                                  CustomTextFormField(
+                                    controller: _nameController,
+                                    labelKey: LocaleKeys.addProduct_productName,
+                                    hintKey:
+                                        LocaleKeys.addProduct_hintProductName,
+                                    textInputAction: TextInputAction.next,
+                                    validator: _productNameValidator.call,
+                                  ),
                                 ),
                                 SizedBox(height: 24.h),
                                 CustomTextFormField(
@@ -239,6 +251,7 @@ class _AddProductPageState extends State<AddProductPage> {
                               ],
                             ),
                           ),
+                          ),
                         ),
                         error: (_) => UiHelperStatus(
                           state: state.addProductStatus,
@@ -288,5 +301,10 @@ class _AddProductPageState extends State<AddProductPage> {
           },
         ),
     );
+  }
+
+  Widget _wrapWithKey(GlobalKey? key, Widget child) {
+    if (key == null) return child;
+    return KeyedSubtree(key: key, child: child);
   }
 }

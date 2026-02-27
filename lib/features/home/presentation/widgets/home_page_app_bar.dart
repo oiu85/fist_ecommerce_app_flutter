@@ -21,6 +21,8 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.searchFocusNode,
     this.onSearchClosed,
     this.onSearchQueryChanged,
+    this.searchKey,
+    this.cartKey,
   });
 
   final String? title;
@@ -34,6 +36,8 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final FocusNode? searchFocusNode;
   final VoidCallback? onSearchClosed;
   final void Function(String)? onSearchQueryChanged;
+  final GlobalKey? searchKey;
+  final GlobalKey? cartKey;
 
   @override
   Size get preferredSize => Size.fromHeight(56.h + 16.h);
@@ -117,26 +121,29 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         SizedBox(width: 8.w),
-        IconButton(
-          onPressed: onSearchTap != null
-              ? () {
-                  AppHaptic.lightTap();
-                  onSearchTap!();
-                }
-              : null,
-          icon: Assets.images.icons.search.svg(
-            width: 24.r,
-            height: 24.r,
-            colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
-          ),
-          style: IconButton.styleFrom(
-            minimumSize: Size(40.r, 40.r),
-            padding: EdgeInsets.zero,
-            shape: const CircleBorder(),
+        _wrapWithKey(
+          searchKey,
+          IconButton(
+            onPressed: onSearchTap != null
+                ? () {
+                    AppHaptic.lightTap();
+                    onSearchTap!();
+                  }
+                : null,
+            icon: Assets.images.icons.search.svg(
+              width: 24.r,
+              height: 24.r,
+              colorFilter: ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+            ),
+            style: IconButton.styleFrom(
+              minimumSize: Size(40.r, 40.r),
+              padding: EdgeInsets.zero,
+              shape: const CircleBorder(),
+            ),
           ),
         ),
         SizedBox(width: 8.w),
-        _buildCartButton(context),
+        _wrapWithKey(cartKey, _buildCartButton(context)),
       ],
     );
   }
@@ -169,9 +176,14 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         SizedBox(width: 8.w),
-        _buildCartButton(context),
+        _wrapWithKey(cartKey, _buildCartButton(context)),
       ],
     );
+  }
+
+  Widget _wrapWithKey(GlobalKey? key, Widget child) {
+    if (key == null) return child;
+    return KeyedSubtree(key: key, child: child);
   }
 
   Widget _buildCartButton(BuildContext context) {

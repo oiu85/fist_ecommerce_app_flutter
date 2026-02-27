@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fsit_flutter_task_ecommerce/features/coach_tour/presentation/coach_tour_controller.dart';
 
 import '../../../../core/component/custom_bottom_nav_bar.dart';
 import '../../../../core/di/app_dependencies.dart';
@@ -11,6 +12,7 @@ import '../../../add_product/presentation/pages/add_product_page.dart';
 import '../../../cart/presentation/bloc/cart_bloc.dart';
 import '../../../cart/presentation/bloc/cart_state.dart';
 import '../../../cart/presentation/pages/cart_page.dart';
+import '../../../coach_tour/coach_tour.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
@@ -72,30 +74,67 @@ class _MainContainerPageState extends State<MainContainerPage> {
             buildWhen: (prev, curr) =>
                 prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
             builder: (context, state) {
-              return AppScaffold.clean(
-                backgroundColor: theme.colorScheme.surface,
-                body: SafeArea(
-                  bottom: false,
-                  child: PageView(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    onPageChanged: (index) => _onPageChanged(context, index),
-                    children: [
-                      HomePage(
-                        cartCount: cartState.itemCount,
-                        onCartTap: () => _onTabChange(context, 1),
-                      ),
-                      const CartPage(),
-                      const AddProductPage(),
-                      const SettingsPage(),
-                    ],
-                  ),
-                ),
-                bottomNavigationBar: CustomBottomNavBar(
-                  selectedIndex: state.selectedBottomNavIndex,
+              final keys = getIt<CoachTourTargetKeys>();
+              return CoachTourOrchestrator(
+                  pageController: _pageController,
                   onTabChange: (index) => _onTabChange(context, index),
-                ),
-              );
+                  keys: keys,
+                  storage: getIt<CoachTourStorage>(),
+                  onRegistered: (showTour) =>
+                      getIt<CoachTourController>().register(showTour),
+                  child: AppScaffold.clean(
+                    backgroundColor: theme.colorScheme.surface,
+                    body: SafeArea(
+                      bottom: false,
+                      child: PageView(
+                        controller: _pageController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        onPageChanged: (index) =>
+                            _onPageChanged(context, index),
+                        children: [
+                          HomePage(
+                            cartCount: cartState.itemCount,
+                            onCartTap: () => _onTabChange(context, 1),
+                            searchKey: keys.keySearch,
+                            cartKey: keys.keyCart,
+                            categorySectionKey: keys.keyCategorySection,
+                            productAreaKey: keys.keyProductArea,
+                          ),
+                          CartPage(
+                            cartListKey: keys.keyCartListOrEmpty,
+                            cartItemsKey: keys.keyCartItemsList,
+                            cartTotalKey: keys.keyCartTotalSection,
+                          ),
+                          AddProductPage(
+                            addProductFormKey: keys.keyAddProductForm,
+                            addProductNameKey: keys.keyAddProductName,
+                          ),
+                          SettingsPage(
+                            languageKey: keys.keySettingsLanguage,
+                            themeKey: keys.keySettingsTheme,
+                            onShowTourAgain: () async {
+                              _onTabChange(context, 0);
+                              await getIt<CoachTourStorage>().setCompleted(false);
+                              await Future<void>.delayed(
+                                const Duration(milliseconds: 400),
+                              );
+                              getIt<CoachTourController>().showTour();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    bottomNavigationBar: CustomBottomNavBar(
+                      selectedIndex: state.selectedBottomNavIndex,
+                      onTabChange: (index) => _onTabChange(context, index),
+                      bottomNavKey: keys.keyBottomNav,
+                      homeNavKey: keys.keyHomeNav,
+                      cartNavKey: keys.keyCartNav,
+                      addProductNavKey: keys.keyAddProductNav,
+                      settingsNavKey: keys.keySettingsNav,
+                    ),
+                  ),
+                );
             },
           );
         },

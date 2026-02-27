@@ -312,6 +312,23 @@
     "validation_imageUrlRequired": "Image URL is required",
     "validation_urlInvalid": "Please enter a valid URL"
   },
+  "coachTour": {
+    "welcome": "Welcome to {appName}. Here's a quick tour of the main screen.",
+    "homeNav": "This is the home page in the navigation bar.",
+    "categoriesProducts": "Browse products and filter by category here.",
+    "search": "Search for products by name or category.",
+    "productArea": "Browse products here. Tap Next to view a product's detail page.",
+    "productDetails": "View full product details and add to cart here.",
+    "cartIcon": "Your cart. Tap here to see items and checkout.",
+    "cartPage": "Your cart items and total are shown here.",
+    "addProduct": "Add new products to the catalog from this form.",
+    "settingsLanguageTheme": "Change language and theme in Settings.",
+    "closing": "You can run this tour again from Settings.",
+    "skip": "Skip",
+    "next": "Next",
+    "done": "Done",
+    "showTourAgain": "Show tour again"
+  },
   "home": {
     "appBarTitle": "Fist E-commerce",
     "categories": "Categories",
