@@ -29,11 +29,11 @@ class NetworkClient {
   final AppStorageService _storageService;
 
   NetworkClient(this._storageService)
-    : _dio = Dio(
+    :       _dio = Dio(
         BaseOptions(
           baseUrl: ApiConfig.baseUrl,
-          connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(seconds: 15),
+          connectTimeout: Duration(seconds: ApiConfig.connectTimeoutSeconds),
+          receiveTimeout: Duration(seconds: ApiConfig.connectTimeoutSeconds),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

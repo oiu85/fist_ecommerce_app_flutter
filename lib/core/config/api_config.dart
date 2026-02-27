@@ -1,8 +1,14 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+//* Central API configuration — reads from .env at runtime
 class ApiConfig {
   /// Base URL for all API requests.
-  static const String baseUrl = 'https://fakestoreapi.com';
+  static String get baseUrl =>
+      dotenv.get('API_BASE_URL', fallback: 'https://fakestoreapi.com');
 
+  /// Connection timeout in seconds.
+  static int get connectTimeoutSeconds =>
+      dotenv.getInt('API_TIMEOUT_SECONDS', fallback: 15);
 
   /// All products list.
   static const String productsPath = '/products';

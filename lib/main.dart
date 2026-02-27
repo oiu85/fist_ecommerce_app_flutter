@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/di/app_dependencies.dart';
 import 'features/cart/presentation/bloc/cart_bloc.dart';
@@ -17,6 +18,10 @@ import 'core/theme/theme_transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //* Ensure the binding is initialized
+
+  //* Load env first — required before any ApiConfig access
+  //? Uses .env.example as default; copy to .env for local overrides
+  await dotenv.load(fileName: '.env.example');
 
   //* Initialize dependency injection (must be awaited)
   await configureDependencies();
