@@ -1,11 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/cart/presentation/bloc/cart_bloc.dart';
+import '../../features/cart/presentation/bloc/cart_event.dart';
 import '../../features/home/presentation/pages/main_container_page.dart';
 import '../../features/product_details/presentation/pages/product_details_page.dart';
 import '../../mock_data/product_details_mock_data.dart';
+import '../component/app_snackbar.dart';
 import '../di/app_dependencies.dart';
+import '../localization/locale_keys.g.dart';
 import '../storage/app_storage_service.dart';
 import 'app_routes.dart';
 
@@ -54,9 +59,18 @@ class AppRouter {
           name: 'productDetails',
           builder: (context, state) {
             final payload = state.extra as ProductDetailsPayload?;
+            final p = payload ?? mockProductDetailsPayload;
             return ProductDetailsPage(
-              payload: payload ?? mockProductDetailsPayload,
+              payload: p,
               onBack: () => context.pop(),
+              onAddToCart: p.productId != null
+                  ? (q) {
+                      context.read<CartBloc>().add(
+                            AddToCart(productId: p.productId!, quantity: q),
+                          );
+                      AppSnackbar.showSuccess(context, LocaleKeys.cart_added);
+                    }
+                  : null,
             );
           },
         ),

@@ -17,4 +17,7 @@ abstract class IProductRepository {
   Future<Either<Failure, List<Product>>> getProductsByCategory(
     String categoryName,
   );
+
+  /// Fetches a single product by [id].
+  Future<Either<Failure, Product?>> getProductById(int id);
 }

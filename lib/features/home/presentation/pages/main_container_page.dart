@@ -6,6 +6,8 @@ import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../add_product/presentation/pages/add_product_page.dart';
+import '../../../cart/presentation/bloc/cart_bloc.dart';
+import '../../../cart/presentation/bloc/cart_state.dart';
 import '../../../cart/presentation/pages/cart_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../bloc/home_bloc.dart';
@@ -58,29 +60,38 @@ class _MainContainerPageState extends State<MainContainerPage> {
 
     return BlocProvider<HomeBloc>(
       create: (_) => getIt<HomeBloc>()..add(const LoadHome()),
-      child: BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (prev, curr) => prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
-        builder: (context, state) {
-          return AppScaffold.clean(
-            backgroundColor: theme.colorScheme.surface,
-            body: SafeArea(
-              bottom: false,
-              child: PageView(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (index) => _onPageChanged(context, index),
-                children: const [
-                  HomePage(),
-                  CartPage(),
-                  AddProductPage(),
-                  SettingsPage(),
-                ],
-              ),
-            ),
-            bottomNavigationBar: CustomBottomNavBar(
-              selectedIndex: state.selectedBottomNavIndex,
-              onTabChange: (index) => _onTabChange(context, index),
-            ),
+      child: BlocBuilder<CartBloc, CartState>(
+        buildWhen: (prev, curr) => prev.itemCount != curr.itemCount,
+        builder: (context, cartState) {
+          return BlocBuilder<HomeBloc, HomeState>(
+            buildWhen: (prev, curr) =>
+                prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
+            builder: (context, state) {
+              return AppScaffold.clean(
+                backgroundColor: theme.colorScheme.surface,
+                body: SafeArea(
+                  bottom: false,
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    onPageChanged: (index) => _onPageChanged(context, index),
+                    children: [
+                      HomePage(
+                        cartCount: cartState.itemCount,
+                        onCartTap: () => _onTabChange(context, 1),
+                      ),
+                      const CartPage(),
+                      const AddProductPage(),
+                      const SettingsPage(),
+                    ],
+                  ),
+                ),
+                bottomNavigationBar: CustomBottomNavBar(
+                  selectedIndex: state.selectedBottomNavIndex,
+                  onTabChange: (index) => _onTabChange(context, index),
+                ),
+              );
+            },
           );
         },
       ),

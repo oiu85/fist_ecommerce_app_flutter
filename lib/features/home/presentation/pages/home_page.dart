@@ -82,10 +82,8 @@ class _HomePageState extends State<HomePage> {
               onSearchQueryChanged: (query) => context.read<HomeBloc>().add(SearchQueryChanged(query)),
             ),
             body: state.status.when<Widget>(
-              initial: () {
-                context.read<HomeBloc>().add(const LoadHome());
-                return HomeSkeleton(status: state.status);
-              },
+              //* MainContainerPage dispatches LoadHome on bloc creation; avoid duplicate fetch.
+              initial: () => HomeSkeleton(status: state.status),
               loading: () => HomeSkeleton(status: state.status),
               success: () {
                 if (state.isRefreshing) {

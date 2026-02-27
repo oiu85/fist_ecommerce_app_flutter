@@ -141,7 +141,7 @@
 		},
 		{
 			"name": "Carts",
-			"description": "Cart CRUD. Endpoints: list all, get by id, create, update, delete. Cart products: productId + quantity.",
+			"description": "Cart CRUD. Endpoints: list all, get by id, create, update, delete. Cart products use productId + quantity. CRITICAL: Only pre-seeded carts (ids 1-7) persist. POST creates simulated carts; GET /carts/{newId} returns null.",
 			"item": [
 				{
 					"name": "Get all carts",
@@ -166,53 +166,43 @@
 							"host": ["{{baseUrl}}"],
 							"path": ["carts", "{{id}}"]
 						},
-						"description": "Retrieve details of a specific cart by ID. Path: id (integer). Response: 200 Cart."
+						"description": "Retrieve details of a specific cart by ID. Path: id (integer). Response: 200 Cart or null. Only ids 1-7 return data (pre-seeded carts). Newly created cart ids return null."
 					}
 				},
 				{
 					"name": "Add a new cart",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{ "key": "id", "value": "0", "type": "text", "description": "Cart id (integer)" },
-								{ "key": "userId", "value": "1", "type": "text", "description": "User id (integer)" },
-								{ "key": "products_productId_1", "value": "1", "type": "text", "description": "First product id" },
-								{ "key": "products_quantity_1", "value": "2", "type": "text", "description": "First product quantity" },
-								{ "key": "products_productId_2", "value": "2", "type": "text", "description": "Second product id (optional)" },
-								{ "key": "products_quantity_2", "value": "1", "type": "text", "description": "Second product quantity (optional)" }
-							]
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"products\": [\n    {\"productId\": 1, \"quantity\": 2},\n    {\"productId\": 2, \"quantity\": 1}\n  ]\n}",
+							"options": { "raw": { "language": "json" } }
 						},
 						"url": {
 							"raw": "{{baseUrl}}/carts",
 							"host": ["{{baseUrl}}"],
 							"path": ["carts"]
 						},
-						"description": "Create a new cart. Body: form-data (id, userId, products as productId/quantity pairs). Response: 201 Cart. Note: If API expects JSON array for products, use x-www-form-urlencoded with key 'products' = JSON array string."
+						"description": "Create a new cart. MUST use JSON body (form-data does NOT work). Body: { userId, products: [{ productId, quantity }] }. Response: 201 Cart with generated id. IMPORTANT: FakeStoreAPI does NOT persist POST data. The cart is simulated only. GET /carts/{returnedId} will return null for newly created carts. Only pre-seeded carts (ids 1-7) exist permanently."
 					}
 				},
 				{
 					"name": "Update a cart",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{ "key": "id", "value": "{{id}}", "type": "text", "description": "Cart id (integer)" },
-								{ "key": "userId", "value": "1", "type": "text", "description": "User id (integer)" },
-								{ "key": "products_productId_1", "value": "1", "type": "text", "description": "Product id" },
-								{ "key": "products_quantity_1", "value": "3", "type": "text", "description": "Quantity" }
-							]
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"products\": [\n    {\"productId\": 1, \"quantity\": 3},\n    {\"productId\": 2, \"quantity\": 2}\n  ]\n}",
+							"options": { "raw": { "language": "json" } }
 						},
 						"url": {
 							"raw": "{{baseUrl}}/carts/{{id}}",
 							"host": ["{{baseUrl}}"],
 							"path": ["carts", "{{id}}"]
 						},
-						"description": "Update an existing cart by ID. Path: id. Body: form-data. Response: 200 Cart."
+						"description": "Update an existing cart by ID. MUST use JSON body. Path: id (use 1-7 for pre-seeded carts). Body: { userId, products: [{ productId, quantity }] }. Response: 200 Cart. Note: Updates to non-seeded ids are simulated but not persisted."
 					}
 				},
 				{

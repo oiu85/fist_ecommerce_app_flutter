@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/app_dependencies.dart';
+import 'features/cart/presentation/bloc/cart_bloc.dart';
+import 'features/cart/presentation/bloc/cart_event.dart';
 import 'core/haptic/app_haptic.dart';
 import 'core/routing/app_router.dart';
 import 'core/shared/locale_service.dart';
@@ -120,9 +123,12 @@ class _MyAppState extends State<MyApp> {
                 supportedLocales: context.supportedLocales,
                 locale: context.locale,
                 builder: (context, child) {
-                  return ThemeTransition(
-                    themeMode: widget.themeNotifier.value,
-                    child: child ?? const SizedBox(),
+                  return BlocProvider<CartBloc>(
+                    create: (_) => getIt<CartBloc>()..add(const LoadCart()),
+                    child: ThemeTransition(
+                      themeMode: widget.themeNotifier.value,
+                      child: child ?? const SizedBox(),
+                    ),
                   );
                 },
               ),

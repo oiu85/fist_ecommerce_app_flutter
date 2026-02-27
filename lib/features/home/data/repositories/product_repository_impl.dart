@@ -32,6 +32,15 @@ class ProductRepositoryImpl implements IProductRepository {
   }
 
   @override
+  Future<Either<Failure, Product?>> getProductById(int id) async {
+    final result = await _dataSource.getProductById(id);
+    return result.fold(
+      (nf) => Left(Failure(message: nf.message)),
+      (model) => Right(model?.toEntity()),
+    );
+  }
+
+  @override
   Future<Either<Failure, List<Product>>> getProductsByCategory(
     String categoryName,
   ) async {

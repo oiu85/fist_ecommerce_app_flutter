@@ -14,6 +14,13 @@ class ApiConfig {
   static String productsByCategoryPath(String categoryName) =>
       '/products/category/$categoryName';
 
+  /// Single product by ID.
+  static String productByIdPath(int id) => '/products/$id';
+
+  /// Cart endpoints (FakeStoreAPI; persistence is simulated — use SQLite as source of truth).
+  static const String cartsPath = '/carts';
+  static String cartByIdPath(int id) => '/carts/$id';
+
   /// Auth login endpoint.
   static const String authLoginPath = '/auth/login';
   // static const String register = '$baseUrl/auth/register';

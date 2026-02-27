@@ -61,6 +61,29 @@ class ProductRemoteDataSource {
     );
   }
 
+  /// Fetches a single product by ID.
+  Future<Either<NetworkFailure, ProductModel?>> getProductById(int id) async {
+    final path = ApiConfig.productByIdPath(id);
+    final result = await _client.get(path);
+    return result.fold(
+      Left.new,
+      (response) {
+        final data = response.data;
+        if (data == null) return const Right(null);
+        if (data is! Map<String, dynamic>) {
+          return Left(const NetworkFailure(
+            message: 'Invalid product response format',
+          ));
+        }
+        try {
+          return Right(ProductModel.fromJson(data));
+        } catch (e) {
+          return Left(NetworkFailure(message: 'Failed to parse product: $e'));
+        }
+      },
+    );
+  }
+
   /// Fetches products by category.
   Future<Either<NetworkFailure, List<ProductModel>>> getProductsByCategory(
     String categoryName,

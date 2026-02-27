@@ -20,13 +20,15 @@ HomeProductGridItem productToGridItem(Product product) => HomeProductGridItem(
 );
 
 /// Maps domain [Product] to [ProductDetailsPayload] for navigation.
-ProductDetailsPayload payloadFromProduct(Product product) => ProductDetailsPayload(
-  categoryName: product.category,
-  title: product.title,
-  priceFormatted: _formatPrice(product.price),
-  rating: product.rating.rate,
-  reviewCount: product.rating.count,
-  description: product.description,
-  imageUrl: product.imageUrl,
-  heroTag: 'product_hero_${product.id}',
-);
+ProductDetailsPayload payloadFromProduct(Product product) =>
+    ProductDetailsPayload(
+      categoryName: product.category,
+      title: product.title,
+      priceFormatted: _formatPrice(product.price),
+      rating: product.rating.rate,
+      reviewCount: product.rating.count,
+      description: product.description,
+      imageUrl: product.imageUrl,
+      heroTag: 'product_hero_${product.id}',
+      productId: product.id,
+    );

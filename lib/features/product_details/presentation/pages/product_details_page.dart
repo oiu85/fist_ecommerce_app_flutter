@@ -31,6 +31,7 @@ class ProductDetailsPayload {
     required this.description,
     required this.imageUrl,
     this.heroTag,
+    this.productId,
   });
 
   final String categoryName;
@@ -42,6 +43,8 @@ class ProductDetailsPayload {
   final String imageUrl;
   /// Unique tag for Hero animation from home to details (e.g. product_hero_1).
   final String? heroTag;
+  /// Product ID for add-to-cart; null when from mock payload.
+  final int? productId;
 }
 
 class ProductDetailsPage extends StatefulWidget {

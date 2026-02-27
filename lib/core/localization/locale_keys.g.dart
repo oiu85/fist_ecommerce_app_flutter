@@ -267,6 +267,9 @@ abstract class  LocaleKeys {
   static const product_twoYearWarranty = 'product.twoYearWarranty';
   static const product_thirtyDayReturns = 'product.thirtyDayReturns';
   static const product = 'product';
+  static const cart_added = 'cart.added';
+  static const cart_updated = 'cart.updated';
+  static const cart_itemRemoved = 'cart.itemRemoved';
   static const cart_empty = 'cart.empty';
   static const cart_subtotal = 'cart.subtotal';
   static const cart_shipping = 'cart.shipping';

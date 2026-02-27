@@ -7,7 +7,7 @@ Use this to explore and test all endpoints before building the e-commerce Flutte
 
 | File | Purpose |
 |------|--------|
-| `FakeStore-API.postman_collection.json` | All API requests grouped by: Products, Carts, Users, Auth. Request bodies use **form-data** (no raw JSON). |
+| `FakeStore-API.postman_collection.json` | All API requests grouped by: Products, Carts, Users, Auth. **Carts** and **Auth** use **raw JSON**; Products/Users use form-data. |
 | `FakeStore-API.postman_environment.json` | Environment variables: `baseUrl`, `id`, `productId`, `userId`, `cartId`, `token`. |
 
 ## Setup
@@ -30,8 +30,23 @@ Use this to explore and test all endpoints before building the e-commerce Flutte
 - **Users** – GET all, GET by id, POST (add), PUT (update), DELETE
 - **Auth** – POST Login (username + password → token)
 
-All request bodies in the collection use **form-data** (key/value fields).  
+**Products** and **Users** use form-data; **Carts** and **Auth** use raw JSON (required).  
 If FakeStore returns **400** on POST/PUT (it officially expects `application/json`), switch that request’s body in Postman to **raw** → **JSON** and use the same field names as in the form-data.
+
+## Carts: Why GET Returns `null` for Newly Created Carts
+
+FakeStoreAPI is a **fake/mock API** that does **not persist** POST/PUT/DELETE data. When you `POST /carts`, you get a 201 response with a generated `id`, but that cart is **never stored**. `GET /carts/{newId}` returns **`null`** because only pre-seeded carts (ids 1–7) exist permanently.
+
+**Correct cart creation** requires `Content-Type: application/json`:
+
+```json
+{
+  "userId": 1,
+  "products": [{"productId": 1, "quantity": 2}, {"productId": 2, "quantity": 1}]
+}
+```
+
+Products use `productId` and `quantity` — not full Product objects. Form-data does **not** work. For your Flutter app: persist cart state client-side (e.g. shared_preferences, Hive); use the API only for pre-seeded carts or simulation.
 
 ## Environment variables
 
