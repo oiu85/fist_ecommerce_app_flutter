@@ -42,11 +42,14 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/fist_company_logo.json
   String get fistCompanyLogo => 'assets/lottie/fist_company_logo.json';
 
+  /// File path: assets/lottie/screen_splash.json
+  String get screenSplash => 'assets/lottie/screen_splash.json';
+
   /// File path: assets/lottie/timeout.json
   String get timeout => 'assets/lottie/timeout.json';
 
   /// List of all assets
-  List<String> get values => [connnecting, noInternet, notFound, fistCompanyLogo, timeout];
+  List<String> get values => [connnecting, noInternet, notFound, fistCompanyLogo, screenSplash, timeout];
 }
 
 class $AssetsTranslationGen {

@@ -8,7 +8,7 @@ final class SettingsState extends Equatable {
     this.userName,
     this.isLoggedIn = false,
     this.locale = const Locale('en'),
-    this.themeMode = ThemeMode.system,
+    this.themeMode = ThemeMode.light,
     this.hapticEnabled = true,
     this.status = SettingsStatus.initial,
   });

@@ -43,7 +43,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         userName: userName,
         isLoggedIn: isLoggedIn,
         locale: savedLocale,
-        themeMode: themeMode ?? ThemeMode.system,
+        themeMode: themeMode ?? ThemeMode.light,
         hapticEnabled: hapticEnabled,
         status: SettingsStatus.success,
       ));

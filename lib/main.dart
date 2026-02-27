@@ -53,7 +53,7 @@ void main() async {
   final storageService = getIt<AppStorageService>();
   final savedLocale = await LocaleService.loadLocale(storageService);
   final savedThemeMode = await storageService.getThemeMode();
-  final themeMode = savedThemeMode ?? ThemeMode.system;
+  final themeMode = savedThemeMode ?? ThemeMode.light;
   //* Register theme notifier for runtime theme updates from Settings
   getIt.registerSingleton<ThemeModeNotifier>(ThemeModeNotifier(themeMode));
   //* Initialize haptic preference from storage
@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> {
               ),
               child: MaterialApp.router(
                 routerConfig: AppRouter.router,
-                title: 'Fist Ecommerce App',
+                title: 'Fist-Ecommerce Task',
                 theme: appTheme(context),
                 darkTheme: appAltTheme(context),
                 themeMode: widget.themeNotifier.value,
