@@ -495,7 +495,7 @@ This app was designed in **Figma** before implementation, ensuring a structured 
 | Design Asset | Description |
 |--------------|-------------|
 | **Figma Design Board** | Full design system: components, screens, and user flows |
-| **Figma File** | [Add your Figma link here](https://www.figma.com/design/YOUR_FILE_KEY) |
+| **Figma File** | [Fist-Ecommerce Design](https://www.figma.com/design/LjgYU6AsnFIc4MCY8EyqaA/Fist-Ecommerce?node-id=6-384&t=gMpUkOjHojVO9kVl-1) |
 
 ![Figma Design Board](assets/screens/figma_design.png)
 
