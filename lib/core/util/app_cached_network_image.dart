@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'url_helper.dart';
 
 /// App-level cached network image widget with safe SVG support.
@@ -122,13 +122,28 @@ class AppCachedNetworkImage extends StatelessWidget {
     return ClipRRect(borderRadius: borderRadius!, child: child);
   }
 
-  /// Placeholder that the image fades in over — no loading indicator.
-  /// Uses a subtle surface color; image gradually becomes clearer on load.
+  /// Placeholder shown while image loads — slim circular indicator on
+  /// subtle background.
   Widget _defaultPlaceholder(BuildContext context) {
-    final color = Theme.of(context).colorScheme.surfaceContainerHighest;
+    final theme = Theme.of(context);
+    final bgColor = theme.colorScheme.surfaceContainerHighest;
+    final indicatorColor = theme.colorScheme.primary;
     return ColoredBox(
-      color: color,
-      child: SizedBox(width: width ?? double.infinity, height: height ?? double.infinity),
+      color: bgColor,
+      child: SizedBox(
+        width: width ?? double.infinity,
+        height: height ?? double.infinity,
+        child: Center(
+          child: SizedBox(
+            width: 60.w,
+            height: 60.h,
+            child: CircularProgressIndicator(
+              strokeWidth: 1,
+              valueColor: AlwaysStoppedAnimation<Color>(indicatorColor),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
