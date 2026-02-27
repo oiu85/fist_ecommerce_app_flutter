@@ -27,6 +27,16 @@ class $AssetsImagesGen {
   $AssetsImagesStatusGen get status => const $AssetsImagesStatusGen();
 }
 
+class $AssetsLogoGen {
+  const $AssetsLogoGen();
+
+  /// File path: assets/logo/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/logo/logo.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [logo];
+}
+
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
@@ -39,8 +49,8 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/NotFound.json
   String get notFound => 'assets/lottie/NotFound.json';
 
-  /// File path: assets/lottie/fist_company_logo.json
-  String get fistCompanyLogo => 'assets/lottie/fist_company_logo.json';
+  /// File path: assets/lottie/fsit_company_logo.json
+  String get fsitCompanyLogo => 'assets/lottie/fsit_company_logo.json';
 
   /// File path: assets/lottie/screen_splash.json
   String get screenSplash => 'assets/lottie/screen_splash.json';
@@ -49,7 +59,7 @@ class $AssetsLottieGen {
   String get timeout => 'assets/lottie/timeout.json';
 
   /// List of all assets
-  List<String> get values => [connnecting, noInternet, notFound, fistCompanyLogo, screenSplash, timeout];
+  List<String> get values => [connnecting, noInternet, notFound, fsitCompanyLogo, screenSplash, timeout];
 }
 
 class $AssetsTranslationGen {
@@ -660,9 +670,14 @@ class $AssetsImagesStatusGen {
 class Assets {
   const Assets._();
 
+  static const String aEnv = '.env.example';
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const $AssetsTranslationGen translation = $AssetsTranslationGen();
+
+  /// List of all assets
+  static List<String> get values => [aEnv];
 }
 
 class AssetGenImage {

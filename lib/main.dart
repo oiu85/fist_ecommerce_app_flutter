@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> {
               ),
               child: MaterialApp.router(
                 routerConfig: AppRouter.router,
-                title: 'Fist-Ecommerce Task',
+                title: 'Fsit-Ecommerce Task',
                 theme: appTheme(context),
                 darkTheme: appAltTheme(context),
                 themeMode: widget.themeNotifier.value,

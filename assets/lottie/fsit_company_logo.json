@@ -5,7 +5,7 @@
   "op": 140,
   "w": 400,
   "h": 200,
-  "nm": "FistCompany Startup Splash",
+  "nm": "FsitCompany Startup Splash",
   "ddd": 0,
   "assets": [],
   "fonts": {
@@ -23,7 +23,7 @@
       "ddd": 0,
       "ind": 2,
       "ty": 5,
-      "nm": "Fist Text",
+      "nm": "Fsit Text",
       "ks": {
         "o": { "a": 1, "k": [ { "t": 8, "s": [0] }, { "t": 20, "s": [100] } ] },
         "p": {
@@ -53,7 +53,7 @@
                 "f": "Poppins-Bold",
                 "fc": [0.043, 0.122, 0.231, 1],
                 "s": 48,
-                "t": "Fist"
+                "t": "Fsit"
               }
             }
           ]

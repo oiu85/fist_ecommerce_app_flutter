@@ -2,7 +2,7 @@
     <!-- Required for API and network requests in release builds. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="Fist-Ecommerce Task"
+        android:label="Fsit-Ecommerce Task"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

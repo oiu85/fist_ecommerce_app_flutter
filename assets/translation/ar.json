@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Fist-Ecommerce Task",
+    "name": "Fsit-Ecommerce Task",
     "title": "تطبيق متجر الكتروني ",
     "welcome": "مرحباً",
     "loading": "جاري التحميل...",
@@ -318,7 +318,7 @@
     "validation_urlInvalid": "يرجى إدخال رابط صالح"
   },
   "coachTour": {
-    "welcome": "مرحباً بك في تطبيق Fist-Ecommerce Task.\n\nهذا التطبيق من صنع عبد الله الأطرش، الذي يسعد بالعمل مع شركتكم المحترمة وهو جاهز للبدء مباشرة. نتمنى لك تجربة رائعة.",
+    "welcome": "مرحباً بك في تطبيق Fsit-Ecommerce Task.\n\nهذا التطبيق من صنع عبد الله الأطرش، الذي يسعد بالعمل مع شركتكم المحترمة وهو جاهز للبدء مباشرة. نتمنى لك تجربة رائعة.",
     "homeNav": "هذه هي الصفحة الرئيسية في شريط التنقل.",
     "categoriesProducts": "تصفح المنتجات وصنّف حسب الفئة هنا.",
     "search": "ابحث عن المنتجات بالاسم أو الفئة.",
@@ -336,7 +336,7 @@
     "celebrationQuote": "ممتاز!"
   },
   "home": {
-    "appBarTitle": "Fist-Ecommerce Task",
+    "appBarTitle": "Fsit-Ecommerce Task",
     "categories": "الفئات",
     "products": "المنتجات",
     "navHome": "الرئيسية",

@@ -499,7 +499,7 @@ This app was designed in **Figma** before implementation, ensuring a structured 
 
 ![Figma Design Board](assets/screens/figma_design.png)
 
-*Design: Created by Abdullah Alatrash for Fist System Company Flutter Task*
+*Design: Created by Abdullah Alatrash for Fsit System Company Flutter Task*
 
 ---
 

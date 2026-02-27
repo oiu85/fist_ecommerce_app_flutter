@@ -55,7 +55,7 @@ class CoachTourTargetKeys {
     required void Function(BuildContext context) onNavigateToProductDetails,
     required void Function(VoidCallback next) registerProductDetailsNext,
     required VoidCallback onProductDetailsNextPressed,
-    String appName = 'Fist-Ecommerce Task',
+    String appName = 'Fsit-Ecommerce Task',
   }) {
     final targets = <TargetFocus>[];
 
