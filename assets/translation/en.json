@@ -293,6 +293,7 @@
   },
   "addProduct": {
     "addProduct": "Add Product",
+    "productAdded": "Product created successfully",
     "cancel": "Cancel",
     "productName": "Product Name",
     "price": "Price",
@@ -304,6 +305,7 @@
     "hintDescription": "Describe your product...",
     "hintImageUrl": "https://example.com/image.jpg",
     "validation_productNameRequired": "Product name is required",
+    "validation_descriptionRequired": "Description is required",
     "validation_priceRequired": "Price is required",
     "validation_priceInvalid": "Enter a valid price",
     "validation_imageUrlRequired": "Image URL is required",

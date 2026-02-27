@@ -279,6 +279,7 @@ abstract class  LocaleKeys {
   static const cart_secureCheckoutStripe = 'cart.secureCheckoutStripe';
   static const cart = 'cart';
   static const addProduct_addProduct = 'addProduct.addProduct';
+  static const addProduct_productAdded = 'addProduct.productAdded';
   static const addProduct_cancel = 'addProduct.cancel';
   static const addProduct_productName = 'addProduct.productName';
   static const addProduct_price = 'addProduct.price';
@@ -290,6 +291,7 @@ abstract class  LocaleKeys {
   static const addProduct_hintDescription = 'addProduct.hintDescription';
   static const addProduct_hintImageUrl = 'addProduct.hintImageUrl';
   static const addProduct_validation_productNameRequired = 'addProduct.validation_productNameRequired';
+  static const addProduct_validation_descriptionRequired = 'addProduct.validation_descriptionRequired';
   static const addProduct_validation_priceRequired = 'addProduct.validation_priceRequired';
   static const addProduct_validation_priceInvalid = 'addProduct.validation_priceInvalid';
   static const addProduct_validation_imageUrlRequired = 'addProduct.validation_imageUrlRequired';

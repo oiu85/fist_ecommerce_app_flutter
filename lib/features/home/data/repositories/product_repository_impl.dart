@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/domain/failure.dart';
+import '../../domain/entities/create_product_input.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../datasources/product_remote_data_source.dart';
@@ -48,6 +49,17 @@ class ProductRepositoryImpl implements IProductRepository {
     return result.fold(
       (nf) => Left(Failure(message: nf.message)),
       (models) => Right(models.map((m) => m.toEntity()).toList()),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Product>> addProduct(
+    CreateProductInput input,
+  ) async {
+    final result = await _dataSource.addProduct(input);
+    return result.fold(
+      (nf) => Left(Failure(message: nf.message)),
+      (model) => Right(model.toEntity()),
     );
   }
 }

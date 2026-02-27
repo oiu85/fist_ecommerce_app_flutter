@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/config/api_config.dart';
 import '../../../../core/network/network_client.dart';
+import '../../domain/entities/create_product_input.dart';
+import '../models/create_product_response_model.dart';
 import '../models/product_model.dart';
 
 //* Remote data source for product API.
@@ -106,6 +108,39 @@ class ProductRemoteDataSource {
           return Right(models);
         } catch (e) {
           return Left(NetworkFailure(message: 'Failed to parse products: $e'));
+        }
+      },
+    );
+  }
+
+  /// Creates a new product via POST /products.
+  /// Returns [CreateProductResponseModel] with optional rating from API.
+  Future<Either<NetworkFailure, CreateProductResponseModel>> addProduct(
+    CreateProductInput input,
+  ) async {
+    final body = <String, dynamic>{
+      'title': input.title,
+      'price': input.price,
+      'description': input.description,
+      'category': input.category,
+      'image': input.imageUrl,
+    };
+    final result = await _client.post(ApiConfig.productsPath, data: body);
+    return result.fold(
+      Left.new,
+      (response) {
+        final data = response.data;
+        if (data == null || data is! Map<String, dynamic>) {
+          return const Left(NetworkFailure(
+            message: 'Invalid add product response format',
+          ));
+        }
+        try {
+          return Right(CreateProductResponseModel.fromJson(data));
+        } catch (e) {
+          return Left(NetworkFailure(
+            message: 'Failed to parse add product response: $e',
+          ));
         }
       },
     );

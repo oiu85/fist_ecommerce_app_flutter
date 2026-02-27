@@ -293,6 +293,7 @@
   },
   "addProduct": {
     "addProduct": "إضافة منتج",
+    "productAdded": "تم إنشاء المنتج بنجاح",
     "cancel": "إلغاء",
     "productName": "اسم المنتج",
     "price": "السعر",
@@ -304,6 +305,7 @@
     "hintDescription": "صِف منتجك...",
     "hintImageUrl": "https://example.com/image.jpg",
     "validation_productNameRequired": "اسم المنتج مطلوب",
+    "validation_descriptionRequired": "الوصف مطلوب",
     "validation_priceRequired": "السعر مطلوب",
     "validation_priceInvalid": "أدخل سعراً صالحاً",
     "validation_imageUrlRequired": "رابط الصورة مطلوب",

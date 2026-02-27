@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/domain/failure.dart';
+import '../entities/create_product_input.dart';
 import '../entities/product.dart';
 
 //* Abstract product repository contract.
@@ -20,4 +21,7 @@ abstract class IProductRepository {
 
   /// Fetches a single product by [id].
   Future<Either<Failure, Product?>> getProductById(int id);
+
+  /// Creates a new product via POST /products.
+  Future<Either<Failure, Product>> addProduct(CreateProductInput input);
 }

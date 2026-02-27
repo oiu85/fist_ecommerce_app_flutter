@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../database/di.dart';
 import '../network/network_client.dart';
 import '../storage/app_storage_service.dart';
+import 'package:fsit_flutter_task_ecommerce/features/add_product/data/di.dart';
 import 'package:fsit_flutter_task_ecommerce/features/auth/data/di.dart';
 import 'package:fsit_flutter_task_ecommerce/features/cart/data/di.dart';
 import 'package:fsit_flutter_task_ecommerce/features/home/data/di.dart';
@@ -35,6 +36,8 @@ Future<GetIt> configureDependencies() async {
   registerHomeDependencies(getIt);
   //! Cart feature (SQLite + FakeStoreAPI simulation)
   registerCartDependencies(getIt);
+  //! Add product feature (POST /products, categories)
+  registerAddProductDependencies(getIt);
   //! Auth feature (login API)
   registerAuthDependencies(getIt);
 
