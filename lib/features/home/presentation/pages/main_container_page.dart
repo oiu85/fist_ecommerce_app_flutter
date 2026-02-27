@@ -64,6 +64,8 @@ class _MainContainerPageState extends State<MainContainerPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    //* HomeBloc and AddProductBloc must be factory-registered (not singleton).
+    //? BlocProvider disposes blocs on unmount; singleton would be closed after logout → crash on re-login.
     return BlocProvider<HomeBloc>(
       create: (_) => getIt<HomeBloc>()..add(const LoadHome()),
       child: BlocProvider<AddProductBloc>(
