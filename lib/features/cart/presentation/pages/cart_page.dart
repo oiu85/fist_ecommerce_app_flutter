@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/auth/auth_guard.dart';
 import '../../../../core/animation/animation.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/localization/locale_keys.g.dart';
@@ -108,9 +109,18 @@ class _CartPageState extends State<CartPage> {
                             variant: item.variant,
                             quantity: item.quantity,
                             priceFormatted: formatCartPrice(item.lineTotal),
-                            onQuantityChanged: (q) =>
-                                _onQuantityChanged(index, q),
-                            onDelete: () => _onDelete(index),
+                            onQuantityChanged: (q) {
+                              AuthGuard.requireAuth(context).then((ok) {
+                                if (!ok || !mounted) return;
+                                _onQuantityChanged(index, q);
+                              });
+                            },
+                            onDelete: () {
+                              AuthGuard.requireAuth(context).then((ok) {
+                                if (!ok || !mounted) return;
+                                _onDelete(index);
+                              });
+                            },
                             maxQuantity: 99,
                           ),
                         );
@@ -135,7 +145,10 @@ class _CartPageState extends State<CartPage> {
             subtotalFormatted: subtotalStr,
             totalFormatted: totalStr,
               onProceedToCheckout: () {
-                // TODO: Navigate to checkout
+                AuthGuard.requireAuth(context).then((ok) {
+                  if (!ok || !mounted) return;
+                  //! TODO: Navigate to checkout
+                });
               },
               enabled: _items.isNotEmpty,
             ),

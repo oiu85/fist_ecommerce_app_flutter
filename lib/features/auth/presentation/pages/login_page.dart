@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/component/app_snackbar.dart';
+import '../../../../core/di/app_dependencies.dart';
+import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/routing/app_routes.dart';
 import '../../../../core/shared/app_scaffold.dart';
+import '../../../../core/storage/app_storage_service.dart';
+import '../../../product_details/presentation/widgets/back_button.dart';
 import '../widgets/login_footer_section.dart';
 import '../widgets/login_form_section.dart';
 import '../widgets/login_header_section.dart';
@@ -29,29 +34,36 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _onSignIn() {
-    //! TODO: Connect to AuthBloc when implemented
+  Future<void> _onSignIn() async {
+    //! TODO: Connect to AuthBloc when implemented; placeholder sets auth for guard
+    final storage = getIt<AppStorageService>();
+    await storage.setAccessToken('placeholder');
+    await storage.setLoggedIn(true);
+    if (!mounted) return;
     context.go(AppRoutes.home);
   }
 
   void _onForgotPassword() {
     //! TODO: Navigate to forgot password flow when implemented
+    AppSnackbar.showInfo(
+      context,
+      LocaleKeys.auth_comingSoon,
+      translation: true,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    //* Light login background; dark mode uses scaffold default
-    final bgColor = theme.brightness == Brightness.light
-        ? const Color(0xFFF8FAFC)
-        : theme.scaffoldBackgroundColor;
 
     return AppScaffold.clean(
-      backgroundColor: bgColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
-          child: Column(
+      backgroundColor: theme.colorScheme.surface,
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 48.h),
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               //* Header: logo, app name, welcome subtitle
@@ -72,18 +84,51 @@ class _LoginPageState extends State<LoginPage> {
 
               //* Or + Google / Apple buttons
               LoginSocialSection(
-                onGoogleSignIn: () {},
-                onAppleSignIn: () {},
+                onGoogleSignIn: () {
+                  AppSnackbar.showInfo(
+                    context,
+                    LocaleKeys.auth_comingSoon,
+                    translation: true,
+                  );
+                },
+                onAppleSignIn: () {
+                  AppSnackbar.showInfo(
+                    context,
+                    LocaleKeys.auth_comingSoon,
+                    translation: true,
+                  );
+                },
               ),
               SizedBox(height: 40.h),
 
               //* Create account + Privacy / Terms
               LoginFooterSection(
-                onCreateAccountTap: () => context.push(AppRoutes.signup),
+                onCreateAccountTap: () {
+                  AppSnackbar.showInfo(
+                    context,
+                    LocaleKeys.auth_comingSoon,
+                    translation: true,
+                  );
+                },
               ),
             ],
+              ),
+            ),
           ),
-        ),
+          PositionedDirectional(
+            start: 16.w,
+            top: MediaQuery.paddingOf(context).top + 24.h,
+            child: ProductDetailsBackButton(
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRoutes.home);
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/auth/auth_guard.dart';
 import '../../../../core/component/app_snackbar.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/locale_keys.g.dart';
@@ -151,11 +152,23 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               context.read<ProductDetailsBloc>().add(
                                     const ProductDetailsQuantityIncremented(),
                                   ),
-                          onAddToCart: widget.onAddToCart != null
-                              ? () => context.read<ProductDetailsBloc>().add(
-                                    const ProductDetailsAddToCartRequested(),
-                                  )
-                              : null,
+                          onAddToCart: () {
+                            AuthGuard.requireAuth(context).then((ok) {
+                              if (!ok || !mounted) return;
+                              if (widget.onAddToCart != null) {
+                                context.read<ProductDetailsBloc>().add(
+                                      const ProductDetailsAddToCartRequested(),
+                                    );
+                              } else {
+                                //* Placeholder until cart integration
+                                AppSnackbar.showSuccess(
+                                  context,
+                                  LocaleKeys.app_success,
+                                  translation: true,
+                                );
+                              }
+                            });
+                          },
                         ),
                       ),
                     ),

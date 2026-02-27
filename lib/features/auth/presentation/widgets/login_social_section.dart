@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/localization/app_text.dart';
 import '../../../../core/localization/locale_keys.g.dart';
@@ -43,7 +44,6 @@ class LoginSocialSection extends StatelessWidget {
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF94A3B8),
-                  letterSpacing: 0.1,
                 ),
               ),
             ),
@@ -60,7 +60,14 @@ class LoginSocialSection extends StatelessWidget {
         //* Continue with Google
         _LoginSocialButton(
           labelKey: LocaleKeys.auth_continueWithGoogle,
-          icon: Icons.g_mobiledata_rounded,
+          icon: Assets.images.icons.google.svg(
+            width: 24.r,
+            height: 24.r,
+            colorFilter: ColorFilter.mode(
+              theme.colorScheme.onSurface,
+              BlendMode.srcIn,
+            ),
+          ),
           onTap: () {
             AppHaptic.lightTap();
             onGoogleSignIn?.call();
@@ -70,7 +77,14 @@ class LoginSocialSection extends StatelessWidget {
         //* Continue with Apple
         _LoginSocialButton(
           labelKey: LocaleKeys.auth_continueWithApple,
-          icon: Icons.apple,
+          icon: Assets.images.icons.apple.svg(
+            width: 24.r,
+            height: 24.r,
+            colorFilter: ColorFilter.mode(
+              theme.colorScheme.onSurface,
+              BlendMode.srcIn,
+            ),
+          ),
           onTap: () {
             AppHaptic.lightTap();
             onAppleSignIn?.call();
@@ -89,7 +103,7 @@ class _LoginSocialButton extends StatelessWidget {
   });
 
   final String labelKey;
-  final IconData icon;
+  final Widget icon;
   final VoidCallback onTap;
 
   @override
@@ -116,7 +130,7 @@ class _LoginSocialButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 24.r, color: colorScheme.onSurface),
+              icon,
               SizedBox(width: 12.w),
               AppText(
                 labelKey,

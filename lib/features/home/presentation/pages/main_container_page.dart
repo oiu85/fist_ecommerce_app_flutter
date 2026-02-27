@@ -14,7 +14,7 @@ import '../bloc/home_state.dart';
 import 'home_page.dart';
 
 //* Main container with bottom nav; all tab/page index logic in [HomeBloc].
-//? Each page is wrapped with [AutomaticKeepAlive] + [_KeepAlivePage] so state is preserved when switching tabs.
+//? [PageView] with slide animation; no AutomaticKeepAlive (causes KeepAlive/RepaintBoundary conflict).
 
 class MainContainerPage extends StatefulWidget {
   const MainContainerPage({super.key});
@@ -45,7 +45,11 @@ class _MainContainerPageState extends State<MainContainerPage> {
   void _onTabChange(BuildContext context, int index) {
     AppHaptic.selection();
     context.read<HomeBloc>().add(BottomNavIndexChanged(index));
-    _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -65,11 +69,11 @@ class _MainContainerPageState extends State<MainContainerPage> {
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (index) => _onPageChanged(context, index),
-                children: [
-                  AutomaticKeepAlive(child: _KeepAlivePage(child: const HomePage())),
-                  AutomaticKeepAlive(child: _KeepAlivePage(child: const CartPage())),
-                  AutomaticKeepAlive(child: _KeepAlivePage(child: const AddProductPage())),
-                  AutomaticKeepAlive(child: _KeepAlivePage(child: const SettingsPage())),
+                children: const [
+                  HomePage(),
+                  CartPage(),
+                  AddProductPage(),
+                  SettingsPage(),
                 ],
               ),
             ),
@@ -81,25 +85,5 @@ class _MainContainerPageState extends State<MainContainerPage> {
         },
       ),
     );
-  }
-}
-
-class _KeepAlivePage extends StatefulWidget {
-  const _KeepAlivePage({required this.child});
-
-  final Widget child;
-
-  @override
-  State<_KeepAlivePage> createState() => _KeepAlivePageState();
-}
-
-class _KeepAlivePageState extends State<_KeepAlivePage> with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return widget.child;
   }
 }

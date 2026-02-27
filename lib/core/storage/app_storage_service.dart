@@ -8,6 +8,8 @@ class StorageKeys {
 
   static const String onboardingSkipped = 'onboarding_skipped';
   static const String accessToken = 'access_token';
+  //* Auth state for guard; must be true alongside valid token
+  static const String isLoggedIn = 'is_logged_in';
   static const String userName = 'user_name';
   static const String locale = 'locale';
   static const String themeMode = 'theme_mode';
@@ -22,6 +24,10 @@ abstract class AppStorageService {
   Future<String?> getAccessToken();
 
   Future<void> setAccessToken(String? token);
+
+  Future<bool> isLoggedIn();
+
+  Future<void> setLoggedIn(bool value);
 
   Future<String?> getUserName();
 
@@ -73,6 +79,16 @@ class SharedPreferencesStorageService implements AppStorageService {
     } else {
       await _prefs.setString(StorageKeys.accessToken, token);
     }
+  }
+
+  @override
+  Future<bool> isLoggedIn() async {
+    return _prefs.getBool(StorageKeys.isLoggedIn) ?? false;
+  }
+
+  @override
+  Future<void> setLoggedIn(bool value) async {
+    await _prefs.setBool(StorageKeys.isLoggedIn, value);
   }
 
   @override

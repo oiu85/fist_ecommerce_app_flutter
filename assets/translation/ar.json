@@ -59,7 +59,9 @@
     "registerSuccess": "تم إنشاء الحساب بنجاح",
     "passwordResetSuccess": "تم إعادة تعيين كلمة المرور بنجاح",
     "passwordResetError": "فشل في إعادة تعيين كلمة المرور",
-    "or": "أو"
+    "or": "أو",
+    "mustLoginFirst": "يجب تسجيل الدخول أولاً",
+    "comingSoon": "قريباً"
   },
   "login": {
     "wrongCode": "رمز غير صحيح. يرجى إدخال رمز صالح مكون من 4 أرقام",

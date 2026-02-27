@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/auth/auth_guard.dart';
 import '../../../../core/animation/animation.dart';
 import '../../../../core/component/custom_text_area_form_field.dart';
 import '../../../../core/component/custom_text_form_field.dart';
@@ -51,7 +52,9 @@ class _AddProductPageState extends State<AddProductPage> {
     super.dispose();
   }
 
-  void _onAddProduct() {
+  Future<void> _onAddProduct() async {
+    if (!await AuthGuard.requireAuth(context)) return;
+    if (!mounted) return;
     if (_formKey.currentState?.validate() ?? false) {
       //! TODO: Submit product via BLoC/Repository when backend is wired
       ScaffoldMessenger.of(context).showSnackBar(

@@ -59,7 +59,9 @@
     "registerSuccess": "Registration successful",
     "passwordResetSuccess": "Password reset successful",
     "passwordResetError": "Failed to reset password",
-    "or": "OR"
+    "or": "OR",
+    "mustLoginFirst": "You must login first",
+    "comingSoon": "Coming soon"
   },
   "login": {
     "wrongCode": "Invalid code. Please enter a valid 4-digit code",

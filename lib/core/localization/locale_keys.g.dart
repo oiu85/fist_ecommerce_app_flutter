@@ -62,6 +62,8 @@ abstract class  LocaleKeys {
   static const auth_passwordResetSuccess = 'auth.passwordResetSuccess';
   static const auth_passwordResetError = 'auth.passwordResetError';
   static const auth_or = 'auth.or';
+  static const auth_mustLoginFirst = 'auth.mustLoginFirst';
+  static const auth_comingSoon = 'auth.comingSoon';
   static const auth = 'auth';
   static const login_wrongCode = 'login.wrongCode';
   static const login_validation_nameRequired = 'login.validation.nameRequired';

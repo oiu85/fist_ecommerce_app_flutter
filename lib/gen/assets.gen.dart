@@ -365,6 +365,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/add_new.svg
   SvgGenImage get addNew => const SvgGenImage('assets/images/icons/add_new.svg');
 
+  /// File path: assets/images/icons/apple.svg
+  SvgGenImage get apple => const SvgGenImage('assets/images/icons/apple.svg');
+
   /// File path: assets/images/icons/bag.svg
   SvgGenImage get bag => const SvgGenImage('assets/images/icons/bag.svg');
 
@@ -409,6 +412,12 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/faill-search.svg
   SvgGenImage get faillSearch => const SvgGenImage('assets/images/icons/faill-search.svg');
+
+  /// File path: assets/images/icons/goggle_icon.svg
+  SvgGenImage get goggleIcon => const SvgGenImage('assets/images/icons/goggle_icon.svg');
+
+  /// File path: assets/images/icons/google.svg
+  SvgGenImage get google => const SvgGenImage('assets/images/icons/google.svg');
 
   /// File path: assets/images/icons/increse_plus.svg
   SvgGenImage get incresePlus => const SvgGenImage('assets/images/icons/increse_plus.svg');
@@ -554,6 +563,7 @@ class $AssetsImagesIconsGen {
     work,
     addSquare,
     addNew,
+    apple,
     bag,
     bucketEmpty,
     calnder,
@@ -569,6 +579,8 @@ class $AssetsImagesIconsGen {
     editPen,
     eye,
     faillSearch,
+    goggleIcon,
+    google,
     incresePlus,
     listRow,
     lsit,
