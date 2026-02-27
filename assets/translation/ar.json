@@ -289,7 +289,8 @@
     "calculatedAtCheckout": "يُحسب عند الدفع",
     "total": "الإجمالي",
     "proceedToCheckout": "متابعة للدفع",
-    "secureCheckoutStripe": "دفع آمن مدعوم من Stripe"
+    "secureCheckoutStripe": "دفع آمن مدعوم من Stripe",
+    "stripeMaintenance": "Stripe قيد الصيانة حاليًا. يرجى المحاولة لاحقًا."
   },
   "addProduct": {
     "addProduct": "إضافة منتج",

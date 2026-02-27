@@ -277,6 +277,7 @@ abstract class  LocaleKeys {
   static const cart_total = 'cart.total';
   static const cart_proceedToCheckout = 'cart.proceedToCheckout';
   static const cart_secureCheckoutStripe = 'cart.secureCheckoutStripe';
+  static const cart_stripeMaintenance = 'cart.stripeMaintenance';
   static const cart = 'cart';
   static const addProduct_addProduct = 'addProduct.addProduct';
   static const addProduct_productAdded = 'addProduct.productAdded';

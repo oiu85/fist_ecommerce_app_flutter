@@ -7,6 +7,7 @@ import 'package:fsit_flutter_task_ecommerce/mock_data/cart_mock_data.dart'
 import '../../../../core/animation/animation.dart';
 import '../../../../core/auth/auth_guard.dart';
 import '../../../../core/component/app_snackbar.dart';
+import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../core/status/ui_helper.dart';
 import '../bloc/cart_bloc.dart';
@@ -81,7 +82,10 @@ class CartPage extends StatelessWidget {
                       onProceedToCheckout: () {
                         AuthGuard.requireAuth(context).then((ok) {
                           if (!ok || !context.mounted) return;
-                          //! TODO: Navigate to checkout
+                          AppSnackbar.showInfo(
+                            context,
+                            LocaleKeys.cart_stripeMaintenance,
+                          );
                         });
                       },
                       enabled: items.isNotEmpty && !isLoading,

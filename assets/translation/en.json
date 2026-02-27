@@ -289,7 +289,8 @@
     "calculatedAtCheckout": "Calculated at checkout",
     "total": "Total",
     "proceedToCheckout": "Proceed to Checkout",
-    "secureCheckoutStripe": "Secure checkout powered by Stripe"
+    "secureCheckoutStripe": "Secure checkout powered by Stripe",
+    "stripeMaintenance": "Stripe is currently under maintenance. Please try again later."
   },
   "addProduct": {
     "addProduct": "Add Product",
