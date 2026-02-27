@@ -313,6 +313,7 @@ abstract class  LocaleKeys {
   static const coachTour_next = 'coachTour.next';
   static const coachTour_done = 'coachTour.done';
   static const coachTour_showTourAgain = 'coachTour.showTourAgain';
+  static const coachTour_celebrationQuote = 'coachTour.celebrationQuote';
   static const coachTour = 'coachTour';
   static const home_appBarTitle = 'home.appBarTitle';
   static const home_categories = 'home.categories';

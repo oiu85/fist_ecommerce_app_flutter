@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import '../../../../core/confetti/app_confetti.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/routing/app_routes.dart';
@@ -38,6 +39,7 @@ class CoachTourOrchestrator extends StatefulWidget {
 class _CoachTourOrchestratorState extends State<CoachTourOrchestrator> {
   TutorialCoachMark? _tutorial;
   bool _initialized = false;
+  bool _confettiTrigger = false;
 
   @override
   void initState() {
@@ -132,10 +134,25 @@ class _CoachTourOrchestratorState extends State<CoachTourOrchestrator> {
 
   void _onFinish() {
     widget.storage.setCompleted(true);
+    //* Trigger confetti from bottom corners (reset then set for clean transition)
+    if (!mounted) return;
+    setState(() => _confettiTrigger = false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) setState(() => _confettiTrigger = true);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return Stack(
+      children: [
+        widget.child,
+        Positioned.fill(
+          child: AppConfettiTriggerOverlayFromBottomCorners(
+            triggerPlay: _confettiTrigger,
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -398,6 +398,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/crop.svg
   SvgGenImage get crop => const SvgGenImage('assets/images/icons/crop.svg');
 
+  /// File path: assets/images/icons/cup.svg
+  SvgGenImage get cup => const SvgGenImage('assets/images/icons/cup.svg');
+
   /// File path: assets/images/icons/double_arrow.svg
   SvgGenImage get doubleArrow => const SvgGenImage('assets/images/icons/double_arrow.svg');
 
@@ -580,6 +583,7 @@ class $AssetsImagesIconsGen {
     circlePlus,
     closebutton,
     crop,
+    cup,
     doubleArrow,
     dropDownIcon,
     editPen,

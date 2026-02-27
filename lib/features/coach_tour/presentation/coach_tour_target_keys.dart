@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../../../../core/localization/locale_keys.g.dart';
@@ -58,7 +59,6 @@ class CoachTourTargetKeys {
   }) {
     final targets = <TargetFocus>[];
 
-    //* Step 0: Welcome — focus on app bar title + icon
     targets.add(
       TargetFocus(
         identify: 'welcome',
@@ -119,6 +119,7 @@ class CoachTourTargetKeys {
       ),
     );
 
+    //* Focus on search icon in app bar (after categories)
     targets.add(
       TargetFocus(
         identify: 'search',
@@ -188,25 +189,19 @@ class CoachTourTargetKeys {
       ),
     );
 
-    final cartIconSize = 40.0;
-    final cartIconX = screenSize.width - cartIconSize - 28;
-    final cartIconY = topSafePadding + 16;
-    final cartIconText = getText(LocaleKeys.coachTour_cartIcon);
+    //* Focus on cart icon in app bar (after product details pop) — key on icon itself
     targets.add(
       TargetFocus(
         identify: 'cartIcon',
-        targetPosition: TargetPosition(
-          Size(cartIconSize, cartIconSize),
-          Offset(cartIconX, cartIconY),
-        ),
+        keyTarget: keyCart,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
             padding: const EdgeInsets.all(20),
             builder: (context, ctrl) => _buildContentWithNext(
               context,
-              cartIconText,
-              onNext: () => scheduleNextWhenKeyReady(1, keyCartListOrEmpty, ctrl.next),
+              getText(LocaleKeys.coachTour_cartIcon),
+              onNext: () => scheduleNextWhenKeyReady(1, keyCartItemsList, ctrl.next),
               getText: getText,
             ),
           ),
@@ -216,17 +211,11 @@ class CoachTourTargetKeys {
       ),
     );
 
-    final cartPageW = screenSize.width - 40;
-    final cartPageH = 160.0;
-    final cartPageX = 20.0;
-    final cartPageY = topSafePadding + 100;
+    //* Focus on cart item card only (first item or empty-state center)
     targets.add(
       TargetFocus(
         identify: 'cartPage',
-        targetPosition: TargetPosition(
-          Size(cartPageW, cartPageH),
-          Offset(cartPageX, cartPageY),
-        ),
+        keyTarget: keyCartItemsList,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -295,17 +284,11 @@ class CoachTourTargetKeys {
       ),
     );
 
-    final settingsThemeW = screenSize.width - 40;
-    final settingsThemeH = 100.0;
-    final settingsThemeX = 20.0;
-    final settingsThemeY = topSafePadding + 24;
+    //* Focus on theme tile/button (not profile card)
     targets.add(
       TargetFocus(
         identify: 'settingsTheme',
-        targetPosition: TargetPosition(
-          Size(settingsThemeW, settingsThemeH),
-          Offset(settingsThemeX, settingsThemeY),
-        ),
+        keyTarget: keySettingsTheme,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
@@ -354,9 +337,12 @@ class CoachTourTargetKeys {
     required VoidCallback onNext,
     required String Function(String key, [Map<String, String>? namedArgs]) getText,
   }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           text,
@@ -366,12 +352,38 @@ class CoachTourTargetKeys {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 12),
-        TextButton(
-          onPressed: onNext,
-          child: Text(
-            getText(LocaleKeys.coachTour_next),
-            style: const TextStyle(color: Colors.white),
+        const SizedBox(height: 16),
+          //* Next button — chip-style, compact width, no` icon
+          Align(
+          alignment: Alignment.centerRight,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onNext,
+              borderRadius: BorderRadius.circular(20.r),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: colorScheme.primary.withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colorScheme.primary.withValues(alpha: 0.3),
+                      blurRadius: 6.r,
+                      offset: Offset(0, 2.r),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  getText(LocaleKeys.coachTour_next),
+                  style: TextStyle(
+                    color: colorScheme.onPrimary,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ],
