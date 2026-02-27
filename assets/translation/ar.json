@@ -318,5 +318,8 @@
     "noProductsFound": "لا توجد منتجات",
     "noSearchResults": "لا توجد نتائج",
     "noResultsFor": "لا توجد نتائج لـ \"{query}\""
+  },
+  "productDetails": {
+    "favouriteComingSoon": "المفضلة قريباً"
   }
 }

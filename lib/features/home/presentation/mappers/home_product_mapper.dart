@@ -16,6 +16,7 @@ HomeProductGridItem productToGridItem(Product product) => HomeProductGridItem(
   reviewCount: product.rating.count,
   priceFormatted: _formatPrice(product.price),
   imageUrl: product.imageUrl,
+  heroTag: 'product_hero_${product.id}',
 );
 
 /// Maps domain [Product] to [ProductDetailsPayload] for navigation.
@@ -27,4 +28,5 @@ ProductDetailsPayload payloadFromProduct(Product product) => ProductDetailsPaylo
   reviewCount: product.rating.count,
   description: product.description,
   imageUrl: product.imageUrl,
+  heroTag: 'product_hero_${product.id}',
 );

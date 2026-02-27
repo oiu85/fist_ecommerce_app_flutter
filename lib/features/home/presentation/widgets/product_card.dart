@@ -20,6 +20,7 @@ class ProductCard extends StatelessWidget {
     required this.priceFormatted,
     this.width,
     this.searchHighlight,
+    this.heroTag,
     this.onTap,
   });
 
@@ -30,8 +31,17 @@ class ProductCard extends StatelessWidget {
   final String priceFormatted;
   final double? width;
   final String? searchHighlight;
+  /// Unique tag for Hero animation to product details (e.g. product_hero_1).
+  final String? heroTag;
 
   final VoidCallback? onTap;
+
+  Widget _wrapHero(Widget child) {
+    if (heroTag != null && heroTag!.isNotEmpty) {
+      return Hero(tag: heroTag!, child: child);
+    }
+    return child;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +85,16 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ProductCardImage(
-                    imageUrl: imageUrl,
-                    size: ((width ?? 163.5.w) - 2).clamp(0.0, double.infinity),
-                    borderColor: appColors?.borderColor ?? colorScheme.outline,
-                    backgroundColor: colorScheme.surfaceContainer,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 4.h),
+                    child: _wrapHero(
+                      ProductCardImage(
+                        imageUrl: imageUrl,
+                        size: ((width ?? 163.5.w) - 20.w).clamp(0.0, double.infinity),
+                        borderColor: appColors?.borderColor ?? colorScheme.outline,
+                        backgroundColor: colorScheme.surfaceContainer,
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Padding(

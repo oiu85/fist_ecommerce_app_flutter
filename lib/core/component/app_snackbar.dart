@@ -2,6 +2,33 @@ import '../localization/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+//* Animated wrapper for SnackBar content: fade + slide up on show.
+class _AnimatedSnackBarContent extends StatelessWidget {
+  const _AnimatedSnackBarContent({required this.child});
+
+  final Widget child;
+
+  static const Duration _duration = Duration(milliseconds: 280);
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: _duration,
+      curve: Curves.easeOutCubic,
+      builder: (BuildContext context, double value, Widget? child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, 12 * (1 - value)),
+            child: child,
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+}
 
 class AppSnackbar {
   AppSnackbar._();
@@ -45,27 +72,29 @@ class AppSnackbar {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              Icons.check_circle_outline_rounded,
-              color: colorScheme.onPrimaryContainer,
-              size: 20.sp,
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: AppText(
-                message,
-                translation: translation,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w500,
+        content: _AnimatedSnackBarContent(
+          child: Row(
+            children: [
+              Icon(
+                Icons.check_circle_outline_rounded,
+                color: colorScheme.onPrimaryContainer,
+                size: 20.sp,
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: AppText(
+                  message,
+                  translation: translation,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         backgroundColor: colorScheme.primaryContainer,
         behavior: SnackBarBehavior.floating,
@@ -90,27 +119,29 @@ class AppSnackbar {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              Icons.error_outline_rounded,
-              color: colorScheme.onErrorContainer,
-              size: 20.sp,
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: AppText(
-                displayMessage,
-                translation: translation,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onErrorContainer,
-                  fontWeight: FontWeight.w500,
+        content: _AnimatedSnackBarContent(
+          child: Row(
+            children: [
+              Icon(
+                Icons.error_outline_rounded,
+                color: colorScheme.onErrorContainer,
+                size: 20.sp,
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: AppText(
+                  displayMessage,
+                  translation: translation,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onErrorContainer,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         backgroundColor: colorScheme.errorContainer,
         behavior: SnackBarBehavior.floating,
@@ -132,27 +163,29 @@ class AppSnackbar {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              Icons.info_outline_rounded,
-              color: colorScheme.onSecondaryContainer,
-              size: 20.sp,
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: AppText(
-                message,
-                translation: translation,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSecondaryContainer,
-                  fontWeight: FontWeight.w500,
+        content: _AnimatedSnackBarContent(
+          child: Row(
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                color: colorScheme.onSecondaryContainer,
+                size: 20.sp,
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: AppText(
+                  message,
+                  translation: translation,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSecondaryContainer,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         backgroundColor: colorScheme.secondaryContainer,
         behavior: SnackBarBehavior.floating,
@@ -174,27 +207,29 @@ class AppSnackbar {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              Icons.warning_amber_rounded,
-              color: colorScheme.onTertiaryContainer,
-              size: 20.sp,
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: AppText(
-                message,
-                translation: translation,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onTertiaryContainer,
-                  fontWeight: FontWeight.w500,
+        content: _AnimatedSnackBarContent(
+          child: Row(
+            children: [
+              Icon(
+                Icons.warning_amber_rounded,
+                color: colorScheme.onTertiaryContainer,
+                size: 20.sp,
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: AppText(
+                  message,
+                  translation: translation,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onTertiaryContainer,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         backgroundColor: colorScheme.tertiaryContainer,
         behavior: SnackBarBehavior.floating,

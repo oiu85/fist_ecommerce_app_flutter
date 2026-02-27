@@ -15,6 +15,7 @@ class HomeProductGridItem {
     required this.reviewCount,
     required this.priceFormatted,
     this.imageUrl = kHomeProductPlaceholderAsset,
+    this.heroTag,
   });
 
   final String name;
@@ -22,6 +23,8 @@ class HomeProductGridItem {
   final int reviewCount;
   final String priceFormatted;
   final String imageUrl;
+  /// Unique tag for Hero animation to product details (e.g. product_hero_1).
+  final String? heroTag;
 }
 
 /// Builds the product grid as a sliver for use inside [CustomScrollView].
@@ -62,6 +65,7 @@ Widget buildHomeProductGridSliver(
           reviewCount: item.reviewCount,
           priceFormatted: item.priceFormatted,
           searchHighlight: searchHighlight,
+          heroTag: item.heroTag,
           onTap: tapHandler,
         );
         //* Staggered entrance + scroll-optimized (no delay on fast scroll)

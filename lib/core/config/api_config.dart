@@ -3,7 +3,6 @@ class ApiConfig {
   /// Base URL for all API requests.
   static const String baseUrl = 'https://fakestoreapi.com';
 
-  //* ─── Home / Products API ───────────────────────────────────────────────
 
   /// All products list.
   static const String productsPath = '/products';

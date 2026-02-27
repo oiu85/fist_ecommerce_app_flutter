@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/component/app_snackbar.dart';
+import '../../../../core/haptic/app_haptic.dart';
+import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/theme/app_color_extension.dart';
+import '../../../../gen/assets.gen.dart';
 import '../bloc/product_details_bloc.dart';
+import '../widgets/product_image_preview_page.dart';
 import '../bloc/product_details_event.dart';
 import '../bloc/product_details_state.dart';
 import '../widgets/back_button.dart';
@@ -24,6 +29,7 @@ class ProductDetailsPayload {
     required this.reviewCount,
     required this.description,
     required this.imageUrl,
+    this.heroTag,
   });
 
   final String categoryName;
@@ -33,6 +39,8 @@ class ProductDetailsPayload {
   final int reviewCount;
   final String description;
   final String imageUrl;
+  /// Unique tag for Hero animation from home to details (e.g. product_hero_1).
+  final String? heroTag;
 }
 
 class ProductDetailsPage extends StatefulWidget {
@@ -54,7 +62,8 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 const double _kHeroHeight = 375;
-const double _kCardOverlap = 24;
+//* Reduced so content covers less of the hero image.
+const double _kCardOverlap = 0;
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late final ScrollController _scrollController;
@@ -108,8 +117,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               right: 0,
               child: ProductDetailsHero(
                 imageUrl: widget.payload.imageUrl,
+                heroTag: widget.payload.heroTag,
                 onBack: widget.onBack ?? () => Navigator.of(context).pop(),
-                onFavourite: widget.onFavourite,
+                onFavourite: widget.onFavourite ??
+                    () => AppSnackbar.showInfo(
+                          context,
+                          LocaleKeys.productDetails_favouriteComingSoon,
+                          translation: true,
+                        ),
               ),
             ),
             Positioned.fill(
@@ -174,7 +189,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                     () => Navigator.of(context).pop(),
                               ),
                               FavouriteButton(
-                                  onPressed: widget.onFavourite),
+                                onPressed: widget.onFavourite ??
+                                    () => AppSnackbar.showInfo(
+                                          context,
+                                          LocaleKeys.productDetails_favouriteComingSoon,
+                                          translation: true,
+                                        ),
+                              ),
                             ],
                           ),
                         ),
@@ -184,8 +205,126 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 );
               },
             ),
+            //* Hero button overlay: visible until content covers hero; then hidden.
+            BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
+              buildWhen: (prev, curr) =>
+                  prev.showButtonsOnContent != curr.showButtonsOnContent,
+              builder: (context, state) {
+                return IgnorePointer(
+                  ignoring: state.showButtonsOnContent,
+                  child: AnimatedOpacity(
+                    opacity: state.showButtonsOnContent ? 0 : 1,
+                    duration: const Duration(milliseconds: 200),
+                    child: _HeroButtonOverlay(
+                      heroHeight: heroHeight,
+                      imageUrl: widget.payload.imageUrl,
+                      onBack: widget.onBack ?? () => Navigator.of(context).pop(),
+                      onFavourite: widget.onFavourite ??
+                          () => AppSnackbar.showInfo(
+                                context,
+                                LocaleKeys.productDetails_favouriteComingSoon,
+                                translation: true,
+                              ),
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Hit-test overlay so hero buttons receive taps without reordering the stack.
+/// Background is [IgnorePointer] so scroll view still gets gestures elsewhere.
+class _HeroButtonOverlay extends StatelessWidget {
+  const _HeroButtonOverlay({
+    required this.heroHeight,
+    required this.imageUrl,
+    required this.onBack,
+    required this.onFavourite,
+  });
+
+  final double heroHeight;
+  final String imageUrl;
+  final VoidCallback onBack;
+  final VoidCallback onFavourite;
+
+  bool get _isNetworkImage =>
+      imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final startInset = 16.w;
+    final endInset = 16.w;
+    final topInset = MediaQuery.paddingOf(context).top + 24.h;
+
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      height: heroHeight,
+      child: Stack(
+        children: [
+          //* Rest of overlay passes hits through so scroll behavior is unchanged.
+          Positioned.fill(
+            child: IgnorePointer(
+              child: SizedBox.expand(),
+            ),
+          ),
+          Positioned(
+            left: isRtl ? null : startInset,
+            right: isRtl ? endInset : null,
+            top: topInset,
+            child: ProductDetailsBackButton(onPressed: onBack),
+          ),
+          Positioned(
+            left: isRtl ? endInset : null,
+            right: isRtl ? null : endInset,
+            top: topInset,
+            child: FavouriteButton(onPressed: onFavourite),
+          ),
+          Positioned(
+            left: isRtl ? endInset : null,
+            right: isRtl ? null : endInset,
+            bottom: 16.h,
+            child: Material(
+              color: colorScheme.surface.withValues(alpha: 0.9),
+              shape: const CircleBorder(),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () {
+                  AppHaptic.lightTap();
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => ProductImagePreviewPage(
+                        imageUrl: imageUrl,
+                        isNetworkImage: _isNetworkImage,
+                      ),
+                    ),
+                  );
+                },
+                customBorder: const CircleBorder(),
+                child: Padding(
+                  padding: EdgeInsets.all(10.r),
+                  child: Assets.images.icons.crop.svg(
+                    width: 22.r,
+                    height: 22.r,
+                    colorFilter: ColorFilter.mode(
+                      colorScheme.onSurface,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

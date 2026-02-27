@@ -20,6 +20,7 @@ const ProductDetailsPayload mockProductDetailsPayload = ProductDetailsPayload(
       'luxurious memory foam cushions. Crafted with precision for the discerning '
       'audiophile who demands both performance and style.',
   imageUrl: kProductDetailsHeroAsset,
+  heroTag: 'product_hero_0',
 );
 
 /// Builds [ProductDetailsPayload] from a home grid item (category & description from mock).
@@ -32,4 +33,5 @@ ProductDetailsPayload payloadFromHomeItem(HomeProductGridItem item) =>
       reviewCount: item.reviewCount,
       description: mockProductDetailsPayload.description,
       imageUrl: item.imageUrl,
+      heroTag: item.heroTag,
     );

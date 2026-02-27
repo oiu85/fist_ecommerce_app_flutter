@@ -37,6 +37,7 @@ Widget buildHomeProductListSliver(
             reviewCount: item.reviewCount,
             priceFormatted: item.priceFormatted,
             searchHighlight: searchHighlight,
+            heroTag: item.heroTag,
             onTap: tapHandler,
           ),
         );

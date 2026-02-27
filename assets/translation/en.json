@@ -318,5 +318,8 @@
     "noProductsFound": "No products found",
     "noSearchResults": "No results found",
     "noResultsFor": "No results for \"{query}\""
+  },
+  "productDetails": {
+    "favouriteComingSoon": "Favourite coming soon"
   }
 }

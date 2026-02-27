@@ -304,5 +304,7 @@ abstract class  LocaleKeys {
   static const home_noSearchResults = 'home.noSearchResults';
   static const home_noResultsFor = 'home.noResultsFor';
   static const home = 'home';
+  static const productDetails_favouriteComingSoon = 'productDetails.favouriteComingSoon';
+  static const productDetails = 'productDetails';
 
 }
