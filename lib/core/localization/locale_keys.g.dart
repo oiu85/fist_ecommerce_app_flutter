@@ -29,6 +29,10 @@ abstract class  LocaleKeys {
   static const app_tryAgain = 'app.tryAgain';
   static const app_somethingWentWrong = 'app.somethingWentWrong';
   static const app = 'app';
+  static const exitDialog_title = 'exitDialog.title';
+  static const exitDialog_subtitle = 'exitDialog.subtitle';
+  static const exitDialog_exit = 'exitDialog.exit';
+  static const exitDialog = 'exitDialog';
   static const auth_login = 'auth.login';
   static const auth_signIn = 'auth.signIn';
   static const auth_logout = 'auth.logout';

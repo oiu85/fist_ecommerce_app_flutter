@@ -7,7 +7,6 @@ import '../../features/cart/presentation/bloc/cart_bloc.dart';
 import '../../features/cart/presentation/bloc/cart_event.dart';
 import '../../features/coach_tour/coach_tour.dart';
 import '../../features/home/presentation/pages/main_container_page.dart';
-import '../../features/home/presentation/pages/splash_screen_page.dart';
 import '../../features/product_details/presentation/pages/product_details_page.dart';
 import '../../mock_data/product_details_mock_data.dart';
 import '../component/app_snackbar.dart';
@@ -43,12 +42,12 @@ class AppRouter {
       routes: <RouteBase>[
         GoRoute(
           path: '/',
-          name: 'splash',
-          builder: (context, state) => const SplashScreenPage(),
+          name: 'home',
+          builder: (context, state) => const MainContainerPage(),
         ),
         GoRoute(
           path: '/home',
-          name: 'home',
+          name: 'homeNamed',
           builder: (context, state) => const MainContainerPage(),
         ),
         GoRoute(

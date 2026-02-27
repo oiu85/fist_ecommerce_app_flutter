@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fsit_flutter_task_ecommerce/features/coach_tour/presentation/coach_tour_controller.dart';
 
 import '../../../../core/component/custom_bottom_nav_bar.dart';
+import '../../../../core/component/exit_dialog.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/shared/app_scaffold.dart';
@@ -75,14 +77,24 @@ class _MainContainerPageState extends State<MainContainerPage> {
                 prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
             builder: (context, state) {
               final keys = getIt<CoachTourTargetKeys>();
-              return CoachTourOrchestrator(
-                  pageController: _pageController,
-                  onTabChange: (index) => _onTabChange(context, index),
-                  keys: keys,
-                  storage: getIt<CoachTourStorage>(),
-                  onRegistered: (showTour) =>
-                      getIt<CoachTourController>().register(showTour),
-                  child: AppScaffold.clean(
+              return PopScope(
+                  canPop: false,
+                  onPopInvokedWithResult: (didPop, result) async {
+                    if (didPop) return;
+                    final shouldExit =
+                        await ExitDialog.show(context);
+                    if (shouldExit && context.mounted) {
+                      SystemNavigator.pop();
+                    }
+                  },
+                  child: CoachTourOrchestrator(
+                    pageController: _pageController,
+                    onTabChange: (index) => _onTabChange(context, index),
+                    keys: keys,
+                    storage: getIt<CoachTourStorage>(),
+                    onRegistered: (showTour) =>
+                        getIt<CoachTourController>().register(showTour),
+                    child: AppScaffold.clean(
                     backgroundColor: theme.colorScheme.surface,
                     body: SafeArea(
                       bottom: false,
@@ -135,7 +147,8 @@ class _MainContainerPageState extends State<MainContainerPage> {
                       settingsNavKey: keys.keySettingsNav,
                     ),
                   ),
-                );
+                ),
+              );
             },
           );
         },

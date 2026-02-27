@@ -26,6 +26,11 @@
     "tryAgain": "حاول مرة أخرى",
     "somethingWentWrong": "حدث خطأ ما"
   },
+  "exitDialog": {
+    "title": "الخروج من التطبيق؟",
+    "subtitle": "هل أنت متأكد أنك تريد الخروج؟",
+    "exit": "خروج"
+  },
   "auth": {
     "login": "تسجيل الدخول",
     "signIn": "تسجيل الدخول",

@@ -26,6 +26,11 @@
     "tryAgain": "Try again",
     "somethingWentWrong": "Something went wrong"
   },
+  "exitDialog": {
+    "title": "Exit App?",
+    "subtitle": "Are you sure you want to exit?",
+    "exit": "Exit"
+  },
   "auth": {
     "login": "Login",
     "signIn": "Sign in",
