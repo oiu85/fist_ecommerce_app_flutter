@@ -23,6 +23,7 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onSearchQueryChanged,
     this.searchKey,
     this.cartKey,
+    this.appBarTitleKey,
   });
 
   final String? title;
@@ -38,6 +39,8 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function(String)? onSearchQueryChanged;
   final GlobalKey? searchKey;
   final GlobalKey? cartKey;
+  /// Coach tour key for app bar title + icon (welcome step).
+  final GlobalKey? appBarTitleKey;
 
   @override
   Size get preferredSize => Size.fromHeight(56.h + 16.h);
@@ -91,34 +94,43 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Row(
       children: [
-        Container(
-          width: 32.r,
-          height: 32.r,
-          decoration: BoxDecoration(
-            color: colorScheme.primary,
-            borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(color: appColors?.primaryNavy ?? colorScheme.onSurface, width: 1),
-          ),
-          child: Center(
-            child: Assets.images.icons.shop.svg(
-              width: 18.r,
-              height: 18.r,
-              colorFilter: ColorFilter.mode(colorScheme.onPrimary, BlendMode.srcIn),
+        Expanded(
+          child: _wrapWithKey(
+            appBarTitleKey,
+            Row(
+              children: [
+                Container(
+                  width: 32.r,
+                  height: 32.r,
+                  decoration: BoxDecoration(
+                    color: colorScheme.primary,
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: appColors?.primaryNavy ?? colorScheme.onSurface, width: 1),
+                  ),
+                  child: Center(
+                    child: Assets.images.icons.shop.svg(
+                      width: 18.r,
+                      height: 18.r,
+                      colorFilter: ColorFilter.mode(colorScheme.onPrimary, BlendMode.srcIn),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+            Expanded(
+              child: AppText(
+                title ?? LocaleKeys.home_appBarTitle,
+                translation: title == null,
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: appColors?.primaryNavy ?? colorScheme.onSurface,
+                ),
+                maxLines: 1,
+                isAutoScale: true,
+              ),
             ),
+            ],
           ),
         ),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: AppText(
-            title ?? LocaleKeys.home_appBarTitle,
-            translation: title == null,
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: appColors?.primaryNavy ?? colorScheme.onSurface,
-            ),
-            maxLines: 1,
-            isAutoScale: true,
-          ),
         ),
         SizedBox(width: 8.w),
         _wrapWithKey(

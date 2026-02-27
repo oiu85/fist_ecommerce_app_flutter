@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
     this.onCartTap,
     this.searchKey,
     this.cartKey,
+    this.appBarTitleKey,
     this.categorySectionKey,
     this.productAreaKey,
   });
@@ -30,6 +31,7 @@ class HomePage extends StatefulWidget {
   final VoidCallback? onCartTap;
   final GlobalKey? searchKey;
   final GlobalKey? cartKey;
+  final GlobalKey? appBarTitleKey;
   final GlobalKey? categorySectionKey;
   final GlobalKey? productAreaKey;
 
@@ -95,6 +97,7 @@ class _HomePageState extends State<HomePage> {
               onSearchQueryChanged: (query) => context.read<HomeBloc>().add(SearchQueryChanged(query)),
               searchKey: widget.searchKey,
               cartKey: widget.cartKey,
+              appBarTitleKey: widget.appBarTitleKey,
             ),
             body: state.status.when<Widget>(
               //* MainContainerPage dispatches LoadHome on bloc creation; avoid duplicate fetch.

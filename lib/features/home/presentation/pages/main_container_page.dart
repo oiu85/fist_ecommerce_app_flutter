@@ -97,6 +97,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
                             onCartTap: () => _onTabChange(context, 1),
                             searchKey: keys.keySearch,
                             cartKey: keys.keyCart,
+                            appBarTitleKey: keys.keyAppBarTitle,
                             categorySectionKey: keys.keyCategorySection,
                             productAreaKey: keys.keyProductArea,
                           ),

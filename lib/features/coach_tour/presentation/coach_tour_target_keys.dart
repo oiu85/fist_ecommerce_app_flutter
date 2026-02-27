@@ -22,6 +22,7 @@ class CoachTourTargetKeys {
     keySettingsTheme = GlobalKey();
     keyBottomNav = GlobalKey();
     keyProductDetails = GlobalKey();
+    keyAppBarTitle = GlobalKey();
   }
 
   late final GlobalKey keyHomeNav;
@@ -41,6 +42,7 @@ class CoachTourTargetKeys {
   late final GlobalKey keySettingsTheme;
   late final GlobalKey keyBottomNav;
   late final GlobalKey keyProductDetails;
+  late final GlobalKey keyAppBarTitle;
 
   List<TargetFocus> createTargets({
     required Size screenSize,
@@ -56,29 +58,25 @@ class CoachTourTargetKeys {
   }) {
     final targets = <TargetFocus>[];
 
-    final welcomeTargetSize = 2.0; 
-    final welcomeX = (screenSize.width - welcomeTargetSize) / 2;
-    final welcomeY = 72.0; 
+    //* Step 0: Welcome — focus on app bar title + icon
     targets.add(
       TargetFocus(
         identify: 'welcome',
-        targetPosition: TargetPosition(
-          Size(welcomeTargetSize, welcomeTargetSize),
-          Offset(welcomeX, welcomeY),
-        ),
+        keyTarget: keyAppBarTitle,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
             padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
             builder: (context, ctrl) => _buildContentWithNext(
               context,
-              getText(LocaleKeys.coachTour_welcome, {'appName': appName}),
+              getText(LocaleKeys.coachTour_welcome),
               onNext: ctrl.next,
               getText: getText,
             ),
           ),
         ],
         enableOverlayTab: true,
+        shape: ShapeLightFocus.RRect,
       ),
     );
 

@@ -313,7 +313,7 @@
     "validation_urlInvalid": "Please enter a valid URL"
   },
   "coachTour": {
-    "welcome": "Welcome to {appName}. Here's a quick tour of the main screen.",
+    "welcome": "Welcome to the Fist Ecommerce Flutter task app.\n\nThis app was built by Abdullah Alatrash, who is eager to work with your company and is ready to start immediately. We hope you have a wonderful experience.",
     "homeNav": "This is the home page in the navigation bar.",
     "categoriesProducts": "Browse products and filter by category here.",
     "search": "Search for products by name or category.",
