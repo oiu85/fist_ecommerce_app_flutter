@@ -1,5 +1,13 @@
 # 🚀 Flutter E-Commerce Application
 
+<p align="center">
+  <img src="assets/screens/app_overview.png" alt="App Overview" width="100%"/>
+</p>
+
+*Home • Onboarding (Arabic) • Product Details (Dark) • Settings*
+
+---
+
 ## 📌 Executive Summary
 
 This Flutter E-Commerce application was built as a **technical assessment** to demonstrate production-grade mobile engineering. The app integrates with [FakeStoreAPI](https://fakestoreapi.com/) to deliver a full shopping experience: product browsing, category filtering, product details, cart management with SQLite persistence, and the ability to add new products via API.
@@ -569,6 +577,16 @@ flutter run
 ---
 
 ## 🧪 Future Roadmap
+
+### Suggested Future Design
+
+<p align="center">
+  <img src="assets/screens/future_suggested_design.png" alt="Future Suggested Design" width="100%"/>
+</p>
+
+*Potential enhancements: Welcome banner, New Arrivals section, "Just for You" personalization, enhanced Categories view, and Account tab.*
+
+### Planned Improvements
 
 | Item | Description |
 |------|-------------|
