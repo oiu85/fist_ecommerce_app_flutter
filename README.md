@@ -601,16 +601,35 @@ flutter run
 
 ## 👤 About the Engineer
 
-This project was built by a **Senior Flutter Engineer** with strong experience in **API integration**, **architecture design**, and **production-ready mobile apps**. The codebase reflects:
+**Abdullah Alatrash**  
+*Senior Mobile Developer • Aleppo, Syria*
 
-- **Flutter expertise**: BLoC, go_router, Freezed, dependency injection, and responsive layout
-- **API integration**: Type-safe networking with Either, error mapping, and repository abstraction
-- **Architecture thinking**: Feature-first DDD, clear layer boundaries, and testable domain logic
-- **Performance awareness**: Lazy lists, rebuild optimization, and skeleton loaders
-- **Clean code principles**: SOLID, DRY, and consistent patterns across features
-- **Product mindset**: Localization, themes, onboarding, and polished UX
+5+ years of professional experience building high-performance Flutter applications with clean, scalable architecture. Proven track record in performance optimization, advanced state management, and delivering production-grade mobile apps across IoT dashboards, e-commerce, Islamic platforms, and enterprise systems.
 
-The goal is to ship apps that are **maintainable**, **scalable**, and **delightful** for users.
+### Connect
+
+| | |
+|---|---|
+| 📧 Email | [abdullahalatrash.dev@gmail.com](mailto:abdullahalatrash.dev@gmail.com) |
+| 📱 Phone | +963-996-094-461 |
+| 💼 LinkedIn | [linkedin.com/in/abdullah-alatrash](https://linkedin.com/in/abdullah-alatrash) |
+| 🐙 GitHub | [github.com/oiu85](https://github.com/oiu85) |
+
+### Relevant Expertise (This Project)
+
+- **Flutter & Architecture**: BLoC, go_router, Freezed, Clean Architecture, DDD, modular layer separation
+- **API & Data**: Type-safe networking (Either), repository pattern, SQLite persistence, environment-based config
+- **Performance**: Lazy lists, rebuild optimization, skeleton loaders, frame-rate profiling
+- **Product & UX**: Bilingual (Arabic/English) RTL, light/dark themes, onboarding, haptic feedback
+
+### Background
+
+- **SWB AI** — Senior Mobile Developer: Architected Flutter apps with DDD, IoT dashboards, MQTT/socket integrations
+- **Freelance** — Senior Mobile Engineer: Production apps with Clean Architecture, payments, offline-first, CI/CD
+- **Tech Innovations Ltd** — Mobile Engineer & Project Lead: Flutter/Kotlin, chat, live tracking, push notifications
+- **Education**: BSc Computer Science, Ebla Private University (2021–2025), focus on Mobile Development & Software Engineering
+
+*Languages: Arabic (Native) • English (Professional Working Proficiency)*
 
 ---
 
