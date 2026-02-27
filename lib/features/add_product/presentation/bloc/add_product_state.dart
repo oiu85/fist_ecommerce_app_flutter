@@ -31,6 +31,9 @@ class AddProductState extends Equatable {
         errorMessage: null,
       );
 
+  /// Status for UiHelperStatus / when pattern (exposes BlocStatus).
+  BlocStatus get addProductStatus => status;
+
   AddProductState copyWith({
     BlocStatus? status,
     List<String>? categories,

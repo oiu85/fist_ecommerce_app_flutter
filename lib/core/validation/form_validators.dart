@@ -16,6 +16,7 @@ export 'cardholder_name_validator.dart';
 export 'donation_amount_validator.dart';
 export 'price_validator.dart';
 export 'product_name_validator.dart';
+export 'description_validator.dart';
 export 'url_validator.dart';
 export 'username_validator.dart';
 

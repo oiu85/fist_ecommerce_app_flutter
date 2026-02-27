@@ -4,12 +4,12 @@ import 'package:fsit_flutter_task_ecommerce/core/shared/app_scaffold.dart';
 
 import '../../../../core/status/bloc_status.dart';
 import '../../../../core/status/ui_helper.dart';
+import '../../../../skeleton_features/skeleton_features.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../widgets/home_content.dart';
 import '../widgets/home_page_app_bar.dart';
-import '../widgets/home_skeleton.dart';
 
 //* Home tab content; all logic in [HomeBloc]. Bloc provided by [MainContainerPage].
 

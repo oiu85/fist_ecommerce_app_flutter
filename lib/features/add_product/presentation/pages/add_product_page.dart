@@ -1,18 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fsit_flutter_task_ecommerce/core/localization/app_text.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/animation/animation.dart';
 import '../../../../core/component/app_snackbar.dart';
 import '../../../../core/component/custom_text_area_form_field.dart';
 import '../../../../core/component/custom_text_form_field.dart';
-import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/localization/locale_keys.g.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../core/theme/app_color_extension.dart';
+import '../../../../core/status/ui_helper.dart';
 import '../../../../core/validation/form_validators.dart';
 import '../../../home/domain/entities/create_product_input.dart';
 import '../../../home/presentation/mappers/home_product_mapper.dart';
@@ -21,6 +21,7 @@ import '../../../../core/routing/app_routes.dart';
 import '../bloc/add_product_bloc.dart';
 import '../bloc/add_product_event.dart';
 import '../bloc/add_product_state.dart';
+import '../../../../skeleton_features/skeleton_features.dart';
 import '../widgets/add_product_button.dart';
 import '../widgets/add_product_category_section.dart';
 import '../widgets/cancel_button.dart';
@@ -44,18 +45,13 @@ class _AddProductPageState extends State<AddProductPage> {
 
   CategoryLayoutStyle _categoryLayout = CategoryLayoutStyle.row;
 
+  //* Validators from core/validation (form_validators.dart).
   static const ProductNameValidator _productNameValidator =
       ProductNameValidator();
   static const PriceValidator _priceValidator = PriceValidator();
+  static const DescriptionValidator _descriptionValidator =
+      DescriptionValidator();
   static const UrlValidator _urlValidator = UrlValidator();
-
-  /// Description validator — required non-empty.
-  static String? _descriptionValidator(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return LocaleKeys.addProduct_validation_descriptionRequired.tr();
-    }
-    return null;
-  }
 
   @override
   void dispose() {
@@ -97,10 +93,8 @@ class _AddProductPageState extends State<AddProductPage> {
     final textTheme = theme.textTheme;
     final appColors = theme.extension<AppColorExtension>();
 
-    return BlocProvider<AddProductBloc>(
-      create: (_) =>
-          getIt<AddProductBloc>()..add(const LoadCategoriesRequested()),
-      child: BlocListener<AddProductBloc, AddProductState>(
+    //* AddProductBloc provided by [MainContainerPage]; categories load once, no reload on tab switch.
+    return BlocListener<AddProductBloc, AddProductState>(
         listenWhen: (prev, curr) =>
             prev.status != curr.status ||
             prev.createdProduct != curr.createdProduct,
@@ -117,6 +111,13 @@ class _AddProductPageState extends State<AddProductPage> {
           }
         },
         child: BlocBuilder<AddProductBloc, AddProductState>(
+          buildWhen: (prev, curr) =>
+              prev.status != curr.status ||
+              prev.categories != curr.categories ||
+              prev.selectedCategoryIndex != curr.selectedCategoryIndex ||
+              prev.createdProduct != curr.createdProduct ||
+              (curr.status.isFail() &&
+                  prev.addProductStatus != curr.addProductStatus),
           builder: (context, state) {
             final categories =
                 state.categories
@@ -127,9 +128,6 @@ class _AddProductPageState extends State<AddProductPage> {
                         ))
                     .toList();
             final hasCategories = categories.isNotEmpty;
-            if (!hasCategories && !state.status.isLoading()) {
-              //* Fallback: show empty until loaded
-            }
 
             return AppScaffold.clean(
               backgroundColor: theme.colorScheme.surface,
@@ -137,95 +135,116 @@ class _AddProductPageState extends State<AddProductPage> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 24.h,
+                      child: state.status.when<Widget>(
+                        //* Same pattern as HomePage: skeleton for initial/loading.
+                        initial: () => AddProductSkeleton(
+                          status: state.status,
                         ),
-                        child: Form(
-                          key: _formKey,
-                          child: AnimatedColumn(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              CustomTextFormField(
-                                controller: _nameController,
-                                labelKey: LocaleKeys.addProduct_productName,
-                                hintKey: LocaleKeys.addProduct_hintProductName,
-                                textInputAction: TextInputAction.next,
-                                validator: _productNameValidator.call,
-                              ),
-                              SizedBox(height: 24.h),
-                              CustomTextFormField(
-                                controller: _priceController,
-                                labelKey: LocaleKeys.addProduct_price,
-                                hintKey: LocaleKeys.addProduct_hintPrice,
-                                keyboardType: const TextInputType.numberWithOptions(
-                                  decimal: true,
-                                ),
-                                prefixText: r'$ ',
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp(r'[\d.]'),
-                                  ),
-                                ],
-                                validator: _priceValidator.call,
-                              ),
-                              SizedBox(height: 24.h),
-                              CustomTextAreaFormField(
-                                controller: _descriptionController,
-                                labelKey: LocaleKeys.addProduct_description,
-                                hintKey: LocaleKeys.addProduct_hintDescription,
-                                minLines: 3,
-                                maxLines: 5,
-                                height: 150,
-                                validator: _descriptionValidator,
-                              ),
-                              SizedBox(height: 24.h),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 12.h),
-                                child: Text(
-                                  LocaleKeys.addProduct_category.tr(),
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: theme.colorScheme.onSurface,
-                                  ),
-                                ),
-                              ),
-                              if (hasCategories)
-                                AddProductCategorySection(
-                                  categories: categories,
-                                  selectedIndex: state.selectedCategoryIndex,
-                                  layoutStyle: _categoryLayout,
-                                  onCategorySelected: (i) => context
-                                      .read<AddProductBloc>()
-                                      .add(CategorySelected(i)),
-                                  onLayoutToggle: () => setState(() {
-                                    _categoryLayout =
-                                        _categoryLayout ==
-                                                CategoryLayoutStyle.row
-                                            ? CategoryLayoutStyle.grid
-                                            : CategoryLayoutStyle.row;
-                                  }),
-                                )
-                              else
-                                SizedBox(
-                                  height: 55.h,
-                                  child: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                              SizedBox(height: 24.h),
-                              CustomTextFormField(
-                                controller: _imageUrlController,
-                                labelKey: LocaleKeys.addProduct_imageUrl,
-                                hintKey: LocaleKeys.addProduct_hintImageUrl,
-                                keyboardType: TextInputType.url,
-                                textInputAction: TextInputAction.done,
-                                validator: _urlValidator.call,
-                              ),
-                            ],
+                        loading: () => AddProductSkeleton(
+                          status: state.status,
+                        ),
+                        success: () => SingleChildScrollView(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 24.h,
                           ),
+                          child: Form(
+                            key: _formKey,
+                            child: AnimatedColumn(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                CustomTextFormField(
+                                  controller: _nameController,
+                                  labelKey: LocaleKeys.addProduct_productName,
+                                  hintKey:
+                                      LocaleKeys.addProduct_hintProductName,
+                                  textInputAction: TextInputAction.next,
+                                  validator: _productNameValidator.call,
+                                ),
+                                SizedBox(height: 24.h),
+                                CustomTextFormField(
+                                  controller: _priceController,
+                                  labelKey: LocaleKeys.addProduct_price,
+                                  hintKey: LocaleKeys.addProduct_hintPrice,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                                  prefixText: r'$ ',
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp(r'[\d.]'),
+                                    ),
+                                  ],
+                                  validator: _priceValidator.call,
+                                ),
+                                SizedBox(height: 24.h),
+                                CustomTextAreaFormField(
+                                  controller: _descriptionController,
+                                  labelKey: LocaleKeys.addProduct_description,
+                                  hintKey:
+                                      LocaleKeys.addProduct_hintDescription,
+                                  minLines: 3,
+                                  maxLines: 5,
+                                  height: 150,
+                                  validator: _descriptionValidator.call,
+                                ),
+                                SizedBox(height: 24.h),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 12.h),
+                                  child: AppText(
+                                    translation: true,
+                                    LocaleKeys.addProduct_category,
+                                    isAutoScale: true,
+                                    maxLines: 1,
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: theme.colorScheme.onSurface,
+                                    ),
+                                  ),
+                                ),
+                                if (hasCategories)
+                                  AddProductCategorySection(
+                                    categories: categories,
+                                    selectedIndex: state.selectedCategoryIndex,
+                                    layoutStyle: _categoryLayout,
+                                    onCategorySelected: (i) => context
+                                        .read<AddProductBloc>()
+                                        .add(CategorySelected(i)),
+                                    onLayoutToggle: () => setState(() {
+                                      _categoryLayout =
+                                          _categoryLayout ==
+                                                  CategoryLayoutStyle.row
+                                              ? CategoryLayoutStyle.grid
+                                              : CategoryLayoutStyle.row;
+                                    }),
+                                  )
+                                else
+                                  SizedBox(
+                                    height: 55.h,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                SizedBox(height: 24.h),
+                                CustomTextFormField(
+                                  controller: _imageUrlController,
+                                  labelKey: LocaleKeys.addProduct_imageUrl,
+                                  hintKey: LocaleKeys.addProduct_hintImageUrl,
+                                  keyboardType: TextInputType.url,
+                                  textInputAction: TextInputAction.done,
+                                  validator: _urlValidator.call,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        error: (_) => UiHelperStatus(
+                          state: state.addProductStatus,
+                          onRetry: () => context.read<AddProductBloc>().add(
+                                const LoadCategoriesRequested(),
+                              ),
                         ),
                       ),
                     ),
@@ -268,7 +287,6 @@ class _AddProductPageState extends State<AddProductPage> {
             );
           },
         ),
-      ),
     );
   }
 }

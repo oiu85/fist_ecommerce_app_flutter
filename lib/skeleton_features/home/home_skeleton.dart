@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/status/bloc_status.dart';
-import '../../../../core/status/ui_helper.dart';
-import '../../../../skeleton_features/skeleton_features.dart';
+import '../../core/status/bloc_status.dart';
+import '../../core/status/ui_helper.dart';
+import 'home_skeleton_content.dart';
+
+//* Home loading skeleton — categories + products; uses [HomeSkeletonContent].
 
 class HomeSkeleton extends StatelessWidget {
   const HomeSkeleton({
@@ -20,7 +22,10 @@ class HomeSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleSkeletonStatus(
       state: status,
-      child: HomeSkeletonContent(categoryLayoutStyle: categoryLayoutStyle, productCardCount: productCardCount),
+      child: HomeSkeletonContent(
+        categoryLayoutStyle: categoryLayoutStyle,
+        productCardCount: productCardCount,
+      ),
     );
   }
 }

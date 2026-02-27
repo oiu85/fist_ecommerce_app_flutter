@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-
-
+//* Home skeleton content — categories + products; mirrors [HomeContent].
 class HomeSkeletonContent extends StatelessWidget {
   const HomeSkeletonContent({
     super.key,
@@ -102,6 +100,8 @@ class _CategoryChipsRowSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SizedBox(
       height: 55.h,
       child: ListView.separated(
@@ -110,13 +110,13 @@ class _CategoryChipsRowSkeleton extends StatelessWidget {
         padding: EdgeInsets.only(left: 20.w, right: 52.w, top: 4.h, bottom: 0),
         itemCount: _chipCount,
         separatorBuilder: (_, __) => SizedBox(width: 12.w),
-        itemBuilder: (_, index) => SizedBox(
-          width: 106.w,
-          height: 42.h,
+        itemBuilder: (_, index) => Skeleton.replace(
           child: Container(
+            width: 106.w,
+            height: 42.h,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(21.r),
+              color: colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(9999.r),
             ),
           ),
         ),
@@ -125,12 +125,13 @@ class _CategoryChipsRowSkeleton extends StatelessWidget {
   }
 }
 
-//* 2-column category grid — mirrors [HomeCategoryGrid].
+//* 2-column category grid — mirrors [HomeCategoryGrid] category cards.
 class _CategoryGridSkeleton extends StatelessWidget {
   static const int _cardCount = 4;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final horizontalPadding = 20.w;
     final cardWidth =
         (MediaQuery.sizeOf(context).width - horizontalPadding * 2 - 12.w) / 2;
@@ -146,12 +147,12 @@ class _CategoryGridSkeleton extends StatelessWidget {
         spacing: 12.w,
         runSpacing: 12.h,
         children: List.generate(_cardCount, (_) {
-          return SizedBox(
-            width: cardWidth,
-            height: 72.h,
+          return Skeleton.replace(
             child: Container(
+              width: cardWidth,
+              height: 72.h,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                color: colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(12.r),
               ),
             ),

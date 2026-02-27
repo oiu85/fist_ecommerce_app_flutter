@@ -46,6 +46,9 @@ class CartState extends Equatable {
         itemCount: 0,
       );
 
+
+  BlocStatus get cartStatus => status;
+
   CartState copyWith({
     BlocStatus? status,
     List<CartDisplayItem>? items,

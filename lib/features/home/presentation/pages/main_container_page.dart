@@ -5,6 +5,8 @@ import '../../../../core/component/custom_bottom_nav_bar.dart';
 import '../../../../core/di/app_dependencies.dart';
 import '../../../../core/haptic/app_haptic.dart';
 import '../../../../core/shared/app_scaffold.dart';
+import '../../../add_product/presentation/bloc/add_product_bloc.dart';
+import '../../../add_product/presentation/bloc/add_product_event.dart';
 import '../../../add_product/presentation/pages/add_product_page.dart';
 import '../../../cart/presentation/bloc/cart_bloc.dart';
 import '../../../cart/presentation/bloc/cart_state.dart';
@@ -60,9 +62,12 @@ class _MainContainerPageState extends State<MainContainerPage> {
 
     return BlocProvider<HomeBloc>(
       create: (_) => getIt<HomeBloc>()..add(const LoadHome()),
-      child: BlocBuilder<CartBloc, CartState>(
-        buildWhen: (prev, curr) => prev.itemCount != curr.itemCount,
-        builder: (context, cartState) {
+      child: BlocProvider<AddProductBloc>(
+        create: (_) =>
+            getIt<AddProductBloc>()..add(const LoadCategoriesRequested()),
+        child: BlocBuilder<CartBloc, CartState>(
+          buildWhen: (prev, curr) => prev.itemCount != curr.itemCount,
+          builder: (context, cartState) {
           return BlocBuilder<HomeBloc, HomeState>(
             buildWhen: (prev, curr) =>
                 prev.selectedBottomNavIndex != curr.selectedBottomNavIndex,
@@ -94,6 +99,7 @@ class _MainContainerPageState extends State<MainContainerPage> {
             },
           );
         },
+      ),
       ),
     );
   }

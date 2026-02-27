@@ -5,7 +5,7 @@ import 'package:fsit_flutter_task_ecommerce/features/home/domain/usecases/get_ca
 import 'package:get_it/get_it.dart';
 
 //* Add product feature dependency registration.
-//? AddProductBloc is factory (new per AddProductPage). Reuses home's IProductRepository.
+//? AddProductBloc is lazy singleton (provided at MainContainerPage); categories load once.
 
 void registerAddProductDependencies(GetIt sl) {
   //! Domain — use cases (AddProductUseCase; GetCategoriesUseCase from home)
@@ -13,8 +13,8 @@ void registerAddProductDependencies(GetIt sl) {
     () => AddProductUseCase(sl<IProductRepository>()),
   );
 
-  //! Presentation — BLoC as factory (new instance per AddProductPage)
-  sl.registerFactory<AddProductBloc>(
+  //! Presentation — BLoC as lazy singleton (same instance across tab switches; no reload)
+  sl.registerLazySingleton<AddProductBloc>(
     () => AddProductBloc(
       addProductUseCase: sl<AddProductUseCase>(),
       getCategoriesUseCase: sl<GetCategoriesUseCase>(),
