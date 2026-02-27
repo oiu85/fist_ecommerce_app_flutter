@@ -219,25 +219,32 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               },
             ),
             //* Hero button overlay: visible until content covers hero; then hidden.
+            //! Positioned MUST be a direct child of Stack. Wrappers (IgnorePointer,
+            //! AnimatedOpacity) go inside Positioned, not around it.
             BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
               buildWhen: (prev, curr) =>
                   prev.showButtonsOnContent != curr.showButtonsOnContent,
               builder: (context, state) {
-                return IgnorePointer(
-                  ignoring: state.showButtonsOnContent,
-                  child: AnimatedOpacity(
-                    opacity: state.showButtonsOnContent ? 0 : 1,
-                    duration: const Duration(milliseconds: 200),
-                    child: _HeroButtonOverlay(
-                      heroHeight: heroHeight,
-                      imageUrl: widget.payload.imageUrl,
-                      onBack: widget.onBack ?? () => Navigator.of(context).pop(),
-                      onFavourite: widget.onFavourite ??
-                          () => AppSnackbar.showInfo(
-                                context,
-                                LocaleKeys.productDetails_favouriteComingSoon,
-                                translation: true,
-                              ),
+                return Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: heroHeight,
+                  child: IgnorePointer(
+                    ignoring: state.showButtonsOnContent,
+                    child: AnimatedOpacity(
+                      opacity: state.showButtonsOnContent ? 0 : 1,
+                      duration: const Duration(milliseconds: 200),
+                      child: _HeroButtonOverlay(
+                        imageUrl: widget.payload.imageUrl,
+                        onBack: widget.onBack ?? () => Navigator.of(context).pop(),
+                        onFavourite: widget.onFavourite ??
+                            () => AppSnackbar.showInfo(
+                                  context,
+                                  LocaleKeys.productDetails_favouriteComingSoon,
+                                  translation: true,
+                                ),
+                      ),
                     ),
                   ),
                 );
@@ -252,15 +259,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
 /// Hit-test overlay so hero buttons receive taps without reordering the stack.
 /// Background is [IgnorePointer] so scroll view still gets gestures elsewhere.
+/// Parent supplies [Positioned]; this widget returns only the [Stack] content.
 class _HeroButtonOverlay extends StatelessWidget {
   const _HeroButtonOverlay({
-    required this.heroHeight,
     required this.imageUrl,
     required this.onBack,
     required this.onFavourite,
   });
 
-  final double heroHeight;
   final String imageUrl;
   final VoidCallback onBack;
   final VoidCallback onFavourite;
@@ -277,12 +283,7 @@ class _HeroButtonOverlay extends StatelessWidget {
     final endInset = 16.w;
     final topInset = MediaQuery.paddingOf(context).top + 24.h;
 
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      height: heroHeight,
-      child: Stack(
+    return Stack(
         children: [
           //* Rest of overlay passes hits through so scroll behavior is unchanged.
           Positioned.fill(
@@ -338,7 +339,6 @@ class _HeroButtonOverlay extends StatelessWidget {
             ),
           ),
         ],
-      ),
     );
   }
 }

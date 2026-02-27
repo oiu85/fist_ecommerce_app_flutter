@@ -61,7 +61,8 @@
     "passwordResetError": "Failed to reset password",
     "or": "OR",
     "mustLoginFirst": "You must login first",
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "defaultLoginInfo": "This is the default information to login provided by the API. Fields are pre-filled with username: mor_2314, password: 83r5^_"
   },
   "login": {
     "wrongCode": "Invalid code. Please enter a valid 4-digit code",

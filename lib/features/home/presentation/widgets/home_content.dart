@@ -67,7 +67,10 @@ class HomeContent extends StatelessWidget {
                           selectedIndex: selectedIndex,
                           onCategorySelected: (index) {
                             final categoryId = categories[index].id;
-                            context.read<HomeBloc>().add(CategorySelected(categoryId == 'all' ? null : categoryId));
+                            //* "All" → null so BLoC refetches all products without passing category to API.
+                            context.read<HomeBloc>().add(
+                                  CategorySelected(categoryId == 'all' ? null : categoryId),
+                                );
                           },
                           layoutStyle: state.categoryLayoutStyle,
                           onLayoutToggle: null,

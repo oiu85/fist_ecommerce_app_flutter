@@ -14,7 +14,8 @@ class ApiConfig {
   static String productsByCategoryPath(String categoryName) =>
       '/products/category/$categoryName';
 
-  /// TODO: Add more endpoints as needed
+  /// Auth login endpoint.
+  static const String authLoginPath = '/auth/login';
   // static const String register = '$baseUrl/auth/register';
   // static const String refreshToken = '$baseUrl/auth/refresh';
 }

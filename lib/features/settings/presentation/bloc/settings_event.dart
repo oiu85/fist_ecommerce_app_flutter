@@ -44,3 +44,8 @@ class SettingsHapticToggled extends SettingsEvent {
   @override
   List<Object?> get props => [enabled];
 }
+
+/// User requested logout — clear token, userName, set isLoggedIn false.
+class SettingsLogoutRequested extends SettingsEvent {
+  const SettingsLogoutRequested();
+}

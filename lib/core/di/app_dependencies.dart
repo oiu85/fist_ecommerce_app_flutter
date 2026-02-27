@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/network_client.dart';
 import '../storage/app_storage_service.dart';
+import 'package:fsit_flutter_task_ecommerce/features/auth/data/di.dart';
 import 'package:fsit_flutter_task_ecommerce/features/home/data/di.dart';
 
 
@@ -28,6 +29,8 @@ Future<GetIt> configureDependencies() async {
 
   //! Home feature (products, categories API)
   registerHomeDependencies(getIt);
+  //! Auth feature (login API)
+  registerAuthDependencies(getIt);
 
   return getIt;
 }

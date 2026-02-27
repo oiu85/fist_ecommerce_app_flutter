@@ -37,7 +37,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onCategorySelected(CategorySelected event, Emitter<HomeState> emit) async {
-    await _loadHome(emit, selectedCategory: event.categoryName, isRefreshing: state.products != null);
+    //* "All" (categoryName == null): refetch all products without passing any category to API.
+    final isAll = event.categoryName == null || event.categoryName == 'all';
+    final isRefreshing = isAll || state.products != null;
+    await _loadHome(
+      emit,
+      selectedCategory: isAll ? null : event.categoryName,
+      isRefreshing: isRefreshing,
+    );
   }
 
   Future<void> _onRefreshHome(RefreshHome event, Emitter<HomeState> emit) async {
@@ -86,11 +93,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       categoriesResult = await _getCategoriesUseCase();
     }
 
+    //* selectedCategory == null → get all products (no category param to API).
     final productsResult = await _getProductsUseCase(category: selectedCategory);
 
     final categoriesList = categoriesResult != null
         ? categoriesResult.fold((f) => state.categories ?? [], (c) => c)
         : (state.categories ?? []);
+
+    //* When selectedCategory is null ("All"), clear selectedCategory in state via clearSelectedCategory.
+    final clearSelectedCategory = selectedCategory == null;
 
     productsResult.fold(
       (failure) {
@@ -99,6 +110,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             status: BlocStatus.fail(error: failure.message),
             errorMessage: failure.message,
             selectedCategory: selectedCategory,
+            clearSelectedCategory: clearSelectedCategory,
             categories: categoriesList,
             isRefreshing: false,
           ),
@@ -111,6 +123,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             products: products,
             categories: categoriesList,
             selectedCategory: selectedCategory,
+            clearSelectedCategory: clearSelectedCategory,
             isRefreshing: false,
             clearErrorMessage: true,
           ),

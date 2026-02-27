@@ -425,6 +425,12 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/list-row.svg
   SvgGenImage get listRow => const SvgGenImage('assets/images/icons/list-row.svg');
 
+  /// File path: assets/images/icons/login_icon.svg
+  SvgGenImage get loginIcon => const SvgGenImage('assets/images/icons/login_icon.svg');
+
+  /// File path: assets/images/icons/logout_icon.svg
+  SvgGenImage get logoutIcon => const SvgGenImage('assets/images/icons/logout_icon.svg');
+
   /// File path: assets/images/icons/lsit.svg
   SvgGenImage get lsit => const SvgGenImage('assets/images/icons/lsit.svg');
 
@@ -583,6 +589,8 @@ class $AssetsImagesIconsGen {
     google,
     incresePlus,
     listRow,
+    loginIcon,
+    logoutIcon,
     lsit,
     mobile,
     moonIcon,

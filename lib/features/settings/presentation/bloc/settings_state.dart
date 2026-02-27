@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 /// Immutable state for the settings screen.
 final class SettingsState extends Equatable {
   const SettingsState({
-    this.userName = 'User',
+    this.userName,
+    this.isLoggedIn = false,
     this.locale = const Locale('en'),
     this.themeMode = ThemeMode.system,
     this.hapticEnabled = true,
     this.status = SettingsStatus.initial,
   });
 
-  final String userName;
+  final String? userName;
+  final bool isLoggedIn;
   final Locale locale;
   final ThemeMode themeMode;
   final bool hapticEnabled;
@@ -20,6 +22,7 @@ final class SettingsState extends Equatable {
 
   SettingsState copyWith({
     String? userName,
+    bool? isLoggedIn,
     Locale? locale,
     ThemeMode? themeMode,
     bool? hapticEnabled,
@@ -27,6 +30,7 @@ final class SettingsState extends Equatable {
   }) =>
       SettingsState(
         userName: userName ?? this.userName,
+        isLoggedIn: isLoggedIn ?? this.isLoggedIn,
         locale: locale ?? this.locale,
         themeMode: themeMode ?? this.themeMode,
         hapticEnabled: hapticEnabled ?? this.hapticEnabled,
@@ -34,7 +38,8 @@ final class SettingsState extends Equatable {
       );
 
   @override
-  List<Object?> get props => [userName, locale, themeMode, hapticEnabled, status];
+  List<Object?> get props =>
+      [userName, isLoggedIn, locale, themeMode, hapticEnabled, status];
 }
 
 /// Settings load/update status.

@@ -69,11 +69,13 @@ class HomeState extends Equatable {
     String? searchQuery,
     int? selectedBottomNavIndex,
     bool clearErrorMessage = false,
+    /// Set true when selecting "All" so [selectedCategory] becomes null.
+    bool clearSelectedCategory = false,
   }) => HomeState(
     status: status ?? this.status,
     products: products ?? this.products,
     categories: categories ?? this.categories,
-    selectedCategory: selectedCategory ?? this.selectedCategory,
+    selectedCategory: clearSelectedCategory ? null : (selectedCategory ?? this.selectedCategory),
     errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
     categoryLayoutStyle: categoryLayoutStyle ?? this.categoryLayoutStyle,
     productViewStyle: productViewStyle ?? this.productViewStyle,

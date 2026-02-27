@@ -2,9 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/animation/animation.dart';
+import '../../../../core/component/app_snackbar.dart';
 import '../../../../core/localization/locale_keys.g.dart';
+import '../../../../core/routing/app_routes.dart';
 import '../../../../core/shared/app_scaffold.dart';
 import '../../../../gen/assets.gen.dart';
 import '../bloc/settings_bloc.dart';
@@ -47,7 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return BlocProvider<SettingsBloc>.value(
       value: _bloc,
-      child: BlocListener<SettingsBloc, SettingsState>(
+        child: BlocListener<SettingsBloc, SettingsState>(
         listenWhen: (prev, curr) => prev.locale != curr.locale,
         listener: (context, state) {
           if (context.mounted) {
@@ -64,10 +67,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: AnimatedColumn(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      //* Profile section
+                      //* Profile section — login prompt or username
                       SettingsProfileSection(
+                        isLoggedIn: state.isLoggedIn,
                         username: state.userName,
                         imageUrl: null,
+                        onLoginTap: () => context.go(AppRoutes.login),
                       ),
                       SizedBox(height: 24.h),
                       //* Language tile
@@ -115,6 +120,28 @@ class _SettingsPageState extends State<SettingsPage> {
                           },
                         ),
                       ),
+                      if (state.isLoggedIn) ...[
+                        SizedBox(height: 12.h),
+                        SettingsTile(
+                          leading: Assets.images.icons.logoutIcon.svg(
+                            width: 24.r,
+                            height: 24.r,
+                            colorFilter: ColorFilter.mode(
+                              colorScheme.error,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          title: LocaleKeys.auth_logout.tr(),
+                          onTap: () {
+                            _bloc.add(const SettingsLogoutRequested());
+                            AppSnackbar.showSuccess(
+                              context,
+                              LocaleKeys.auth_logoutSuccess,
+                              translation: true,
+                            );
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 );

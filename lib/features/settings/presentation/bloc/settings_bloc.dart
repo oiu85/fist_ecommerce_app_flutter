@@ -22,6 +22,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SettingsLanguageToggled>(_onLanguageToggled);
     on<SettingsThemeChanged>(_onThemeChanged);
     on<SettingsHapticToggled>(_onHapticToggled);
+    on<SettingsLogoutRequested>(_onLogoutRequested);
   }
 
   final AppStorageService _storage;
@@ -34,11 +35,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(state.copyWith(status: SettingsStatus.loading));
     try {
       final userName = await _storage.getUserName();
+      final isLoggedIn = await _storage.isLoggedIn();
       final savedLocale = await LocaleService.loadLocale(_storage);
       final themeMode = await _storage.getThemeMode();
       final hapticEnabled = await _storage.getHapticEnabled();
       emit(state.copyWith(
-        userName: userName?.isNotEmpty == true ? userName! : 'User',
+        userName: userName,
+        isLoggedIn: isLoggedIn,
         locale: savedLocale,
         themeMode: themeMode ?? ThemeMode.system,
         hapticEnabled: hapticEnabled,
@@ -47,6 +50,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } catch (_) {
       emit(state.copyWith(status: SettingsStatus.fail));
     }
+  }
+
+  Future<void> _onLogoutRequested(
+    SettingsLogoutRequested event,
+    Emitter<SettingsState> emit,
+  ) async {
+    await _storage.setAccessToken(null);
+    await _storage.setUserName(null);
+    await _storage.setLoggedIn(false);
+    emit(state.copyWith(
+      userName: null,
+      isLoggedIn: false,
+    ));
   }
 
   Future<void> _onLanguageToggled(

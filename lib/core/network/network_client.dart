@@ -245,17 +245,29 @@ class NetworkClient {
       case DioExceptionType.badResponse:
         final statusCode = error.response?.statusCode;
         final responseData = error.response?.data;
-        
-        // Extract error message from response
+
+        //* Extract error message from response (message, error, msg, detail)
         String errorMessage = 'Unknown error';
         if (responseData is Map<String, dynamic>) {
-          errorMessage = responseData['message'] as String? ?? 
-                        responseData['error'] as String? ?? 
-                        'Server error occurred';
+          errorMessage = responseData['message'] as String? ??
+              responseData['error'] as String? ??
+              responseData['msg'] as String? ??
+              responseData['detail'] as String? ??
+              'Server error occurred';
         } else if (responseData is String) {
           errorMessage = responseData;
+        } else if (error.message != null && error.message!.isNotEmpty) {
+          errorMessage = error.message!;
         }
-        
+
+        //? For 401/400, show API message only (user-facing auth/validation)
+        if (statusCode == 401 || statusCode == 400) {
+          return NetworkFailure(
+            message: errorMessage,
+            statusCode: statusCode,
+            errorType: error.type,
+          );
+        }
         return NetworkFailure(
           message: 'Server error: $statusCode - $errorMessage',
           statusCode: statusCode,

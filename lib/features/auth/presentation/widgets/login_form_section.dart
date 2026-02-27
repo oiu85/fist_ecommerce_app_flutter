@@ -4,19 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/component/custom_text_form_field.dart';
 import '../../../../core/localization/locale_keys.g.dart';
+import '../../../../core/validation/form_validators.dart';
 
 /// Username, password fields and forgot password link.
+//* Uses core validators: UsernameValidator, PasswordValidator (login-relaxed).
 class LoginFormSection extends StatefulWidget {
   const LoginFormSection({
     super.key,
     this.usernameController,
     this.passwordController,
     this.onForgotPassword,
+    this.usernameValidator,
+    this.passwordValidator,
   });
 
   final TextEditingController? usernameController;
   final TextEditingController? passwordController;
   final VoidCallback? onForgotPassword;
+  final String? Function(String?)? usernameValidator;
+  final String? Function(String?)? passwordValidator;
 
   @override
   State<LoginFormSection> createState() => _LoginFormSectionState();
@@ -37,6 +43,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           controller: widget.usernameController,
           labelKey: LocaleKeys.auth_username,
           hintKey: LocaleKeys.auth_enterUsername,
+          validator: widget.usernameValidator ?? const UsernameValidator().call,
           prefixIcon: Icon(
             Icons.person_outline,
             size: 20.r,
@@ -49,6 +56,9 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           controller: widget.passwordController,
           labelKey: LocaleKeys.auth_password,
           hintKey: LocaleKeys.auth_enterPassword,
+          validator:
+              widget.passwordValidator ??
+              const PasswordValidator(minLength: 1).call,
           obscureText: _obscurePassword,
           prefixIcon: Icon(
             Icons.lock_outline,
