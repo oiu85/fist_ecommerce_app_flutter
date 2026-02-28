@@ -553,24 +553,35 @@ The following composite shows the five core screens of the application:
 ### Setup
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone <repository-url>
 cd fsit_flutter_task_ecommerce
 
-# Install dependencies
+# 2. Install dependencies
 flutter pub get
 
-# Generate code (Freezed, json_serializable, flutter_gen)
+# 3. (Optional) Environment — for custom API URL or timeouts
+#    The app uses .env.example by default (FakeStoreAPI). To override:
+cp .env.example .env
+#    Edit .env with your values, then add .env to pubspec.yaml assets
+#    and update main.dart to load .env instead of .env.example.
+
+# 4. Generate code (Freezed, json_serializable, flutter_gen)
 dart run build_runner build --delete-conflicting-outputs
 
-# Run the app
+# 5. Run the app
 flutter run
 ```
 
-### Environment
+### Environment Variables
 
-- **Default**: `.env.example` is bundled; the app runs out of the box with FakeStoreAPI.
-- **Custom config**: See [Security & Environment](#-security--environment) for `.env` setup and variable reference.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `API_BASE_URL` | Base URL for all API requests | `https://fakestoreapi.com` |
+| `API_TIMEOUT_SECONDS` | Connection timeout (seconds) | `15` |
+
+- **Default**: `.env.example` is bundled; the app runs out of the box. No setup required.
+- **Custom config**: Copy `.env.example` to `.env`, edit values, add `.env` to `pubspec.yaml` assets, and update `main.dart` to load `.env`. See [Security & Environment](#-security--environment) for details.
 - Internet connection needed for product/category API calls.
 - iOS/Android simulators or physical devices supported.
 
